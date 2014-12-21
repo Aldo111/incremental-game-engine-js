@@ -15,14 +15,7 @@
 		//essentials
 		var screenWidth, screenHeight, ctx, particles=[], game=new Game();
 
-			function fullScreenCanvas() {
 			
-				screenWidth=$(window).width();
-				screenHeight=$(window).height();
-				ctx.width=parseInt(screenWidth);
-				ctx.height=parseInt(screenHeight);
-				
-			};
 		
 			function rand(a,b) {
 			
@@ -35,10 +28,15 @@
 				ctx=$("#canvas").get()[0].getContext("2d");
 		
 				init();
-				fullScreenCanvas();
 			});
 			
 			
+			//TODO: we can probably automate this process through the Game object
+			var upgradeAttributes={
+				type: "Upgrade",
+				perClickModifier: 5,
+				perSecondModifier: 5
+			};
 			function init() {
 			
 			
@@ -51,14 +49,19 @@
 				
 				//setup upgrades
 				
-				game.addEntitySet("UPGRADES");
-				game.entities.UPGRADES.addEntity(new Entity("Insta++",5));
+				game.addSet("UPGRADES");
+				game.sets.UPGRADES.addEntity(new Entity("Insta+",upgradeAttributes));
+				game.sets.UPGRADES.addEntity(new Entity("Hella++",upgradeAttributes));
+				game.sets.UPGRADES.addEntity(new Entity("OMEGA+++",upgradeAttributes));
 
-				list=game.entities.UPGRADES.getSet();
+
+				list=game.sets.UPGRADES.getSet();
+				list["Hella++"].attributes.perClickModifier=10;
+				list["OMEGA+++"].attributes.perClickModifier=100;
 				//display items
 				for (i in list)
 				{
-						$("#upgrades").append("<li onclick='game.addScore("+list[i].getModifier()+")'>"+list[i].getName()+"</li>");
+						$("#upgrades").append("<li onclick='game.addToScore("+list[i].attributes['perClickModifier']+")'>"+list[i].getName()+"</li>");
 				}
 				
 				
@@ -73,11 +76,12 @@
 			};
 			
 			function sizeIt(canvasEle) {
-				canvasEle.canvas.width  = window.innerWidth;
+				canvasEle.canvas.width  = window.innerWidth-15;
   				canvasEle.canvas.height = window.innerHeight;
   				screenWidth=canvasEle.canvas.width;
   				screenHeight=canvasEle.canvas.height;
 			}
+			
 			
 			
 		
@@ -140,11 +144,7 @@
 		
 		
 		
-		<!--
-		<audio autoplay>
-			<source src="experience_assets/thehollowboy.mp3" type="audio/mp3">
-		</audio>
-		-->
+		
 	</body>
 	
 	

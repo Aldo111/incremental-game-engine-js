@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Test</title>
+		
+		<script src="js/incrementalObject.js"></script>
+		<script src="js/jquery.js"></script>
+		
+		
+		<script>
+		
+			$(document).ready(function() {
+			
+				var game=new Game();
+				
+				var set1=new EntitySet("UPGRADES");
+				var item=new Entity("ITEM", {type:"Health", value:500});
+				//alert(item.attributes.type);
+				//alert(item.attributes.value);
+				
+				//add the item to set1
+				set1.addEntity(item);
+				
+				
+				
+				
+				$("#info1").html("set1: "+set1.length+"<br> game.sets: "+game.size(game.sets));//should be 1 and 0
+				
+				//add the existing set to game.sets -> demonstrates that you can add sets themselves
+				game.addSet(set1);
+				
+				$("#info2").html("set1: "+set1.length+"<br> game.sets: "+game.size(game.sets));//should 1 and 1 now
+				
+				game.addSet("INVENTORY");
+				
+				$("#info3").html("game.sets: "+game.size(game.sets));//should 1 and 1 now
+
+
+				
+			
+			});
+		
+		</script>
+		
+	</head>
+	
+	
+	
+	<body>
+		<div id="info1"></div>
+		<div id="info2"></div>
+		<div id="info3"></div>
+	</body>
+	
+</html>
