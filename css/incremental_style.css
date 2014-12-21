@@ -1,0 +1,135 @@
+
+			@font-face {
+			font-family:NewCircle;
+			src: url("fonts/NewCircle/New Cicle Fina.ttf");
+			}
+			
+			* {
+				
+				margin:0;
+				padding:0;
+				-webkit-touch-callout: none;
+			    -webkit-user-select: none;
+			    -khtml-user-select: none;
+ 			    -moz-user-select: none;
+  				-ms-user-select: none;
+				user-select: none;			
+			}
+			
+			
+			body {
+			
+				background-color:#0a0a0a;
+				font-family:NewCircle;
+				font-size:84pt;
+			
+			}
+			
+			html, body {
+			
+				width:100%;
+				height:100%;
+				margin:0 px;
+				overflow:hidden;
+			
+			}
+			
+			header {
+			
+				height:50px;
+				text-align:center;
+				background-color:white;
+				font-size:25pt;
+				padding-top:10px;
+			
+			}
+			
+			#canvas {
+				display:block;
+				position:absolute;
+				background-color:black;
+				z-index:1;
+				overflow:hidden;
+				
+			}
+			
+			
+			
+			#stats {
+				color:#fafafa;
+				padding:10px;
+				background-color:#00aaff;
+				opacity:0.9;
+				z-index:3;
+				width:100%;
+				font-size:62pt;
+				word-wrap:breakword;
+				text-align:center;
+			
+			}
+			
+			#stats li {
+			
+				list-style-type:none;
+			
+			}
+			
+			#clicker {
+			
+				width:100%;
+				background-color:#00ddaa;
+				color:white;
+				text-align:center;
+				font-size:25pt;
+				padding:20px;
+				cursor:pointer;
+				height:20px;
+			
+			}
+			
+			
+			#clicker:active {
+			
+				color:black;
+				font-size:13pt;
+
+			}
+			
+			#upgrades {
+				width:100%;
+				background-color:#252525;
+				height:50px;
+				color:white;
+				cursor:pointer;
+
+			}
+			
+			#upgrades li {
+				
+				list-style-type:none;
+				font-size:15pt;
+				width:25%;
+				height:30px;
+				padding-top:20px;
+				float:left;;
+				text-align:center;
+				line-height:10px;
+				background-color:#222;
+				
+			
+			}
+			
+			#upgrades li:hover {
+			
+				background-color:#555;
+			
+			}
+			
+		
+			sup {
+				font-size:18pt;
+				color:#0077aa;
+				font-weight:bold;
+			
+			}
+			

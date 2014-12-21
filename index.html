@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+
+<html>
+
+	<head>
+	
+		<title>Exp</title>
+		<link rel="stylesheet" href="css/incremental_style.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/incrementalObject.js"></script>
+		<script src="js/particleObject.js"></script>
+		<script>
+		
+		//essentials
+		var screenWidth, screenHeight, ctx, particles=[], game=new Game();
+
+			function fullScreenCanvas() {
+			
+				screenWidth=$(window).width();
+				screenHeight=$(window).height();
+				ctx.width=parseInt(screenWidth);
+				ctx.height=parseInt(screenHeight);
+				
+			};
+		
+			function rand(a,b) {
+			
+				return Math.ceil(Math.random()*b +a +1);
+			
+			};
+			
+			$(document).ready(function() {
+			
+				ctx=$("#canvas").get()[0].getContext("2d");
+		
+				init();
+				fullScreenCanvas();
+			});
+			
+			
+			function init() {
+			
+			
+				//set up screen size
+				sizeIt(ctx);
+				//setup game				
+					
+					
+				game.init();
+				
+				//setup upgrades
+				list=game.upgrades.getItemSet();
+				game.upgrades.addItem(new Item("Insta++",5));
+				game.upgrades.addItem(new Item("Hella++",10));
+				game.upgrades.addItem(new Item("Bella++",25));
+				game.upgrades.addItem(new Item("OMEGA+++",50));
+
+					
+
+				//display items
+				for (i in list)
+				{
+						$("#upgrades").append("<li onclick='game.addScore("+list[i].getModifier()+")'>"+list[i].getName()+"</li>");
+				}
+				
+				
+				
+				
+				//setting up particles
+				particles=[];
+				for (i=0;i<500;i++)
+				particles.push(new Particle(rand(0,screenWidth),rand(0,screenHeight)));
+					
+			
+			};
+			
+			function sizeIt(canvasEle) {
+				canvasEle.canvas.width  = window.innerWidth;
+  				canvasEle.canvas.height = window.innerHeight;
+  				screenWidth=canvasEle.canvas.width;
+  				screenHeight=canvasEle.canvas.height;
+			}
+			
+			
+		
+			//carries out all incremental related stuff every 'game.getFPS()' times per second
+			function incremental() {
+				
+				$("#happiness").html(game.getScore());
+				$("#perSecond").html(game.getPointsPerSecond());
+				game.increaseScorePerSecond();
+			};
+			
+			//game loop
+			setInterval(function draw() {
+				sizeIt(ctx);
+  				incremental();
+				
+				ctx.save();
+				ctx.clearRect(0,0,screenWidth,screenHeight);
+				ctx.restore();
+				
+				for (i in particles)
+					particles[i].draw();
+			
+			
+			}, 1000/game.getFPS());
+		</script>
+		
+	
+		
+	</head>
+	
+	
+	
+	<body>
+		<header>
+		Incremental Game Engine JS <b style='color:black;opacity:0.5;font-size:10pt;font-weight:bold;'>v0.0</b>
+		</header>
+	
+		<div id="stats">
+		
+			<ul>
+				<li><b id="happiness"></b><br><sup>per second: <b id="perSecond"></b></sup></li>
+			</ul>
+			
+			
+		</div>
+		<div id="clicker" >
+			Click Me!
+		</div>	
+		
+		<div id="upgrades">
+				
+		
+		</div>
+		<canvas id="canvas" width="500px" height="500px">
+		</canvas>
+		
+		
+		
+		<!--
+		<audio autoplay>
+			<source src="experience_assets/thehollowboy.mp3" type="audio/mp3">
+		</audio>
+		-->
+	</body>
+	
+	
+</html>
