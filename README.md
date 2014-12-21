@@ -3,6 +3,7 @@ incremental-game-engine-js (v0.0)
 
 A simple javascript/JQuery framework to allow the quick creation, deployment, and expansion of incremental games.
 
+[DEMO](http://aldo111.github.io/incremental-game-engine-js/ "v0.0")
 
 Goal
 ====
