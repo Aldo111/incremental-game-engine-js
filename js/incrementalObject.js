@@ -6,8 +6,8 @@
 				
 				//PRIVATE variables
 				var score=0;
-				var pointsPerSecond=1;
-				var pointsPerClick=1;
+				var pointsPerSecond=0;
+				var pointsPerClick=0;
 				var fps=a_fps;
 				
 				
@@ -51,6 +51,8 @@
 				this.getScore = function() { return Math.ceil(score); }; //get score
 				
 				this.getPointsPerSecond=function() { return pointsPerSecond; }; //return the main pointsPerSecond that affects the score
+				
+				this.getPointsPerClick=function() { return pointsPerClick; }; //return the main pointsPerClick that affects the score
 
 				
 				//MUTATOR METHODS
@@ -132,14 +134,24 @@
 				};
 				
 				
-				this.addEntity=function(EntityT) {
+				this.addEntity=function(EntityT,attr) {
 					//this function adds an Entity and returns 1 if successful - 0 if not
 					
-					if (EntityT instanceof Entity && !(EntityT.getName() in entities)) //make sure you're adding an Entity that doesn't already exist - UNIQUE NAMES
+					if (EntityT instanceof Entity && !(EntityT.getName() in entities) && typeof attr === 'undefined') //make sure you're adding an Entity that doesn't already exist - UNIQUE NAMES
 					{
+						//receiving an entity object
 						entities[EntityT.getName()]=EntityT; 
 						this.length++;
 						return 1;
+					}
+					else if (typeof attr !== 'undefined')
+					{
+						//this means that the user has passed a name and attributes, instead of an entity itself
+						var en=new Entity(EntityT,attr);
+						entities[en.getName()]=en;
+						this.length++;
+						return 1;
+					
 					}
 					else
 						return -999;//either it' snot an entity type, or it is but the name already exists
@@ -153,12 +165,7 @@
 			function Entity(n_name,n_attributes) {
 			
 				var name=n_name;//name of Entity -- must be unique				
-				this.attributes=[];
-				
-				//populate attributes
-				var keys=Object.keys(n_attributes);
-				for (i in keys)//get the keys
-					this.attributes[keys[i]]=n_attributes[[keys[i]]]; //
+				this.attributes=n_attributes;
 				
 				
 				//accessor/mutators
@@ -166,6 +173,11 @@
 				
 					return name;
 				
+				};
+				
+				this.getAttributes=function() {
+				
+					return this.attributes;
 				};
 				
 				this.getAttribute=function(attr) {
