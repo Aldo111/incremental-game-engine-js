@@ -8,29 +8,25 @@
 				
 				
 				//privileged/public variables
-				this.upgrades=new ItemSet("Upgrades");
+				this.upgrades=new EntitySet("Upgrades");
 				
+				this.entities=[];
+				
+				this.addEntitySet=function(n_name) {
+					//add an entity set
+					this.entities[n_name]=new EntitySet(n_name);
+				
+				};				
 
-				//methods
-				this.getFPS=function() {
-					//return the game fps
-					return fps;
-					
+				//ACCESSOR METHODS
+				this.getFPS=function() { return fps; }; //get fps of game
 				
-				};
+				this.getScore = function() { return Math.ceil(score); }; //get score
 				
-				this.getScore = function() {
-					//return the main 'score' stat
-					return Math.ceil(score);
+				this.getPointsPerSecond=function() { return pointsPerSecond; }; //return the main pointsPerSecond that affects the score
+
 				
-				};
-				
-				this.getPointsPerSecond=function() {
-					//return the main pointsPerSecond that affects the score
-					return pointsPerSecond;
-				
-				};
-				
+				//MUTATOR METHODS
 				this.increasePointsPerSecond=function() {
 					//increment the pointsPerSecond
 					pointsPerSecond+=0.5;
@@ -74,12 +70,15 @@
 			
 			
 			
-	//upgrades/items system
+	//upgrades/Entitys system
 	
-			function ItemSet(n_name) {
+			function EntitySet(n_name) {
 			
 				var name=n_name;//name of set
-				var items=[];//items array
+				var entities=[];//Entitys array
+				
+				//public variables
+				this.length=0;
 				
 				//functions
 				
@@ -89,19 +88,20 @@
 				
 				};
 				
-				this.getItemSet=function() {
-					//returns item set
-					return items;
+				this.getSet=function() {
+					//returns Entity set
+					return entities;
 				
 				};
 				
 				
-				this.addItem=function(item) {
-					//this function adds an item and returns 1 if successful - 0 if not
+				this.addEntity=function(EntityT) {
+					//this function adds an Entity and returns 1 if successful - 0 if not
 					
-					if (item instanceof Item) //make sure you're adding an item
+					if (EntityT instanceof Entity) //make sure you're adding an Entity
 					{
-						items.push(item);
+						entities.push(EntityT);
+						this.length++;
 						return 1;
 					}
 					else
@@ -113,9 +113,9 @@
 			
 			};
 			
-			function Item(n_name, mod) {
+			function Entity(n_name, mod) {
 			
-				var name=n_name;//name of item
+				var name=n_name;//name of Entity
 				var modifier=mod;//modifier
 				
 				

@@ -50,14 +50,11 @@
 				game.init();
 				
 				//setup upgrades
-				list=game.upgrades.getItemSet();
-				game.upgrades.addItem(new Item("Insta++",5));
-				game.upgrades.addItem(new Item("Hella++",10));
-				game.upgrades.addItem(new Item("Bella++",25));
-				game.upgrades.addItem(new Item("OMEGA+++",50));
+				
+				game.addEntitySet("UPGRADES");
+				game.entities.UPGRADES.addEntity(new Entity("Insta++",5));
 
-					
-
+				list=game.entities.UPGRADES.getSet();
 				//display items
 				for (i in list)
 				{
@@ -94,9 +91,12 @@
 			
 			//game loop
 			setInterval(function draw() {
-				sizeIt(ctx);
-  				incremental();
+				sizeIt(ctx);//make sure the canvas element is full screen
 				
+  				incremental();//incremental game yay
+				
+				
+				//below - draw stars
 				ctx.save();
 				ctx.clearRect(0,0,screenWidth,screenHeight);
 				ctx.restore();
