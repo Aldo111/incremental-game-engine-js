@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+
+<html>
+
+	<head>
+	
+		<title>Our First Game, Yay!</title>
+		<link rel="stylesheet" href="css/incremental_style.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/incrementalObject.js"></script>
+		<script>
+			
+			var game;
+			
+			//our data for a set of houses
+			var shackOptions={type:"Shack", perSecondModifier:100, cost:500}; //a shack object that gives 500
+			var mansionOptions={type:"Mansion", perSecondModifier: 200, cost:25000};
+			var estateOptions={type:"Estate",perSecondModifier: 1000, cost:100000};
+			var castleOptions={type:"Castle",perSecondModifier: 10000, cost:300000};
+			
+			
+			function buyHouse(housey) {
+				var house=game.sets.HOUSES.getSet()[housey].attributes;
+				if (house.cost <= game.getScore())
+				{
+					
+					game.addToScore(-house.cost);//subtract house cost from the score variable
+					game.addToPointsPerSecond(house.perSecondModifier);
+					game.addToPointsPerClick(house.perSecondModifier/100);
+				
+				}
+				
+			};
+			
+			
+			function init() {
+			
+				game=new Game(30);//30 fps game
+				game.init();//binds a clicker element -> useful for games where single-variable clicker games like cookie clicker
+				game.addToScore(500);//initialize score to 500
+				game.addToPointsPerClick(10);//initialize points received per click to 10
+				
+				game.addSet("HOUSES");//create a game set that stores all the Houses the player can buy
+				
+				//add the houses into the HOUSES entity set
+				game.sets.HOUSES.addEntity("Old House",shackOptions);
+				game.sets.HOUSES.addEntity("Mansion",mansionOptions);
+				game.sets.HOUSES.addEntity("Estate", estateOptions);
+				game.sets.HOUSES.addEntity("Castle", castleOptions);
+
+				//now let's add this list into our html
+				
+				houses_list=game.sets.HOUSES.getSet();//obtain the set of houses
+				for (i in houses_list) 
+				{	
+					$("#available_houses").append("<div class='house' onclick=\"buyHouse('"+i+"')\"><b>"+houses_list[i].getName()+"</b><br>Cost: <b>"+houses_list[i].attributes.cost);
+					
+				
+				}
+				
+				
+				play();
+			};
+			
+			
+			function play() {
+			
+				setInterval(function() {
+				
+					//game code
+					incrementalGame();
+					
+				
+				
+				},1000/game.getFPS());
+			
+			
+			};
+			
+			
+			function incrementalGame() {
+				//our game code
+				
+				//display stuff
+				$("#money_value").html(game.getScore());
+				$("#perSecond").html(game.getPointsPerSecond());
+				$("#perClick").html(game.getPointsPerClick());
+				
+				//do stuff
+				game.increaseScorePerSecond();//this increases the score per second 
+											  //using game's internal 'score' variable
+			
+			};
+			
+			$(document).ready(function() {
+			
+				init(); //run initialization code
+			
+			});
+			
+			
+		
+		
+		</script>
+		
+	
+		
+	</head>
+	
+	
+	
+	<body>
+		
+		<header>
+		GOLD HOUSE
+		</header>
+		<div id="available_houses">
+		</div>
+		<div id="money">
+		<b>Money</b>: <span id="money_value"></span><br>
+		
+		<div id="clicker">
+		Do your regular job
+		</div>
+		<br>
+		Per Second: <span id="perSecond"></span><br>
+		Per Click: <span id="perClick"></span>
+		</div>
+		
+		
+		
+	</body>
+	
+	
+</html>

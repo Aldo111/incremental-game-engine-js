@@ -1,8 +1,4 @@
 
-			@font-face {
-			font-family:NewCircle;
-			src: url("fonts/NewCircle/New Cicle Fina.ttf");
-			}
 			
 			* {
 				
@@ -18,120 +14,73 @@
 			
 			
 			body {
-			
-				background-color:#0a0a0a;
-				font-family:NewCircle;
-				font-size:84pt;
+				width:100%;
+				background-color:white;
+				color:black;
+				font-family:Georgia;
 			
 			}
 			
-			html, body {
 			
+			#available_houses {
+				position:relative;			
 				width:100%;
-				height:100%;
-				margin:0 px;
+				background-color:orange;
+				min-height:100px;
+				padding-top:10px;
+				text-align:center;
+			
+			}
+			
+			#available_houses .house {
+			
+				width:80px;
+				height:80px;
+				border:2px solid black;
+				background-color:white;
+				opacity:0.8;
+				border-radius:5px;
+				margin:5px;
+				display:inline-block;
+				cursor:pointer;
+			
+			}
+			
+			#money {
+			
+				border:2px solid black;
+				font-size:20pt;
+				text-align:center;
 			
 			}
 			
 			header {
 			
-				height:50px;
-				text-align:center;
-				background-color:white;
+				background-color:orange;
+				opacity:0.6;
+				color:white;
 				font-size:25pt;
-				padding-top:10px;
-			
-			}
-			
-			#canvas {
-				display:block;
-				position:absolute;
-				top:0;
-				left:0;
-				z-index:-1;
-				background-color:black;
-				overflow:hidden;
-				bottom:0;
-				right:0;
-				
-			}
-			
-			
-			
-			#stats {
-				color:#fafafa;
-				padding:10px;
-				background-color:#00aaff;
-				opacity:0.9;
-				z-index:3;
-				font-size:62pt;
-				word-wrap:breakword;
 				text-align:center;
-			
-			}
-			
-			#stats li {
-			
-				list-style-type:none;
+				
+				border-bottom:2px solid black;
 			
 			}
 			
 			#clicker {
 			
-				background-color:#00ddaa;
+				background-color:black;
 				color:white;
-				text-align:center;
-				font-size:25pt;
-				padding:20px;
-				padding-right:0;
+				border:2px solid #00aaff;
 				cursor:pointer;
-				height:20px;
+				border-radius:5px;
+				height:100px;
+				width:200px;
+				margin:0 auto;
 			
 			}
 			
+			#clicker:active, .house:active {
 			
-			#clicker:active {
-			
-				color:black;
-				font-size:13pt;
-
-			}
-			
-			#upgrades {
-				width:100%;
-				background-color:#252525;
-				height:50px;
-				color:white;
-				cursor:pointer;
-
-			}
-			
-			#upgrades li {
-				
-				list-style-type:none;
-				font-size:15pt;
-				width:25%;
-				height:30px;
-				padding-top:20px;
-				float:left;;
-				text-align:center;
-				line-height:10px;
-				background-color:#222;
-				
+				background-color:#00aaff;
 			
 			}
-			
-			#upgrades li:hover {
-			
-				background-color:#555;
-			
-			}
-			
-		
-			sup {
-				font-size:18pt;
-				color:#0077aa;
-				font-weight:bold;
-			
-			}
-			
