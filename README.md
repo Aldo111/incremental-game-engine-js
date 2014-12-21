@@ -14,8 +14,16 @@ So this is the purpose of the engine: get the boring stuff out of the way and on
 
 FILES
 ====
+
+#### Essential:
 1. js/incrementalObject.js -> The main file
 2. js/jquery.js -> jQuery file used. 
+
+#### Non-Essential [Only for DEMO]:
+1. js/ParticleObject.js -> Just a simple particle script I made for the background stars. I was building the game engine on top of another project and so this is just a nice (visually appealing) artefact. Not required at all.
+2. css/incremental_style.css -> The CSS of the demo
+3. css/fonts/NewCircle/ -> The font I'm using for the demo page
+4. index.html -> The Demo Page
 
 
 NOTES
