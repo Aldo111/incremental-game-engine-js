@@ -14,7 +14,7 @@
 			var game;
 			
 			//our data for a set of houses
-			var shackOptions={type:"Shack", perSecondModifier:100, cost:500}; //a shack object that gives 500
+			var shackOptions=new Entity("Old Shack",{type:"Shack", perSecondModifier:100, cost:500}); //a shack object that gives 500
 			var mansionOptions={type:"Mansion", perSecondModifier: 200, cost:25000};
 			var estateOptions={type:"Estate",perSecondModifier: 1000, cost:100000};
 			var castleOptions={type:"Castle",perSecondModifier: 10000, cost:300000};
@@ -44,7 +44,7 @@
 				game.addSet("HOUSES");//create a game set that stores all the Houses the player can buy
 				
 				//add the houses into the HOUSES entity set
-				game.sets.HOUSES.addEntity("Old House",shackOptions);
+				game.sets.HOUSES.addEntity(shackOptions);
 				game.sets.HOUSES.addEntity("Mansion",mansionOptions);
 				game.sets.HOUSES.addEntity("Estate", estateOptions);
 				game.sets.HOUSES.addEntity("Castle", castleOptions);
