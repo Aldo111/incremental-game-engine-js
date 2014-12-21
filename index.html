@@ -9,7 +9,6 @@
 		<link rel="stylesheet" href="css/incremental_style.css">
 		<script src="js/jquery.js"></script>
 		<script src="js/incrementalObject.js"></script>
-		<script src="js/particleObject.js"></script>
 		<script>
 		
 		//essentials
@@ -37,79 +36,7 @@
 				perClickModifier: 5,
 				perSecondModifier: 5
 			};
-			function init() {
-			
-			
-				//set up screen size
-				sizeIt(ctx);
-				//setup game				
-					
-					
-				game.init();
-				
-				//setup upgrades
-				
-				game.addSet("UPGRADES");
-				game.sets.UPGRADES.addEntity(new Entity("Insta+",upgradeAttributes));
-				game.sets.UPGRADES.addEntity(new Entity("Hella++",upgradeAttributes));
-				game.sets.UPGRADES.addEntity(new Entity("OMEGA+++",upgradeAttributes));
-
-
-				list=game.sets.UPGRADES.getSet();
-				list["Hella++"].attributes.perClickModifier=10;
-				list["OMEGA+++"].attributes.perClickModifier=100;
-				//display items
-				for (i in list)
-				{
-						$("#upgrades").append("<li onclick='game.addToScore("+list[i].attributes['perClickModifier']+")'>"+list[i].getName()+"</li>");
-				}
-				
-				
-				
-				
-				//setting up particles
-				particles=[];
-				for (i=0;i<500;i++)
-				particles.push(new Particle(rand(0,screenWidth),rand(0,screenHeight)));
-					
-			
-			};
-			
-			function sizeIt(canvasEle) {
-				canvasEle.canvas.width  = window.innerWidth-15;
-  				canvasEle.canvas.height = window.innerHeight;
-  				screenWidth=canvasEle.canvas.width;
-  				screenHeight=canvasEle.canvas.height;
-			}
-			
-			
-			
 		
-			//carries out all incremental related stuff every 'game.getFPS()' times per second
-			function incremental() {
-				
-				$("#happiness").html(game.getScore());
-				$("#perSecond").html(game.getPointsPerSecond());
-				game.increaseScorePerSecond();
-			};
-			
-			//game loop
-			setInterval(function draw() {
-				sizeIt(ctx);//make sure the canvas element is full screen
-				
-  				incremental();//incremental game yay
-				
-				
-				//below - draw stars
-				ctx.save();
-				ctx.clearRect(0,0,screenWidth,screenHeight);
-				ctx.restore();
-				
-				for (i in particles)
-					particles[i].draw();
-			
-			
-			}, 1000/game.getFPS());
 		</script>
 		
 	
