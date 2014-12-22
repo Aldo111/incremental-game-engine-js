@@ -1,4 +1,4 @@
-incremental-game-engine-js (v1.0)
+incremental-game-engine-js (v1.1)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
@@ -44,3 +44,18 @@ TODO
 ###As of v1.0:
 4. Make the game loop internal to Game()
 5. Handle out-of-focus window game loops
+
+VERSION CHANGES
+====
+###v1.0 [Dec 21, 2014]
+
+1. Added Entity and EntitySets to manage different sets of different entities.
+
+###v1.1 [Dec 22, 2014]
+
+1. Sets/Entities are now returned upon adding/modifying them.
+2. Entity Sets now have attributes as well
+3. Added AttributeSets that are simply normal javascript objects with some extended properties to help manage these AttributeSets
+4. Added a parent object called 'Common' which contains elements that every other object needs. 
+5. Added an attributes[] list to Common, which is inherited by Game(), EntitySet(), Entity()
+6. Added functions to remove an EntitySet from Game().sets, as well as an Entity from EntitySet().getSet()
