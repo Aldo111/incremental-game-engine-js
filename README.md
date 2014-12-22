@@ -1,9 +1,10 @@
-incremental-game-engine-js (v1.0)
+incremental-game-engine-js (v1.1)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
 
 [DEMO](http://aldo111.github.io/incremental-game-engine-js/ "v1.0")
+[TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
 
 Goal
 ====
@@ -28,7 +29,7 @@ FILES
 
 NOTES
 ====
-1. I will update this README with a quick how-to soon; my first priority is to get the current TODO list done before sharing it with others!
+1. I will update this README with a quick how-to soon; for now, head over to the tutorial branch to get started!
 2. Although jQuery is used very rarely, it is not at all required and the few jQuery portions of the code that exist can (and in the final version, will) be replaced by vanilla JS.
 
 
@@ -36,6 +37,25 @@ NOTES
 TODO
 ====
 
-1. Allow programmers to add multiple stats of different types.
-2. Allow greater control and manipulation of items and item sets.
-3. Continue making this awesome and easy to use!
+1. Allow programmers to add multiple stats of different type -> Attributes system in place, however no 'internal' support just yet
+2. Allow greater control and manipulation of items and item sets. -> Entities System in place
+3. Continue making this awesome and easy to use! -> Work in Progress
+
+###As of v1.0:
+4. Make the game loop internal to Game()
+5. Handle out-of-focus window game loops
+
+VERSION CHANGES
+====
+###v1.0 [Dec 21, 2014]
+
+1. Added Entity and EntitySets to manage different sets of different entities.
+
+###v1.1 [Dec 22, 2014]
+
+1. Sets/Entities are now returned upon adding/modifying them.
+2. Entity Sets now have attributes as well
+3. Added AttributeSets that are simply normal javascript objects with some extended properties to help manage these AttributeSets
+4. Added a parent object called 'Common' which contains elements that every other object needs. 
+5. Added an attributes[] list to Common, which is inherited by Game(), EntitySet(), Entity()
+6. Added functions to remove an EntitySet from Game().sets, as well as an Entity from EntitySet().getSet()

@@ -60,10 +60,12 @@
 				list=game.sets.UPGRADES.getSet();
 				list["Hella++"].attributes.perClickModifier=10;
 				list["OMEGA+++"].attributes.perClickModifier=100;
+				
+				
 				//display items
 				for (i in list)
 				{
-						$("#upgrades").append("<li onclick='game.addToScore("+list[i].attributes['perClickModifier']+")'>"+list[i].getName()+"</li>");
+						$("#upgrades").append("<li onclick='game.addToScore("+list[i].attributes['perClickModifier']+"); game.addToPointsPerClick("+list[i].attributes['perClickModifier']+"); game.addToPointsPerSecond("+list[i].attributes['perSecondModifier']+");'>"+list[i].getName()+"</li>");
 				}
 				
 				
@@ -92,6 +94,8 @@
 				
 				$("#happiness").html(game.getScore());
 				$("#perSecond").html(game.getPointsPerSecond());
+				$("#perClick").html(game.getPointsPerClick());
+
 				game.increaseScorePerSecond();
 			};
 			
@@ -108,7 +112,9 @@
 				ctx.restore();
 				
 				for (i in particles)
-					particles[i].draw();
+					{	particles[i].modifier=game.getScore()/3000 ;
+						particles[i].draw();
+					}
 			
 			
 			}, 1000/game.getFPS());
@@ -128,7 +134,9 @@
 		<div id="stats">
 		
 			<ul>
-				<li><b id="happiness"></b><br><sup>per second: <b id="perSecond"></b></sup></li>
+				<li><b id="happiness"></b><br><sup>per second: <b id="perSecond"></b></sup>
+				<sup>per click: <b id="perClick"></b></li>
+				
 			</ul>
 			
 			
