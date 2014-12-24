@@ -44,7 +44,7 @@
 						
 						
 						x++;
-						if (x==Object.attributes.size()) break; //this is so that the user doesn't get any of the Protottype methods as attriutes
+						if (x==Object.attributes.size()) break; //this is so that the user doesn't get any of the Prototype methods as attriutes
 					} 
 				
 				*/
@@ -67,7 +67,27 @@
 						return ERR_DOES_NOT_EXIST_CODE;
 					
 				};
+				
+				//untrack an attribute that belongs to this object
+				this.untrack=function(attr) {
+					var invoker=this.constructor.name; //Common object through which this method was invoked - either Game or EntitySet or Entity 
+					//future use
+					
+					//stops tracking this.attribute's particular attribute of this particule object
+					if (typeof attr !== 'undefined')
+					{
+				
+						for (i in Tracks)
+							if (Tracks[i].container===this.attributes && Tracks[i].name==attr) delete Tracks[i];
+				
+					}
+				};
+			
+				
+				
 			};
+			
+			
 			
 			
 	//The Main Game Function! var g=new Game(); this is what we need to get started!
@@ -256,7 +276,8 @@
 				
 				this.getName=function() { return name; };
 				
-				this.getSet=function() { return entities;};
+				this.getEntities=function() { return entities;};
+				this.getSet=function() { return getEntities(); }; //this needs to be deprecated with our next major version
 				
 				this.getEntity=function(n_name) {
 				
@@ -353,7 +374,14 @@
 				{
 					var keys=Object.keys(n_attributes);
 					for (i in keys)
-						this[keys[i]]=n_attributes[keys[i]];
+					{	
+						if (keys[i] in this) //probably a prototype method
+						{	
+							return "SPECIAL KEY";
+						}
+						else
+							this[keys[i]]=n_attributes[keys[i]];
+					}
 				}
 			
 			

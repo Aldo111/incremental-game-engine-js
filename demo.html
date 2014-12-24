@@ -21,7 +21,8 @@
 			
 			
 			function buyHouse(housey) {
-				var house=game.sets.HOUSES.getSet()[housey].attributes;
+				var house=game.getSet("HOUSES").getEntity(housey).attributes; //multiple ways of writing this: game.getSet("HOUSES").getEntities()[housey].attributes; || game.sets.HOUSES.getEntities()[housey].attributes || game.
+			
 				if (house.cost <= game.getScore())
 				{
 					
@@ -51,7 +52,7 @@
 				game.addToPointsPerClick(10);//initialize points received per click to 10
 				
 				game.addSet("HOUSES");//create a game set that stores all the Houses the player can buy
-				
+
 				//add attributes and track the count of each
 				game.addAttribute("count_Old House",0,"#count_Old_House");//don't use spaces for the id element
 				game.addAttribute("count_Mansion",0,"#count_Mansion");
@@ -65,10 +66,13 @@
 				game.sets.HOUSES.addEntity("Estate", estateOptions).track("cost","#house_cost_2");
 				game.sets.HOUSES.addEntity("Castle", castleOptions).track("cost","#house_cost_3");
 				
+				game.getSet("HOUSES").getEntity("Old House").untrack("cost");// --> will stop tracking the cost in real-time.. uncomment to see how!
+				
+				alert(typeof game.getFPS());
 				
 				//now let's add this list into our html
 				
-				houses_list=game.sets.HOUSES.getSet();//obtain the set of houses
+				houses_list=game.sets.HOUSES.getEntities();//obtain the set of houses
 				var x=0;
 				for (i in houses_list) 
 				{	
