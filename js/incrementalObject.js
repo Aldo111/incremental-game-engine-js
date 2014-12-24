@@ -11,7 +11,7 @@
 				this.attributes=new AttributeSet(n_attributes);
 				
 				
-				//The following methods basically allow the Object containing an Attribute set to get/set/add attributes directly
+				//The following methods basically allow the Object containing an Attribute set to get/set/add/remove attributes directly
 				//into that set by doing Object.getAttribute(...) instead of Object.attributes.getAttribute(..) although one
 				//can even do that since these functions just use AttributeSet's methods
 				this.getAttribute=function(attr) {
@@ -20,8 +20,13 @@
 				this.setAttribute=function(attr,value) {
 					return this.attributes.setAttribute(attr,value);
 				};
-				this.addAttribute=function(attr,value) {
-					return this.attributes.setAttribute(attr,value);
+				this.addAttribute=function(attr,value,ele) {
+					
+					return this.attributes.addAttribute(attr,value,ele);
+				};
+				
+				this.hasAttribute=function(attr) {
+					return this.attributes.hasAttribute(attr);
 				};
 				
 				this.removeAttribute=function(attr) {
@@ -49,11 +54,25 @@
 					return this.attributes.getAttributes();
 					
 				};
+				
+				//prototype- tracks a particular element in an html element
+				this.track=function(attr,ele) {
+					
+					if (typeof attr !== 'undefined' && this.hasAttribute(attr) && typeof ele !=='undefined')
+					{
+					//	alert("Tracking");
+						Tracks.push({container:this.attributes,name:attr,element:ele});
+					}
+					else
+						return ERR_DOES_NOT_EXIST_CODE;
+					
+				};
 			};
 			
 			
 	//The Main Game Function! var g=new Game(); this is what we need to get started!
 			Game.prototype=new Common();
+			var Tracks=[];
 			
 			function Game(a_fps) {
 			
@@ -67,6 +86,7 @@
 				var pointsPerSecond=0;
 				var pointsPerClick=0;
 				var fps=a_fps;
+				var seconds=1;
 				
 				
 				//PRIVILEGED PUBLIC -> If you want to add your own variables, here is where you would do it : this.<variable_name>=0; accessed by game.<variable_name>
@@ -75,7 +95,6 @@
 							//accessed by game.entities.<entity set name>  -> eg. game.sets.UPGRADES
 								
 				this.attributes=new AttributeSet();//holds additional attributes/variables
-				
 
 				//ACCESSOR METHODS
 				this.getFPS=function() { return fps; }; //get fps of game
@@ -115,6 +134,7 @@
 				this.increaseScorePerClick=function() {
 					//increment the score per click
 					score+=pointsPerClick;
+					$('#money_value').html(game.getScore())
 					
 				
 				};
@@ -186,12 +206,14 @@
 						
 				};
 				
+				
 				//main init
 				
 				this.init=function(options) {
 				
 					//add binders
 					$("#clicker").on("click", this.increaseScorePerClick);
+					
 				
 				};
 				
@@ -338,7 +360,7 @@
 			};
 			
 			AttributeSet.prototype.getAttributes=function() {
-			
+				//returns a COPY, not the original, list of attributes
 				var list=[];
 				var keys=Object.keys(this);
 				for (i in keys) 
@@ -360,8 +382,14 @@
 					return this[attr];
 				}
 				else
-					return ERR_DOES_NOT_EXIST; 	
+					return ERR_DOES_NOT_EXIST_CODE; 	
 
+			};
+			
+			AttributeSet.prototype.hasAttribute=function(attr) {
+				//checks if it has an attribute --> returns true or false
+				return (typeof attr !== 'undefined' && (attr in this));
+			
 			};
 			
 			AttributeSet.prototype.setAttribute=function(attr,value) {
@@ -377,13 +405,21 @@
 			
 			};
 			
-			AttributeSet.prototype.addAttribute=function(attr,value) { 
+			AttributeSet.prototype.addAttribute=function(attr,value,ele) { 
 				
 				//incase someone accidentally does addAttribute instead of setAttribute because we have addEntity, addSet..etc
 				if (typeof attr !== 'undefined' && typeof value !== 'undefined') //a valid attr and value have been provided
 				{	
 
 					this[attr]=value;
+					
+					//checking if the user wants to track this variable
+					if (typeof ele !== 'undefined')//track it in this element
+					{	
+						Tracks.push({container:this,name:attr,element:ele});
+						
+					}
+					
 					return this[attr];
 				}
 				else
@@ -403,6 +439,7 @@
 			};
 			
 			
+			
 			AttributeSet.prototype.size=function() {
 				//get total number of attributes in this object
 				var l=0;
@@ -420,6 +457,8 @@
 				return l;
 			
 			};
+
+			
 				
 				
 		
