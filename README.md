@@ -4,7 +4,11 @@ incremental-game-engine-js (v1.2)
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
 
 [DEMO](http://aldo111.github.io/incremental-game-engine-js/ "v1.0")
+
 [TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
+
+[v1.2 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.2")
+
 
 Goal
 ====
@@ -20,11 +24,15 @@ FILES
 1. js/incrementalObject.js -> The main file
 2. js/jquery.js -> jQuery file used. 
 
-#### Non-Essential [Only for DEMO]:
+#### Non-Essential [Only for DEMOS/help]:
 1. js/ParticleObject.js -> Just a simple particle script I made for the background stars. I was building the game engine on top of another project and so this is just a nice (visually appealing) artefact. Not required at all.
 2. css/incremental_style.css -> The CSS of the demo
 3. css/fonts/NewCircle/ -> The font I'm using for the demo page
 4. index.html -> The Demo Page
+5. css/incremental_demo_style.css -> The css of the v1.2 demo.html
+6. tutorial/ -> copy of the tutorial branch, which will soon be updated to reflect v1.2+
+7. EntityExample.html -> very simply example of using an EntitySet and Entity independently and together
+
 
 
 NOTES
