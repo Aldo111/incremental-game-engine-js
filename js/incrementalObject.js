@@ -277,7 +277,7 @@
 				this.getName=function() { return name; };
 				
 				this.getEntities=function() { return entities;};
-				this.getSet=function() { return getEntities(); }; //this needs to be deprecated with our next major version
+				this.getSet=function() { return this.getEntities(); }; //this needs to be deprecated with our next major version
 				
 				this.getEntity=function(n_name) {
 				
