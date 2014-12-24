@@ -53,6 +53,8 @@ VERSION CHANGES
 
 1. Added basic functionality to track and display any attribute belonging to any object (that's part of their .attributes[]) in any html element.
 2. Minor code enhancements.
+3. EntitySet.getSet() is now EntitySet.getEntities() to avoid confusion with Game.getSet(set name) ----> EntitySet.getSet() will still work but will be removed completely in future versions.
+4. Added untracking of any attribute belonging to an object (second commit) 
 
 ###v1.1 [Dec 22, 2014]
 
