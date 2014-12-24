@@ -134,7 +134,7 @@
 				this.increaseScorePerClick=function() {
 					//increment the score per click
 					score+=pointsPerClick;
-					$('#money_value').html(game.getScore())
+//					$('#money_value').html(game.getScore()) // -> we'll want a way to know which html element we track score in for quicker updates on low-FPS games -> integrate this with the attributes tracks system?
 					
 				
 				};
