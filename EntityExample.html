@@ -36,6 +36,15 @@
 				game.addSet("INVENTORY");
 				
 				$("#info3").html("game.sets: "+game.size(game.sets));//should 1 and 1 now
+				
+				var set2=new EntitySet("INVENTORY");
+				set2.addEntity(item);
+				set2.getEntity("ITEM").setAttribute("value",1000);
+				
+				//alert(JSON.stringify(set2.getEntity("ITEM")));
+				
+				alert("set1 item" + set1.getEntity("ITEM").getAttribute("value"));
+				alert("set2 item" + set2.getEntity("ITEM").getAttribute("value"));
 
 
 				

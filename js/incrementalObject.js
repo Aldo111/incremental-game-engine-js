@@ -301,7 +301,7 @@
 					if (EntityT instanceof Entity && !(EntityT.getName() in entities) && typeof attr === 'undefined') //make sure you're adding an Entity that doesn't already exist - UNIQUE NAMES
 					{
 						//receiving an entity object
-						entities[EntityT.getName()]=EntityT; 
+						entities[EntityT.getName()]=new Entity(EntityT); // ---> NEED TO CHECK IF AN ENTITY IS PASSED TO ENTITY CONSTRUCTOR 
 						this.length++;
 						return entities[EntityT.getName()];//return this entity in this EntitySet
 					}
@@ -314,9 +314,9 @@
 						
 					
 					}
-					else if (typeof attr !== 'undefined')
+					else if (typeof attr !== 'undefined' && !(attr in entities))	//this means that the user has passed a name AND attributes, instead of an entity itself
 					{
-						//this means that the user has passed a name and attributes, instead of an entity itself
+					
 						var en=new Entity(EntityT,attr);
 						entities[en.getName()]=en;
 						this.length++;
@@ -353,9 +353,21 @@
 			//Entity -> essential building blocks of this whole system
 			function Entity(n_name,n_attributes) {
 			
-				var name=n_name;//name of Entity -- must be unique
 				
-				Common.call(this,n_attributes);
+				
+				if (typeof n_name !== 'undefined' && typeof n_attributes === 'undefined' && n_name.constructor.name=="Entity" ) //->only n_name is passed, check if it's entity
+				{
+					//copy constructor CODE NOW since we were passed an entity only
+					Common.call(this,n_name.getAttributes());
+					var name=n_name.getName();
+					
+				
+				}
+				else
+				{
+					var name=n_name;//name of Entity -- must be unique
+					Common.call(this,n_attributes);
+				}
 				
 				
 				//accessor/mutators
