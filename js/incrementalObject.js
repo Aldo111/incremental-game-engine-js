@@ -4,6 +4,8 @@
 			const ERR_DOES_NOT_EXIST_CODE="errdne-999";
 			const ERR_INVALID_PARAMS_CODE="errinvalid-989";
 			const SUCC_CODE="success10101010";
+	//other global variables
+			var Tracks=[];
 			
 	//Function that stores common elements
 			function Common(n_attributes) {
@@ -31,6 +33,12 @@
 				
 				this.removeAttribute=function(attr) {
 					return this.attributes.removeAttribute(attr);
+				};
+				
+				this.isDefined=function(a) {
+				
+					return (typeof a !=='undefined');
+				
 				};
 				
 				
@@ -92,7 +100,6 @@
 			
 	//The Main Game Function! var g=new Game(); this is what we need to get started!
 			Game.prototype=new Common();
-			var Tracks=[];
 			
 			function Game(a_fps) {
 			
@@ -210,6 +217,39 @@
 					}
 					else
 						return ERR_DOES_NOT_EXIST_CODE;
+				
+				};
+				
+				//Clicker -> Makes an object clickable
+				this.addClicker=function(identifier,func,params)
+				{
+					//identifier of html element -> .class, #id ..etc
+					//func -> function to call everytime this is clicked
+					//params -> array of parameters
+					
+					if (this.isDefined(identifier) && this.isDefined(func) && this.isDefined(params))//make sure all arguments are defined
+					{
+						var list;
+						if (params.constructor.name !== 'Array') //only one argument passed and it wasn't passed as an array
+						{	
+							//this allows us to add a Clicker with a single parameter function without having to use an array :)
+							list=[params];
+							params=list;
+						}
+						
+						$(identifier).on("click", function() {
+					
+							func.apply(null,params);
+					
+						});
+					}
+					
+				
+				};
+				
+				this.removeClicker=function(identifier) {
+					alert("done");
+					$(identifier).off("click");//removes clickables
 				
 				};
 				
@@ -498,6 +538,17 @@
 			
 			};
 
+		
+	//Clickers -> store an html element that should have a function bound to it on click, and maybe on other events as well
+	
+			function Clicker() {
+			
+			
+			
+			
+			};
+	
+	
 			
 				
 				

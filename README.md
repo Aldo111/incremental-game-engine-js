@@ -1,4 +1,4 @@
-incremental-game-engine-js (v1.2.1)
+incremental-game-engine-js (v1.3)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
@@ -55,6 +55,13 @@ TODO
 
 VERSION CHANGES
 ====
+
+
+###v1.3 [Dec 25, 2014] - (Work-in-progress :: More to come today)
+
+1. Added Game.addClicker(id,functionToExecute,[params,for,function]) and Game.removeClicker(id) which allows any html element (denoted in id by #id or .class ..etc) to become a clicker for a function.
+
+
 
 ###v1.2.1 [Dec 24, 2014]
 

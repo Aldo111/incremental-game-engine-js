@@ -5,11 +5,16 @@
 
 	<head>
 	
-		<title>v1.2, Yay!</title>
+		<title>v1.3, Yay!</title>
 		<link rel="stylesheet" href="css/incremental_demo_style.css">
 		<script src="js/jquery.js"></script>
 		<script src="js/incrementalObject.js"></script>
 		<script>
+			
+			function alert2(msg) {
+			
+				alert(msg);
+			};
 			
 			var game;
 			
@@ -36,6 +41,17 @@
 					
 					var countVariableName="count_"+housey;
 					game.setAttribute(countVariableName,game.getAttribute(countVariableName)+1);
+					
+					if (!("SecretX" in game.getSet("HOUSES").getEntities()) ) //shows how we can dynamically add a new entity to the list of houses - similar methods can be used for achievements and unlocked_achievements
+					{	
+						
+						game.getSet("HOUSES").addEntity("SecretX",{type:"secret", perSecondModifier:5,cost:100000});
+						game.addAttribute("count_SecretX", 0, "#count_SecretX");
+						var thing="<div class='house' id='4_house' style='display:none;' onclick=\"buyHouse('SecretX')\"><b>SecretX</b><br>Cost: <b id='house_cost_4'>100000</b><br>Owned:<b id='count_SecretX'></b></div>";
+						$("#available_houses").append(thing);
+						
+						$("#4_house").show(500);
+					}
 					
 					//game.setAttribute("count
 				}
@@ -68,17 +84,20 @@
 				
 				//game.getSet("HOUSES").getEntity("Old House").untrack("cost");// --> will stop tracking the cost in real-time.. uncomment to see how!
 				
-				
 				//now let's add this list into our html
 				
 				houses_list=game.sets.HOUSES.getEntities();//obtain the set of houses
 				var x=0;
 				for (i in houses_list) 
 				{	
-					$("#available_houses").append("<div class='house' onclick=\"buyHouse('"+i+"')\"><b>"+houses_list[i].getName()+"</b><br>Cost: <b id='house_cost_"+x+"'>"+houses_list[i].attributes.cost+"</b><br>Owned:<b id='count_"+i.replace(' ','_')+"'></b>");
+					$("#available_houses").append("<div class='house' id='"+x+"_house'><b>"+houses_list[i].getName()+"</b><br>Cost: <b id='house_cost_"+x+"'>"+houses_list[i].attributes.cost+"</b><br>Owned:<b id='count_"+i.replace(' ','_')+"'></b>");
+					game.addClicker("#"+x+"_house",buyHouse,i);
+					
 					x++;
 				
 				}
+				
+				//game.removeClicker("#0_house"); //works! 
 				
 				incrementalGame();//run it once then start the loop
 				play();
@@ -179,9 +198,8 @@
 
 		-->
 		</div>
+
 		
-		<div id="last_update">
-		</div>
 		
 		
 		
