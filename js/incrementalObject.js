@@ -1,3 +1,10 @@
+/*--------------------------------
+	Incremental Game Engine v1.3
+		Created at https://github.com/Aldo111/incremental-game-engine-js [Started Dec 21, 2014 by Aldo111 on GitHub]
+		Purpose-built library to serve efficient design and development of Incremental/Idle/Clicker games.
+		If you do use this in your game, please provide the proper attribution or linkback to the original creator of this library, that is all!
+----------------------------------*/
+
 //===
 			
 	//some constants -> if some function is not working as expected, check its return value, if any, against these errors
@@ -121,7 +128,6 @@
 				this.sets=[];//Holds multiple ENTITY SETS -> eg. this can hold UPGRADES, ACHIEVEMENTS, INVENTORY..etc
 							//accessed by game.entities.<entity set name>  -> eg. game.sets.UPGRADES
 								
-				this.attributes=new AttributeSet();//holds additional attributes/variables
 
 				//ACCESSOR METHODS
 				this.getFPS=function() { return fps; }; //get fps of game
@@ -145,14 +151,7 @@
 				
 				//MUTATOR METHODS
 				
-				//the following functions are for a single variable game
-				this.increasePointsPerSecond=function() {
-					//increment the pointsPerSecond
-					pointsPerSecond+=0.5;
-				
-				};
-				
-				this.increaseScorePerSecond=function() {
+				this.increaseScorePerSecond=function() { //TODO - make this private - doesn't make sense to have it public
 					//increment the score per second
 					score+=pointsPerSecond/fps;
 				
@@ -198,7 +197,7 @@
 					}
 					else
 					{	//store the entity set
-						this.sets[n_name.getName()]=n_name;//because the user wants to add a pre-existing EntitySet
+						this.sets[n_name.getName()]=n_name;//because the user wants to add a pre-existing EntitySet --> current if you modify one, both get modified
 						return this.sets[n_name.getName()];//return directly to user for chaining/adding entities
 					}
 					
@@ -227,14 +226,20 @@
 					//func -> function to call everytime this is clicked
 					//params -> array of parameters
 					
-					if (this.isDefined(identifier) && this.isDefined(func) && this.isDefined(params))//make sure all arguments are defined
+					if (this.isDefined(identifier) && this.isDefined(func))//make sure all arguments are defined
 					{
 						var list;
-						if (params.constructor.name !== 'Array') //only one argument passed and it wasn't passed as an array
+						if (this.isDefined(params) && params.constructor.name !== 'Array') //only one argument passed and it wasn't passed as an array
 						{	
 							//this allows us to add a Clicker with a single parameter function without having to use an array :)
 							list=[params];
 							params=list;
+						}
+						
+						if (!this.isDefined(params))
+						{	
+							list=[];
+							var params=[];
 						}
 						
 						$(identifier).on("click", function() {
@@ -285,8 +290,9 @@
 						//maintain our tracks
 						for (i in Tracks)
 							$(Tracks[i].element).html(Tracks[i].container[Tracks[i].name]);
+						
 						//execute our functions
-						func();
+						if (typeof func !== 'undefined') func();
 					
 					}, 1000/this.getFPS());
 				
@@ -320,7 +326,6 @@
 				
 				//public variables
 				this.length=0;
-				this.attributes=new AttributeSet(n_attributes);
 				
 				//functions
 				
@@ -375,7 +380,7 @@
 						
 					
 					}
-					else if (typeof attr !== 'undefined' && !(attr in entities))	//this means that the user has passed a name AND attributes, instead of an entity itself
+					else if (typeof attr !== 'undefined' && !(EntityT in entities))	//this means that the user has passed a name AND attributes, instead of an entity itself
 					{
 					
 						var en=new Entity(EntityT,attr);
@@ -499,10 +504,10 @@
 				{	
 
 					this[attr]=value;
-					return this[attr];
+					return this;
 				}
 				else
-					return ERR_DOES_NOT_EXIST_CODE;
+					return ERR_INVALID_PARAMS_CODE;
 			
 			};
 			
@@ -521,7 +526,7 @@
 						
 					}
 					
-					return this[attr];
+					return this;
 				}
 				else
 					return ERR_DOES_NOT_EXIST_CODE;
@@ -560,15 +565,7 @@
 			};
 
 		
-	//Clickers -> store an html element that should have a function bound to it on click, and maybe on other events as well
-	
-			function Clicker() {
-			
-			
-			
-			
-			};
-	
+
 	
 			
 				

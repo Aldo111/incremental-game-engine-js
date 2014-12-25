@@ -1,4 +1,4 @@
-incremental-game-engine-js (v1.3)
+incremental-game-engine-js (v1.3.1)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
@@ -7,7 +7,7 @@ A simple Javascript/jQuery framework to allow the quick creation, deployment, an
 
 [TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
 
-[v1.3 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3")
+[v1.3.1 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3.1")
 
 
 Goal
@@ -23,6 +23,8 @@ FILES
 #### Essential:
 1. js/incrementalObject.js -> The main file
 2. js/jquery.js -> jQuery file used. 
+
+3. documentation.html -> page with documentation on methods. It's still a work-in-progress but helps to gain an idea of what's going on in each object.
 
 #### Non-Essential [Only for DEMOS/help]:
 1. js/ParticleObject.js -> Just a simple particle script I made for the background stars. I was building the game engine on top of another project and so this is just a nice (visually appealing) artefact. Not required at all.
@@ -56,6 +58,13 @@ TODO
 VERSION CHANGES
 ====
 
+
+###v1.3.1 [Dec 26, 2014]
+
+1. Fixed bug that resulted in incorrect results when checking whether an Entity Name existed through addEntity(...,...)
+2. Return the AttributeSet itself instead of the value in add/setAttribute.
+3. Modified Game.addClicker() to make the params of the function passed optional.
+4. Documentation page created using EntitySet/Entities/AttributeSet.
 
 ###v1.3 [Dec 25, 2014]
 

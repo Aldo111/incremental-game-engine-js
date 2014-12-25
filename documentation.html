@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Test</title>
+		
+		<style>
+			
+			@font-face {
+			font-family:NewCircle;
+			src: url("css/fonts/NewCircle/New Cicle Fina.ttf");
+			}
+			
+			
+			* {
+			
+				margin:0;
+				padding:0;
+			
+			}
+			
+			html {
+			
+				position:relative;
+				min-height:100%;
+			
+			}
+			
+			#header {
+				position:fixed;
+				z-index:999;
+				top:0;
+				height:50px;	
+				left:0px;
+				right:0;
+				text-align:center;
+				color:#333;
+				background-color:black;
+				color:white;
+				line-height:50px;
+				font-size:25pt;
+				cursor:pointer;
+				
+			
+			}
+			
+			body {
+				height:100%;
+				font-family:NewCircle;
+				font-size:15pt;
+			
+			}
+		
+			#left_bar {
+				position:fixed;
+				background-color:#222;
+				z-index:2;
+
+				width:200px;
+				top:0px;
+				bottom:0;
+				border-right:3px solid #000;
+				overflow-x:hidden;
+				-moz-user-select:none;
+				-o-select:none;
+				-webkit-user-select:none;
+				user-select:none;
+				
+				/*-moz-transition: width 1s;
+				-webkit-transition: width 1s;
+				-o-transition: width 1s;
+				transition: width 1s;
+				*/
+			
+			
+			}
+			
+			#left_bar:hover {
+			
+				width:200px;
+				/*-moz-transition: width 1s;
+				-webkit-transition: width 1s;
+				-o-transition: width 1s;
+				transition: width 1s;*/
+			
+			}
+			
+			.object {
+			
+				width:100%;
+				word-wrap:break-word;
+				overflow:hidden;
+				height:100px;
+				background-color:#050505;
+				color:white;
+				font-size:30pt;
+				text-align:center;
+				line-height:100px;
+				cursor:pointer;
+				border-bottom:5px solid #505050;
+				
+				-moz-transition: background-color 1s;
+				-webkit-transition: background-color 1s;
+				-o-transition: background-color 1s;
+				transition: background-color 1s;
+				
+				
+			
+			}
+			
+			.object:hover {
+			
+				background-color:#0af;
+
+				
+			}
+			
+			.object:active {
+			
+				background-color:black;
+				-moz-transition: background-color 1s;
+				-webkit-transition: background-color 1s;
+				-o-transition: background-color 1s;
+				transition: background-color 1s;
+			
+			}
+			
+			#content {
+			
+			
+				position:absolute;
+				top:50px;
+				bottom:0;
+				left:200px;
+				right:0;
+				padding:20px;
+				z-index:0;
+			}
+			
+		
+			
+			h3 {
+			
+				background-color:#efefef;
+				text-align:center;
+				text-transform:uppercase;
+				padding-top:10px;
+				padding-bottom:10px;
+				height:30px;
+			
+			}
+			
+			h2 + p {
+				position:relative;
+				margin-left:4px;
+				word-wrap:break-word;
+			
+			}
+			
+			/*documentation stuff*/
+			
+			#documentation table td, th {
+			
+				padding:5px;
+				font-size:10pt;
+			
+			}
+			
+			.private_title, .public_title {
+			
+				background-color:#cc3300;
+				color:white;
+				font-family:monospace;
+				text-align:right;
+				border:2px solid black;
+				border-radius:5px;
+			
+			}
+			
+			
+			.private_content, .public_content {
+			
+				background-color:#eee;
+				font-family:monospace;
+				color:black;
+			
+			}
+			
+			.public_title {
+			
+				background-color:#0099cc;
+				padding-left:5px;
+				font-size:12pt;
+				word-wrap:break-word;
+			
+			}
+			
+			.method+p {
+			
+				background-color:#f0f0f0;
+				margin-top:10px;
+				margin-left:10px;	
+				padding:10px;
+				font-size:12pt;
+				word-wrap:break-word;
+			
+			}
+			
+			small {
+			
+				color:#555;
+			
+			}
+			
+			
+			
+		
+		
+		</style>
+		
+		
+		<script src="js/incrementalObject.js"></script>
+		<script src="js/jquery.js"></script>
+		
+		
+		<script>
+		
+			//variables needed
+			
+			var objects=new EntitySet("objects");//stores a list of all the objects
+			//var desc=new AttributeSet();//stores descriptions for each object
+			
+			var current_display=new AttributeSet();//stores what's being displayed currently
+
+			function DefaultType() {	//defines an empty 'Type' for an attribute set --> will probably be implemented in the library
+											
+				return {description:"", variables:[], methods:[]};
+			
+			};
+			
+			
+			function changePage(obj) {
+				
+				$("#welcome").hide(500);
+				$("#documentation").stop(true).hide(500, function() {
+				
+					var name=obj.getName();
+					var descr=obj.getAttribute("description");
+				
+					//get variables html stuff ready
+					var variableHTML="<br><br><h2><u>Variables</u></h4><br>";
+					var vars=obj.getAttribute("variables");
+					for (i in vars)
+					{
+						var line=vars[i].split(":"); 
+												
+						variableHTML+="<tr><th class='"+line[1].trim()+"_title'>"+line[0]+"</th><td class='"+line[1].trim()+"_content'> "+line[2]+"</td></tr>";
+					
+					}				
+					
+					descr+="<table>"+variableHTML+"</table>";
+					
+					//get methods html stuff ready
+					var methodHTML="<br><br><h2><u>Methods</u></h4><br>";
+					var methods=obj.getAttribute("methods");
+					for (i in methods)
+					{
+						var line=methods[i].split(":");
+						methodHTML+="<b class='method "+line[1].trim()+"_title'>"+line[0]+"</b><p style='margin-left:5px;'>"+line[2]+"</p><br>";
+					
+					}
+					
+					descr+=methodHTML;
+				
+					current_display.setAttribute("current_title",name);
+					current_display.setAttribute("current_content",descr);
+					
+					
+					
+					
+					
+				});
+				$("#documentation").show(500);	
+			};
+			
+			
+			function pushToVariables(obj,value)
+			{
+			
+				obj.getAttribute("variables").push(value);
+			
+			}
+			
+			function pushToMethods(obj,value) 
+			{
+				obj.getAttribute("methods").push(value);
+			}
+			
+			function init() {
+			
+				//create a game object to utilize its addClicker()
+				var game=new Game();
+				
+				//setup our entities
+				var ent_common=objects.addEntity("Common",new DefaultType());
+				var ent_game=objects.addEntity("Game",new DefaultType());
+				var ent_es=objects.addEntity("EntitySet", new DefaultType());
+				var ent_e=objects.addEntity("Entity", new DefaultType());
+				var ent_as=objects.addEntity("AttributeSet", new DefaultType());
+				
+				//add the description
+				ent_common.addAttribute("description","<b>Common()</b><br>Object that contains methods and variables common to Game, EntitySet, and Entity (and is inherited by each).");
+				ent_game.addAttribute("description","<b>Game(a_fps)</b><br>The main game object that carries out the game loop and stores other important information and methods.");
+				ent_es.addAttribute("description","<b>EntitySet(n_name,n_attributes)</b><br>A set that stores entities.");
+				ent_e.addAttribute("description","<b>Entity(n_name,n_attributes)</b><br>An object that stores any kind of information. While similar to an AttributeSet, it essentially acts as its own 'item' or 'entity' and serves as a building block for the system.");
+				ent_as.addAttribute("description","<b>AttributeSet(n_attributes)</b><br>A simple JS object (or associative array), which stores key-value pairs, with some extended properties.");
+				
+				
+				pushToVariables(ent_common, "attributes : public : An AttributeSet that is inherited by other objects.");
+				
+				pushToMethods(ent_common, "AttributeSet Methods : private : It has the same methods as AttributeSet's prototype. Hence, each Object can directly access their 'attributes' variable's prototype methods.");
+				pushToMethods(ent_common, "track(attr,ele) : public : Tracks the value represented by key 'attr' in this object's 'attributes' in the HTML element 'ele'.");
+				pushToMethods(ent_common, "untrack(attr) : public : Stops tracking the value represented by key 'attr' in this object's 'attributes'.");
+				pushToMethods(ent_common, "isDefined(a) : public : Checks if passed variable is defined or undefined. Returns true or false respectively.");
+
+				
+				//ent_game attributes
+				pushToVariables(ent_game,"score : private : The main incremental variable - useful for single-variable-incremental games!");
+				pushToVariables(ent_game,"pointsPerSecond : private : The amount by which the main incremental variable, score, changes per second");
+				pushToVariables(ent_game,"pointsPerClick : private : The amount by which the main incremental variable, score, changes per click on the main clicker (HTML element with id #clicker).");
+				pushToVariables(ent_game,"fps : private : The Frames Per Second of the game loop - the number of times the main game loop's code is executed per second.");
+				pushToVariables(ent_game,"seconds : private : Time in seconds between intervals/execution of main game loop code.");
+				pushToVariables(ent_game,"sets : public : Array of EntitySets");
+				pushToVariables(ent_game,"attributes : public : Its own AttributeSet inherited from the Common object.");
+				
+				pushToMethods(ent_game,"getFPS() : public : Returns FPS.");
+				pushToMethods(ent_game,"getScore() : public : Returns the value of the score variable.");
+				pushToMethods(ent_game,"getPointsPerSecond() : public : Returns the value of pointsPerSecond.");
+				pushToMethods(ent_game,"getPointsPerClick() : public : Returns the value of pointsPerClick.");
+				pushToMethods(ent_game,"getSets() : public : Returns the sets array - alternate way of accessing it.");
+				pushToMethods(ent_game,"getSet(set_name) : public : Returns the set corresponding to set_name if it exists - otherwise returns ERR_DOES_NOT_EXIST_CODE.");
+				
+				pushToMethods(ent_game,"increaseScorePerSecond() : public : Increases the score by pointsPerSecond every frame per second (FPS calculation handled automatically).");
+				pushToMethods(ent_game, "increaseScorePerClick() : public : Increase the score by pointsPerClick.");
+				pushToMethods(ent_game, "addToScore(value) : public : Adds 'value' to the score variable.");
+				pushToMethods(ent_game, "addToPointsPerSecond(value) : public : Adds 'value' to the pointsPerSecond variable.");
+				pushToMethods(ent_game, "addSet(n_name) : public : Adds an EntitySet if n_name is an independently pre-existing EntitySet or creates a new set with the name given by 'n_name' and adds it to Game().sets - provided that no set with the same name already exists.");
+				pushToMethods(ent_game, "removeSet(n_name) : public : Removes set of name 'n_name' if it exists, otherwise returns ERR_DOES_NOT_EXIST_CODE.");
+				pushToMethods(ent_game, "addClicker(identifier, func, params) : public : Binds a click event to the HTML Element denoted by 'identifier' which invokes the function 'func' with the parameters 'params' (an array of the parameters to pass - optional) upon the HTML element being clicked.");
+				pushToMethods(ent_game, "removeClicker(identifier) : public : Unbinds the click event from the 'identifier' HTML Element.");
+				pushToMethods(ent_game, "size(thing) : public : Returns the size of the associative array denoted by 'thing'.");
+				pushToMethods(ent_game, "init(options) : public : Binds a click event to an HTML element with the id of '#clicker', which invokes the function increasePointsPerClick().<br><font color='red'>'options' to be incorporated soon.</font>");
+				pushToMethods(ent_game, "play(func) : public : Executes the function referenced by 'func' in the game's main loop. Additionally, all tracked attributes are tracked here.");
+				
+				
+				//ent_es attributes
+				
+				pushToVariables(ent_es, "name : private : The name/unique identifier of this EntitySet.");
+				pushToVariables(ent_es, "entities : private : The array of Entities that belong to this EntitySet. ");
+				pushToVariables(ent_es, "length : public : Number of entities in this set.");
+				pushToVariables(ent_es, "attributes : public : Its own AttributeSet inherited from the Common object.");
+				
+				pushToMethods(ent_es, "getSize() : public : Returns the length variable of this EntitySet.");
+				pushToMethods(ent_es, "getName() : public : Returns the name of this EntitySet.");
+				pushToMethods(ent_es, "getEntities() : public : Returns the entities array.");
+				pushToMethods(ent_es, "getEntity(n_name) : public : Returns the specific entity with the name/unique identifier 'n_name'.");
+				pushToMethods(ent_es, "hasEntity(n_name) : public : Returns true if this EntitySet has an Entity with the name 'n_name', else returns false.");
+				
+				pushToMethods(ent_es, "addEntity(EntityT, attr) : public : Adds a pre-existing Entity if the parameter is only the Entity object itself. Otherwise, creates a new Entity with the name 'EntityT' and attributes 'attr' (latter is optional). In each case, it returns the newly-added entity. Otherwise, it returns an ERR_INVALID_PARAMS_CODE.");
+				pushToMethods(ent_es, "removeEntity(EntityT) : public : Removes the Entity from this set with the name EntityT.");
+
+				//ent_e attributes
+				
+				pushToVariables(ent_e, "name : private : The name/unique identifier of this Entity.");
+				pushToVariables(ent_e, "attributes : public : Its own AttributeSet inherited from the Common object.");
+
+				pushToMethods(ent_e, "getName() : public : Returns the name of this Entity.");
+				
+				
+				//ent_as attributes
+				
+				pushToVariables(ent_as, "[attr]* : public : An attribute value with the key 'attr'.");
+
+				pushToMethods(ent_as, "getAttributes() : public : <b><i>Prototype method</i></b><br> Returns a <font color='red'>COPY</font> of this AttributeSet.");
+				pushToMethods(ent_as, "getAttribute(attr) : public : <b><i>Prototype method</i></b><br> Returns the value represented by the key 'attr', or else returns ERR_DOES_NOT_EXIST_CODE.");
+				pushToMethods(ent_as, "hasAttribute(attr) : public : <b><i>Prototype method</i></b><br> Returns true if this AttributeSet has the key 'attr', else returns false.");
+				pushToMethods(ent_as, "setAttribute(attr,value) : public : <b><i>Prototype method</i></b><br> Sets the new value of the attribute represented by the key 'attr' with 'value'. It can also add an attribute if the attribute does not exist.");
+				pushToMethods(ent_as, "addAttribute(attr,value,ele) : public : <b><i>Prototype method</i></b><br> Same as setAttribute(attr,value) except 'ele' is optional. If 'ele' is specified as an existing HTML element, then this attribute will be tracked in real-interval-time in that element.");
+				pushToMethods(ent_as, "removeAttribute(attr) : public : <b><i>Prototype method</i></b><br> Removes the attribute represented by the key 'attr' from this AttributeSet.");
+				pushToMethods(ent_as, "size() : public : <b><i>Prototype method</i></b><br> Returns number of items/attributes in this AttributeSet.");
+
+				//setup our currently displayed object with the attributes and TRACKS them automatically in the html elements so we don't have to do any DOM manipulation ourselves, save for the little bit below where we add in the objects
+				current_display.addAttribute("current_title", "","#doc_title");
+				current_display.addAttribute("current_content", "","#doc_content");
+				
+				//display the entities
+				var obj=objects.getEntities();
+				for (i in obj) 
+				{
+					
+					$("#objects_list").append("<div class='object' id='object_"+obj[i].getName()+"'>"+obj[i].getName()+"</div>");
+					game.addClicker("#object_"+obj[i].getName(),changePage,[obj[i]]);//add a clicker
+				
+				}
+				
+				//only running play for tracks
+				game.play();
+			
+			};
+			
+			$(document).ready(function() {
+			
+				var game=new Game();
+				init();
+				game.addClicker("#header",getHome);
+				
+				
+			});
+			
+			function getHome() {
+				alert("YO");
+				$("#documentation").stop(true).hide();
+				$("#welcome").stop(true).show(500);
+			
+			};
+		
+		</script>
+		
+	</head>
+	
+	
+	
+	<body>
+		
+		<div id="header">
+		
+			Incremental JS <small>v1.3</small>
+		
+		</div>
+		
+		<div id="left_bar">
+			<h3 style='background-color:black;'></h3>
+			<h3>Objects</h3>
+			<div id="objects_list">
+			
+			</div>
+		
+		</div>
+		
+		<div id="content">
+		
+			<div id="welcome">
+				<h2>Welcome</h2>
+				<p>This page provides documentation that has been created using the EntitySet object. Simply select the object on the left you wish to learn about.</p>
+			
+			</div>
+			
+			<div id="documentation">
+				<h1 id="doc_title"></h2><br>
+				<p id="doc_content"></p>
+			</div>
+			
+		
+		</div>
+		
+		
+		
+	</body>
+	
+</html>
