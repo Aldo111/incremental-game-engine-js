@@ -11,11 +11,6 @@
 		<script src="js/incrementalObject.js"></script>
 		<script>
 			
-			function alert2(msg) {
-			
-				alert(msg);
-			};
-			
 			var game;
 			
 			//our data for a set of houses
@@ -42,7 +37,7 @@
 					var countVariableName="count_"+housey;
 					game.setAttribute(countVariableName,game.getAttribute(countVariableName)+1);
 					
-					if (!("SecretX" in game.getSet("HOUSES").getEntities()) ) //shows how we can dynamically add a new entity to the list of houses - similar methods can be used for achievements and unlocked_achievements
+					if (!game.getSet("HOUSES").hasEntity("SecretX")) //shows how we can dynamically add a new entity to the list of houses - similar methods can be used for achievements and unlocked_achievements
 					{	
 						
 						game.getSet("HOUSES").addEntity("SecretX",{type:"secret", perSecondModifier:5,cost:100000});
@@ -99,14 +94,15 @@
 				
 				//game.removeClicker("#0_house"); //works! 
 				
-				incrementalGame();//run it once then start the loop
-				play();
+				game.play(incrementalGame);
+				
+				//play();
 			};
 			
 			
 			
 			function incrementalGame() {
-				
+			//this function contains our main game loop code
 				
 				
 				
@@ -122,13 +118,15 @@
 				//do stuff
 				game.increaseScorePerSecond();//this increases the score per second 
 											  //using game's internal 'score' variable
-				for (i in Tracks)
+				/*for (i in Tracks)
 				{
 				
 					$(Tracks[i].element).html(Tracks[i].container[Tracks[i].name]);
 					
 				
-				}
+				}*/ 
+				
+				//tracks are automatically maintained in game.play();
 				
 				last_update=Date.now();
 				
@@ -137,20 +135,6 @@
 			
 			}
 			
-			
-			function play() {
-				
-				setInterval(function() {
-				
-					//game code
-					incrementalGame();
-					
-				
-				
-				},1000/game.getFPS());
-			
-			
-			};
 			
 			
 			

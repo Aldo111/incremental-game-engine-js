@@ -7,7 +7,7 @@ A simple Javascript/jQuery framework to allow the quick creation, deployment, an
 
 [TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
 
-[v1.2 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.2")
+[v1.3 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3")
 
 
 Goal
@@ -57,11 +57,11 @@ VERSION CHANGES
 ====
 
 
-###v1.3 [Dec 25, 2014] - (Work-in-progress :: More to come today)
+###v1.3 [Dec 25, 2014]
 
 1. Added Game.addClicker(id,functionToExecute,[params,for,function]) and Game.removeClicker(id) which allows any html element (denoted in id by #id or .class ..etc) to become a clicker for a function.
-
-
+2. Added Game.play(function that needs to be played in the game loop) which runs the game loop function passed 'Game.getFPS() times per second'.
+3. Added EntitySet.hasEntity(entity_name) that returns true/false depending on if an entity with that name exists in this set.
 
 ###v1.2.1 [Dec 24, 2014]
 

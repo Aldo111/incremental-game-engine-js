@@ -277,6 +277,20 @@
 				
 				};
 				
+				//main play function - ultimately will implement web workers and delta timers
+				
+				this.play=function(func) {
+				
+					setInterval(function() {
+						//maintain our tracks
+						for (i in Tracks)
+							$(Tracks[i].element).html(Tracks[i].container[Tracks[i].name]);
+						//execute our functions
+						func();
+					
+					}, 1000/this.getFPS());
+				
+				};				
 				
 			};
 			
@@ -329,6 +343,13 @@
 					}
 					else
 						return ERR_DOES_NOT_EXIST_CODE;
+				
+				};
+				
+				this.hasEntity=function(n_name) {
+
+					return (n_name in this.getEntities());
+				
 				
 				};
 				
