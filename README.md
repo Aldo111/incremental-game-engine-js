@@ -66,7 +66,7 @@ VERSION CHANGES
 1. Game.play() function now handles missed frame execution (i.e. when game runs in background tab and interval time is throttled).
 2. Added Game.addTimer(func, options) that executes a function during the game loop based on timer options passed (once, 'x' times, continuous..etc)
 3. Fixed bug that didn't add attributes of an entity correctly when an entity was passed to EntitySet.addEntity().
-
+4. Fixed bug that didn't add the name correctly to a new entity when another entity was added to a set.
 
 
 ###v1.3.1 [Dec 26, 2014]

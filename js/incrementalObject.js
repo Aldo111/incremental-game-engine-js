@@ -472,13 +472,12 @@
 					if (EntityT instanceof Entity && !(EntityT.getName() in entities) && typeof attr === 'undefined') //make sure you're adding an Entity that doesn't already exist - UNIQUE NAMES
 					{
 						//receiving an entity object
-						entities[EntityT.getName()]=new Entity(EntityT,EntityT.getAttributes()); 
+						entities[EntityT.getName()]=new Entity(EntityT.getName(),EntityT.getAttributes()); 
 						this.length++;
 						return entities[EntityT.getName()];//return this entity in this EntitySet
 					}
 					else if (typeof attr === 'undefined' && !(EntityT instanceof Entity) && !(EntityT in entities)) //else no attributes were given but no entity was passed either, it's just a name that we make sure doesn't exist in the current set already
 					{
-						
 						entities[EntityT]=new Entity(EntityT);
 						this.length++;
 						return entities[EntityT]; //return this entity
