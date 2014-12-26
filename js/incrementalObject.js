@@ -1,5 +1,5 @@
 /*--------------------------------
-	Incremental Game Engine v1.3
+	Incremental Game Engine v1.4
 		Created at https://github.com/Aldo111/incremental-game-engine-js [Started Dec 21, 2014 by Aldo111 on GitHub]
 		Purpose-built library to serve efficient design and development of Incremental/Idle/Clicker games.
 		If you do use this in your game, please provide the proper attribution or linkback to the original creator of this library, that is all!
@@ -120,7 +120,8 @@
 				var pointsPerSecond=0;
 				var pointsPerClick=0;
 				var fps=a_fps;
-				var seconds=1;
+				//var seconds=1;
+				var Timers=[];
 				
 				
 				//PRIVILEGED PUBLIC -> If you want to add your own variables, here is where you would do it : this.<variable_name>=0; accessed by game.<variable_name>
@@ -145,7 +146,9 @@
 					if (set_name in this.sets && typeof set_name !== 'undefined')
 						return this.sets[set_name];
 					else
+					{	
 						return ERR_DOES_NOT_EXIST_CODE;
+					}
 				
 				};
 				
@@ -189,15 +192,16 @@
 					
 				this.addSet=function(n_name) {
 					//adds a set to sets
-					
+
 					if (!(n_name instanceof EntitySet)) //if the passed parameter is not an entity set itself
 					{	
+						
 						this.sets[n_name]=new EntitySet(n_name);//create a new empty entity set with the name given
 						return this.sets[n_name];//after adding a set, return it directly to the user for chaining/adding entities
 					}
 					else
 					{	//store the entity set
-						this.sets[n_name.getName()]=n_name;//because the user wants to add a pre-existing EntitySet --> current if you modify one, both get modified
+						this.sets[n_name.getName()]=n_name;//because the user wants to add a pre-existing EntitySet --> currently if you modify one, both get modified
 						return this.sets[n_name.getName()];//return directly to user for chaining/adding entities
 					}
 					
@@ -253,7 +257,7 @@
 				};
 				
 				this.removeClicker=function(identifier) {
-					alert("done");
+					
 					$(identifier).off("click");//removes clickables
 				
 				};
@@ -285,7 +289,79 @@
 				//main play function - ultimately will implement web workers and delta timers
 				
 				this.play=function(func) {
+					
+					var interval=1000/this.getFPS();
 				
+					var last=new Date() - interval;
+					var current;
+					var missedFrames;
+					
+					function gameCode() {
+						
+						//maintain our timers
+						for (i in Timers)
+						{
+							var n=Timers[i].n, 
+								c=Timers[i].c, 
+								period=Timers[i].period, 
+								last_executed=Timers[i].last_executed,
+								stopped=Timers[i].stopped,
+								times_executed=Timers[i].times_executed;
+							
+							//add interval time passed so far in milliseconds
+							last_executed+=interval;
+							if (last_executed>=period && !stopped && times_executed<n ) // check if this function hasn't been stopped and it's time to run it
+							{	//execute function and reset seconds
+								Timers[i].func();
+								last_executed=0;
+								times_executed++;
+								
+								if (!c && times_executed>=n) //check if not continuous and it has executed the number of times required
+								{	
+									stopped=true;
+								}
+
+							}
+							
+							
+							
+							Timers[i].last_executed=last_executed;
+							Timers[i].times_executed=times_executed;
+							Timers[i].stopped=stopped;
+							
+						
+						}
+						//done with timers
+						
+						//maintain our tracks
+						for (i in Tracks)
+							$(Tracks[i].element).html(Tracks[i].container[Tracks[i].name]);
+						//done with tracks
+						
+						//execute our functions
+						if (typeof func !== 'undefined') func();
+					}
+				
+					(function iterate() {
+						gameCode();
+					
+						current=+new Date();
+						missedFrames=Math.round((current-last) / interval) - 1;
+						
+						while (missedFrames-- > 0) 
+						{ 
+							gameCode(); 
+						}
+					
+						last=+new Date();
+						setTimeout(iterate, interval);
+				
+				
+					})();
+					
+					
+					
+					/*
 					setInterval(function() {
 						//maintain our tracks
 						for (i in Tracks)
@@ -295,8 +371,36 @@
 						if (typeof func !== 'undefined') func();
 					
 					}, 1000/this.getFPS());
+					*/
+				};	
 				
-				};				
+				
+				this.addTimer=function(func,options) {
+				
+					/*OPTIONS:
+					
+					* n : number of times before stopped --> default is 1
+					* c : [true/false] continuous --> default false
+					* period : number of seconds between execution -> default 1 --> internally stored in milliseconds
+					
+					*default behavior: Runs once after 1 second and then stops
+					*/
+					
+					if (this.isDefined(func) && this.isDefined(options))
+					{
+						var n1,c1,period1;
+						n1=this.isDefined(options.n)?options.n:1;
+						c1=this.isDefined(options.c)?options.c:false;
+						period1=this.isDefined(options.period)?options.period:1; //so by default it's executed once only in one second
+						
+						Timers.push({func:func, n:n1, c:c1, period:period1*1000, last_executed:0, stopped:false, times_executed:0});
+						return true;
+					}
+					else
+						return false;
+				
+				};
+				
 				
 			};
 			
@@ -326,7 +430,8 @@
 				
 				//public variables
 				this.length=0;
-				
+				this.entities_save=(function() { return entities; })();
+				this.name_save=(function() { return name; })();
 				//functions
 				
 				//ACCESSORS
@@ -362,12 +467,12 @@
 				//MUTATORS
 				
 				this.addEntity=function(EntityT,attr) {
+
 					//this function adds an Entity and returns 1 if successful - 0 if not
-					
 					if (EntityT instanceof Entity && !(EntityT.getName() in entities) && typeof attr === 'undefined') //make sure you're adding an Entity that doesn't already exist - UNIQUE NAMES
 					{
 						//receiving an entity object
-						entities[EntityT.getName()]=new Entity(EntityT); // ---> NEED TO CHECK IF AN ENTITY IS PASSED TO ENTITY CONSTRUCTOR 
+						entities[EntityT.getName()]=new Entity(EntityT,EntityT.getAttributes()); 
 						this.length++;
 						return entities[EntityT.getName()];//return this entity in this EntitySet
 					}
@@ -383,6 +488,7 @@
 					else if (typeof attr !== 'undefined' && !(EntityT in entities))	//this means that the user has passed a name AND attributes, instead of an entity itself
 					{
 					
+						
 						var en=new Entity(EntityT,attr);
 						entities[en.getName()]=en;
 						this.length++;
@@ -417,6 +523,7 @@
 			
 			
 			//Entity -> essential building blocks of this whole system
+			Entity.prototype=new Common();
 			function Entity(n_name,n_attributes) {
 			
 				
@@ -424,6 +531,7 @@
 				if (typeof n_name !== 'undefined' && typeof n_attributes === 'undefined' && n_name.constructor.name=="Entity" ) //->only n_name is passed, check if it's entity
 				{
 					//copy constructor CODE NOW since we were passed an entity only
+					alert(JSON.stringify(n_name.getAttributes()));
 					Common.call(this,n_name.getAttributes());
 					var name=n_name.getName();
 					
@@ -431,6 +539,7 @@
 				}
 				else
 				{
+
 					var name=n_name;//name of Entity -- must be unique
 					Common.call(this,n_attributes);
 				}
@@ -453,12 +562,16 @@
 					var keys=Object.keys(n_attributes);
 					for (i in keys)
 					{	
+
 						if (keys[i] in this) //probably a prototype method
 						{	
+							
 							return "SPECIAL KEY";
 						}
 						else
+						{
 							this[keys[i]]=n_attributes[keys[i]];
+						}
 					}
 				}
 			
@@ -566,11 +679,6 @@
 
 		
 
-	
-			
-				
-				
 		
-			
 			
 //===

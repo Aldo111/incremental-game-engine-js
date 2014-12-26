@@ -3,7 +3,7 @@
 <html>
 
 	<head>
-		<title>Test</title>
+		<title>Documentation v1.4</title>
 		
 		<style>
 			
@@ -158,6 +158,30 @@
 			
 			}
 			
+			h4 {
+			
+				width:100%;
+				background-color:#fb0;
+				padding:5px;
+				border-radius:5px;
+				margin-top:5px;
+				color:black;
+				font-weight:bold;
+	
+			
+			}
+			
+			h4 + p {
+			
+				margin-left:4px;
+				margin-top:5px;
+				background-color:#f0f0f0;
+				padding:10px;
+				word-wrap:break-word;
+				font-size:14pt;
+			
+			}
+			
 			/*documentation stuff*/
 			
 			#documentation table td, th {
@@ -204,6 +228,8 @@
 				padding:10px;
 				font-size:12pt;
 				word-wrap:break-word;
+				font-family:monospace;
+				
 			
 			}
 			
@@ -330,7 +356,8 @@
 				pushToVariables(ent_game,"pointsPerSecond : private : The amount by which the main incremental variable, score, changes per second");
 				pushToVariables(ent_game,"pointsPerClick : private : The amount by which the main incremental variable, score, changes per click on the main clicker (HTML element with id #clicker).");
 				pushToVariables(ent_game,"fps : private : The Frames Per Second of the game loop - the number of times the main game loop's code is executed per second.");
-				pushToVariables(ent_game,"seconds : private : Time in seconds between intervals/execution of main game loop code.");
+				pushToVariables(ent_game,"Timers : private : Array of functions that have timers on them with some options. ");
+
 				pushToVariables(ent_game,"sets : public : Array of EntitySets");
 				pushToVariables(ent_game,"attributes : public : Its own AttributeSet inherited from the Common object.");
 				
@@ -351,8 +378,9 @@
 				pushToMethods(ent_game, "removeClicker(identifier) : public : Unbinds the click event from the 'identifier' HTML Element.");
 				pushToMethods(ent_game, "size(thing) : public : Returns the size of the associative array denoted by 'thing'.");
 				pushToMethods(ent_game, "init(options) : public : Binds a click event to an HTML element with the id of '#clicker', which invokes the function increasePointsPerClick().<br><font color='red'>'options' to be incorporated soon.</font>");
-				pushToMethods(ent_game, "play(func) : public : Executes the function referenced by 'func' in the game's main loop. Additionally, all tracked attributes are tracked here.");
+				pushToMethods(ent_game, "play(func) : public : Executes the function referenced by 'func' in the game's main loop. Additionally, all tracked attributes and timers/timed-functions are tracked and maintained here.<br><b>As of v1.4, it works in background tabs as well.</b>");
 				
+				pushToMethods(ent_game,"addTimer(func, options) : public : Adds a timer to the function 'func', upon which it executes the function based on 'options' passed. <br><b><u>Options</u></b><br><sup>Must be a JS Object in {key&#58value} format.</sup><br>1. <b>n</b> - number of times before stopped --> default is 1 <br>2. <b>c</b> - [true/false] specify if function should repeat continuously --> default false<br>3. <b>period</b> - number of seconds between executions -> default 1 second.<br><br><i>Default behavior- Runs once after 1 second and then stops</i> ");
 				
 				//ent_es attributes
 				
@@ -380,7 +408,7 @@
 				
 				//ent_as attributes
 				
-				pushToVariables(ent_as, "[attr]* : public : An attribute value with the key 'attr'.");
+				pushToVariables(ent_as, "attr* : public : Multiple different keys with values.");
 
 				pushToMethods(ent_as, "getAttributes() : public : <b><i>Prototype method</i></b><br> Returns a <font color='red'>COPY</font> of this AttributeSet.");
 				pushToMethods(ent_as, "getAttribute(attr) : public : <b><i>Prototype method</i></b><br> Returns the value represented by the key 'attr', or else returns ERR_DOES_NOT_EXIST_CODE.");
@@ -419,7 +447,6 @@
 			});
 			
 			function getHome() {
-				alert("YO");
 				$("#documentation").stop(true).hide();
 				$("#welcome").stop(true).show(500);
 			
@@ -432,10 +459,10 @@
 	
 	
 	<body>
-		
+		<a href="https://github.com/Aldo111/incremental-game-engine-js"><img style='position:absolute;top:0;right:0;z-index:10000;' src='https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png'></a>
 		<div id="header">
 		
-			Incremental JS <small>v1.3</small>
+			Incremental JS <small>v1.4</small>
 		
 		</div>
 		
@@ -452,7 +479,28 @@
 		
 			<div id="welcome">
 				<h2>Welcome</h2>
-				<p>This page provides documentation that has been created using the EntitySet object. Simply select the object on the left you wish to learn about.</p>
+				<p>This page provides documentation for the Incremental Game Engine JS (title and 'engine' works-in-progress!) <br><br>Simply select the object on the left you wish to learn about.<br><br></p>
+				
+				<h4>What can you do with it so far?</h4>
+				<p>
+					1. Create a very simple clicker/incremental game in minutes using the pre-defined score variable and setting an HTML element with the id of 'clicker' and calling game.init()!
+					<br><br>2. Use the library to maintain sets of 'entities' - objects with unique identifiers and attributes, and access these objects and sets in meaningful ways!
+					<br><br>3. Track/Untrack any attributes in an HTML element that are a part of the 'attributes' array in Game, EntitySet, and Entity objects (and any other that inherits Common).
+					<br><br>4. Bind/Unbind a click event on any HTML element to a function that can be executed!
+					<br><br>5. Run games in background tabs by leveraging Game.play()
+					<br><br><br>And much more! The more you get used to it and the more you understand how the different functions work, you will be able to come up with more creative uses for things. If you feel something can be done in a more efficient or programmer-friendly way, please do point it out!
+				
+				</p>
+				
+				<h4>What else is coming?</h4>
+				<p>
+					1. Supplementing Trackers using Timers -> Additional (optional) parameter to all tracker functions that will execute a function if a certain value is reached.
+<br><br>2. Saving/Loading - attempted earlier but ran into unexpected trouble. Will reattempt soon.
+<br><br>3. UI (User Interface) and other related helper functions to help streamline creation of dynamic page elements.
+<br><br><br> And more!
+
+				</p>
+				
 			
 			</div>
 			

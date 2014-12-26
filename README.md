@@ -1,4 +1,4 @@
-incremental-game-engine-js (v1.3.1)
+incremental-game-engine-js (v1.4)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
@@ -9,7 +9,7 @@ A simple Javascript/jQuery framework to allow the quick creation, deployment, an
 
 [TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
 
-[v1.3.1 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3.1")
+[v1.4 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3.1")
 
 
 Goal
@@ -41,24 +41,32 @@ FILES
 
 NOTES
 ====
-1. I will update this README with a quick how-to soon; for now, head over to the tutorial branch to get started!
-2. Although jQuery is used very rarely, it is not at all required and the few jQuery portions of the code that exist can (and in the final version, will) be replaced by vanilla JS.
+
+1. Documentation is live! Check the link above.
+
+2. While it was planned that jQuery would be removed to make this a vanilla JS library, jQuery has more than simplified certain sections of the code to avoid further unnecessary code. 
+	As a result, jQuery will continue to be used for DOM and DOM Events manipulation. A vanilla JS version will also be provided once we have all core features implemented.
+	
 
 
 
-TODO
+TODO (updated)
 ====
 
-1. Allow programmers to add multiple stats of different type -> Attributes system in place, however no 'internal' support just yet
-2. Allow greater control and manipulation of items and item sets. -> Entities System in place
-3. Continue making this awesome and easy to use! -> Work in Progress
+1. Supplementing Trackers using Timers -> Additional (optional) parameter to all tracker functions that will execute a function if a certain value is reached.
+2. Saving/Loading - attempted earlier but ran into unexpected trouble. Will reattempt soon.
+3. UI (User Interface) and other related helper functions to help streamline creation of dynamic page elements.
 
-###As of v1.0:
-4. Make the game loop internal to Game()
-5. Handle out-of-focus window game loops
 
 VERSION CHANGES
 ====
+
+###v1.4 [Dec 26, 2014]
+
+1. Game.play() function now handles missed frame execution (i.e. when game runs in background tab and interval time is throttled).
+2. Added Game.addTimer(func, options) that executes a function during the game loop based on timer options passed (once, 'x' times, continuous..etc)
+3. Fixed bug that didn't add attributes of an entity correctly when an entity was passed to EntitySet.addEntity().
+
 
 
 ###v1.3.1 [Dec 26, 2014]
