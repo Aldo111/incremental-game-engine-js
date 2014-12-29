@@ -56,7 +56,7 @@ TODO (updated)
 1. Supplementing Trackers using Timers -> Additional (optional) parameter to all tracker functions that will execute a function if a certain value is reached.
 2. Saving/Loading - attempted earlier but ran into unexpected trouble. Will reattempt soon.
 3. UI (User Interface) and other related helper functions to help streamline creation of dynamic page elements.
-
+4. Allow the definition of 'required and default attributes' for all Entities of an EntitySet -> essentially giving EntitySets 'types'.
 
 VERSION CHANGES
 ====

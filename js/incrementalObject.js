@@ -1,5 +1,5 @@
 /*--------------------------------
-	Incremental Game Engine v1.4
+	Incremental Game Engine v1.5
 		Created at https://github.com/Aldo111/incremental-game-engine-js [Started Dec 21, 2014 by Aldo111 on GitHub]
 		Purpose-built library to serve efficient design and development of Incremental/Idle/Clicker games.
 		If you do use this in your game, please provide the proper attribution or linkback to the original creator of this library, that is all!
@@ -71,12 +71,12 @@
 				};
 				
 				//prototype- tracks a particular element in an html element
-				this.track=function(attr,ele) {
+				this.track=function(attr,ele,func) {
 					
 					if (typeof attr !== 'undefined' && this.hasAttribute(attr) && typeof ele !=='undefined')
 					{
-					//	alert("Tracking");
-						Tracks.push({container:this.attributes,name:attr,element:ele});
+						
+						Tracks.push({container:this.attributes,name:attr,element:ele,func:func});
 					}
 					else
 						return ERR_DOES_NOT_EXIST_CODE;
@@ -110,6 +110,7 @@
 			
 			function Game(a_fps) {
 			
+
 				Common.call(this);
 				
 				if (typeof a_fps === 'undefined')
@@ -121,7 +122,8 @@
 				var pointsPerClick=0;
 				var fps=a_fps;
 				//var seconds=1;
-				var Timers=[];
+				var Timers=[];//stores objects of timed functions
+				var Flags=[];//stores flags
 				
 				
 				//PRIVILEGED PUBLIC -> If you want to add your own variables, here is where you would do it : this.<variable_name>=0; accessed by game.<variable_name>
@@ -240,17 +242,16 @@
 							params=list;
 						}
 						
-						if (!this.isDefined(params))
+						if (!this.isDefined(params))//empty params
 						{	
 							list=[];
 							var params=[];
 						}
 						
-						$(identifier).on("click", function() {
-					
-							func.apply(null,params);
-					
-						});
+
+						$('body').on('click', identifier, function() { /* --supports dynamic html elements as well--*/
+    							func.apply(null,params);
+						});	
 					}
 					
 				
@@ -259,6 +260,35 @@
 				this.removeClicker=function(identifier) {
 					
 					$(identifier).off("click");//removes clickables
+				
+				};
+				var mouse={x:-1,y:-1};
+				this.addClickerText=function(text) {
+				
+					//pure jquery function
+					
+					//create a dynamic html elment
+					$("body").append("<div id='1945856' class='clickerText'></div>");
+					var particle=$("#1945856").clone();
+					particle.css({"position":"absolute","z-index":10000});
+					
+					//add it to the body
+					$("body").append(particle);
+					
+					//set text
+					particle.html(text);
+					
+					
+					$("body").mousemove(function(e) {
+						mouse.x=e.pageX;
+						mouse.y=e.pageY;
+					});
+					particle.offset({left: (mouse.x - 5), top: (mouse.y-20)});
+					
+					particle.animate({"top": "-=100px"}, 1000, "linear", function() {
+					
+						$(this).remove();//get rid of it... too many divs == slow page
+					});
 				
 				};
 				
@@ -275,6 +305,40 @@
 						
 				};
 				
+				//flags
+				
+				this.addFlag=function(flag) {
+				
+					if (!(flag in Flags))
+					{
+						Flags[flag]=true;
+						return true;
+					}
+					else
+						return false;
+				
+				}
+				
+				this.checkFlag=function(flag) {
+				
+					if (flag in Flags)
+					{
+					
+						return true;
+					
+					}
+					else
+						return false;
+				
+				}
+				
+				this.removeFlag=function(flag) {
+				
+					if (flag in Flags)
+						delete Flags[flag];
+				
+				}
+				
 				
 				//main init
 				
@@ -290,6 +354,17 @@
 				
 				this.play=function(func) {
 					
+					
+					//just need to initialize the clickers for a bit
+					for (var i=0;i<=3;i++)
+					{
+					
+						this.addClickerText("");
+					
+					}
+					
+					
+					//------------------------------
 					var interval=1000/this.getFPS();
 				
 					var last=new Date() - interval;
@@ -297,35 +372,43 @@
 					var missedFrames;
 					
 					function gameCode() {
-						
 						//maintain our timers
 						for (i in Timers)
 						{
+						
 							var n=Timers[i].n, 
 								c=Timers[i].c, 
 								period=Timers[i].period, 
 								last_executed=Timers[i].last_executed,
 								stopped=Timers[i].stopped,
 								times_executed=Timers[i].times_executed;
+								//func=Timers[i].func;
+							
+							if (stopped)
+								continue;
 							
 							//add interval time passed so far in milliseconds
 							last_executed+=interval;
-							if (last_executed>=period && !stopped && times_executed<n ) // check if this function hasn't been stopped and it's time to run it
-							{	//execute function and reset seconds
+							if (last_executed>=period && (!stopped || times_executed<n) ) // check if this function hasn't been stopped and it's time to run it
+							{	
+								//$("#log").html("enter");
+								//execute function and reset seconds
 								Timers[i].func();
 								last_executed=0;
 								times_executed++;
 								
 								if (!c && times_executed>=n) //check if not continuous and it has executed the number of times required
 								{	
+
 									stopped=true;
 								}
 
 							}
 							
 							
-							
 							Timers[i].last_executed=last_executed;
+							//$("#log").html(Timers.length+"c: "+c+", period: "+period+"::"+Timers[i].last_executed);
+
 							Timers[i].times_executed=times_executed;
 							Timers[i].stopped=stopped;
 							
@@ -335,7 +418,19 @@
 						
 						//maintain our tracks
 						for (i in Tracks)
-							$(Tracks[i].element).html(Tracks[i].container[Tracks[i].name]);
+						{	
+							if (typeof Tracks[i].func === 'undefined')
+							{
+							
+								Tracks[i].func=function(value) {
+								
+									return value;
+								};
+							
+							}
+							
+							$(Tracks[i].element).html(Tracks[i].func.apply(null,[Tracks[i].container[Tracks[i].name]]));
+						}
 						//done with tracks
 						
 						//execute our functions
@@ -385,19 +480,20 @@
 					
 					*default behavior: Runs once after 1 second and then stops
 					*/
-					
 					if (this.isDefined(func) && this.isDefined(options))
 					{
 						var n1,c1,period1;
 						n1=this.isDefined(options.n)?options.n:1;
-						c1=this.isDefined(options.c)?options.c:false;
+						c1=this.isDefined(options.c)?options.c:true;
 						period1=this.isDefined(options.period)?options.period:1; //so by default it's executed once only in one second
-						
+
 						Timers.push({func:func, n:n1, c:c1, period:period1*1000, last_executed:0, stopped:false, times_executed:0});
 						return true;
 					}
 					else
+					{
 						return false;
+					}
 				
 				};
 				
@@ -514,6 +610,8 @@
 				
 				};
 				
+				
+				
 			
 			};
 			
@@ -530,7 +628,6 @@
 				if (typeof n_name !== 'undefined' && typeof n_attributes === 'undefined' && n_name.constructor.name=="Entity" ) //->only n_name is passed, check if it's entity
 				{
 					//copy constructor CODE NOW since we were passed an entity only
-					alert(JSON.stringify(n_name.getAttributes()));
 					Common.call(this,n_name.getAttributes());
 					var name=n_name.getName();
 					
