@@ -1,15 +1,20 @@
-incremental-game-engine-js (v1.4)
+incremental-game-engine-js (v1.5)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
 
-[DOCUMENTATION](http://aldo111.github.io/incremental-game-engine-js/documentation.html "v1.3.1")
+
+
+[DOCUMENTATION](http://aldo111.github.io/incremental-game-engine-js/documentation.html "v1.5")
 
 [DEMO](http://aldo111.github.io/incremental-game-engine-js/ "v1.0")
 
 [TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
 
-[v1.4 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.3.1")
+[v1.4 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.4")
+
+[Descent: A v1.5 Simple Survival Game Demo](http://aldo111.github.io/incremental-game-engine-js/demo_survival.html "v1.5") -- NEW
+
 
 
 Goal
@@ -36,7 +41,7 @@ FILES
 5. css/incremental_demo_style.css -> The css of the v1.2 demo.html
 6. tutorial/ -> copy of the tutorial branch, which will soon be updated to reflect v1.2+
 7. EntityExample.html -> very simply example of using an EntitySet and Entity independently and together
-
+8. demo_survival.html -> A simple demo with some basic survival elements demonstrating the creation of a game with v1.5 of this library.
 
 
 NOTES
@@ -54,12 +59,26 @@ TODO (updated)
 ====
 
 1. Supplementing Trackers using Timers -> Additional (optional) parameter to all tracker functions that will execute a function if a certain value is reached.
+(DONE in a way -> Can be taken care of using the optional third argument in Common.track())
+
 2. Saving/Loading - attempted earlier but ran into unexpected trouble. Will reattempt soon.
 3. UI (User Interface) and other related helper functions to help streamline creation of dynamic page elements.
 4. Allow the definition of 'required and default attributes' for all Entities of an EntitySet -> essentially giving EntitySets 'types'.
+5. Add multiple attributes using add/setAttribute
+6. Add a getRandomEntity() function that does exactly that.
+7. Add the ability to give max/default/minimum values for attributes (similar to 4).
+8. Add a game.stop() or game.pause() or equivalent
 
 VERSION CHANGES
 ====
+
+###v1.5 [Dec 29, 2014]
+
+1. Added Game.addFlag(), Game.removeFlag(), Game.checkFlag(), which allows one to store and track particular events/milestones/progress.
+2. Added Game.addClickerText(), which adds text to the mouse's current position and moves it upwards for a second.
+3. Modified Game.addClicker() to handle dynamic HTML elements.
+4. Modified Common.track() to receive an optional third argument - a function, which takes one parameter (the value of the attribute being tracked), and should return the way that parameter must be displayed.
+
 
 ###v1.4 [Dec 26, 2014]
 

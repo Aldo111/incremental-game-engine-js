@@ -5,7 +5,7 @@
 	<head>
 	
 		
-		<title>Survivor (w/v1.5)</title>
+		<title>Descent (w/v1.5)</title>
 		<script src="js/jquery.js"></script>
 		<script src="js/incrementalObject.js"></script>
 		
@@ -23,7 +23,6 @@
 			* {
 				margin:0;
 				padding:0;
-				
 				-o-user-select:none;
 				-webkit-user-select:none;
 				-moz-user-select:none;
@@ -32,6 +31,7 @@
 			}
 			
 			body {
+
 				font-family:monospace;
 				background-color:#f5f5f5;
 			
@@ -40,11 +40,12 @@
 			#header {
 				position:relative;
 				background-color:#202020;
-				height:100px;
+				height:40px;
 				text-align:center;
-				font-size:36pt;
+				font-size:25pt;
 				color:white;
-				line-height:100px;
+				background-color:#efefef;
+				color:black;
 			
 			}
 			
@@ -129,7 +130,7 @@
 			#stats_bar table {
 				position:absolute;
 				width:100%;
-				height:30px;
+				height:50px;
 				top:0;
 				border-spacing:0;
 				padding:0;
@@ -230,14 +231,21 @@
 			}
 			
 			#camp_options {
-				position:relative;
+			
+				position:absolute;
+				left:0;
+				height:400px;
+				overflow:auto;
 				border:2px solid black;
 				border-radius:10px;
 				padding:10px;
 				text-align:left;
-				margin-left:20px;
+				margin-left:10px;
 				margin-bottom:20px;
-				margin-top:20px;		
+				margin-top:0px;
+				width:45%;		
+				display:inline-block;
+				float:left;
 			}
 			
 			
@@ -250,18 +258,24 @@
 			}
 			
 			#log {
-				position:relative;
-				height:300px;
-				width:90%;
+				position:absolute;
+				height:400px;
+				right:0;
+				float:right;
+				width:45%;
 				margin:0 auto;
+				margin-right:10px;
 				border-radius:10px;
-				overflow:hidden;
 				background-color:black;
+				overflow-y:auto;
 				color:white;
 				line-height:24px;
 				padding-top:18px;
 				padding-left:5px;
 				font-size:10pt;
+				display:inline-block;
+				clear:both;
+				overflow-y:auto;
 			
 			}
 			
@@ -286,6 +300,12 @@
 			blue {
 			
 				color:#0af;
+			}
+			
+			dark {
+			
+				color:#555;
+			
 			}
 			
 			hr {
@@ -318,15 +338,15 @@
 			}
 			
 			//template for Upgrades
-			function DefaultUpgrade(name,description,required,effects,required_stats) //effects -> effect_on : effect_value ...eg. health: +50 ..etc -> affects ALL camp participants for simplicity
+			function DefaultUpgrade(name,description,required,effects,required_stats,log_text) //effects -> effect_on : effect_value ...eg. health: +50 ..etc -> affects ALL camp participants for simplicity
 			{
 				//additionally -> all effects values are added at the beginning of each day
 				//required is an array -> stores names of upgrades required so far to build this
-				
+				//required_stats -> object of stats required
 				if (!game.isDefined(required_stats))
 					required_stats={wood:50};
 				
-				return {name:name,description:description,required_upgrades:required,required_stats:required_stats,effects:effects,count:0};
+				return {name:name,description:description,required_upgrades:required,required_stats:required_stats,effects:effects,count:0,log_text:log_text,stop:false};
 			
 			}
 			
@@ -349,7 +369,7 @@
 				
 				//let's add some resource attributes to the game as well
 				game.addAttribute("wood",0,"#wood_amount").addAttribute("metal",0,"#metal_amount").addAttribute("food",0,"#food_amount")
-				.addAttribute("maxWood",5,"#wood_amount_max").addAttribute("Max Metal",0,"#metal_amount_max").addAttribute("maxFood",5,"#food_amount_max")
+				.addAttribute("maxWood",5,"#wood_amount_max").addAttribute("maxMetal",0,"#metal_amount_max").addAttribute("maxFood",5,"#food_amount_max")
 				.addAttribute("day",1);
 				
 				//we use the COMMON.track method to track day because we want to parse it in a specific way using a function - an option currently not available through the shorthand addAttribute(,,track_element) method
@@ -373,18 +393,23 @@
 				
 				//let's add a set for people
 				game.addSet("PEOPLE");
-				game.getSet("PEOPLE").addEntity("Kane", DefaultPerson("Kane", 50,50, 70, 0));
-				game.getSet("PEOPLE").addEntity("Cloe", DefaultPerson("Cloe", 30,30, 40, 0));
-				game.getSet("PEOPLE").addEntity("Alice", DefaultPerson("Alice", 10,30, 50, 0));
+				game.getSet("PEOPLE").addEntity("Kane", DefaultPerson("Kane", 1,50, 70, 0));
+				game.getSet("PEOPLE").addEntity("Cloe", DefaultPerson("Cloe", 1,30, 40, 0));
+				game.getSet("PEOPLE").addEntity("Alice", DefaultPerson("Alice", 1,30, 50, 0));
 				
 				//let's add a set of upgrades for the camp - really simple ones
 				game.addSet("UPGRADES"); //we'll added immediate_effects and required_attributes soon enough
-				game.getSet("UPGRADES").addEntity("Fire", DefaultUpgrade("Start a fire", "Provide warmth and keep morale high at night",[], {happiness:0.005},{wood:10}));
-				game.getSet("UPGRADES").addEntity("Fire_Cook", DefaultUpgrade("Daily Cooking", "Use the fire to cook food everyday",["Fire"], {health:1,food:-1, happiness:-0.002},{wood:1}));
-				game.getSet("UPGRADES").addEntity("Scavenging", DefaultUpgrade("Scavenging I", "Send people to scavenge for supplies",["Fire_Cook"], {wood:2,food:0.25},{wood:30,food:15}));
-				game.getSet("UPGRADES").addEntity("Storage", DefaultUpgrade("Bigger Storage", "Create a new wooden bunker to store more wood and food",["Scavenging"], {maxWood:100}, {wood:50}));
-				game.getSet("UPGRADES").addEntity("Scavenging2", DefaultUpgrade("Hardcore Scavenging", "Find new, potentially more dangerous areas to scavenge through for items",["Scavenging"], {food:2, health:-3},{wood:100,food:45}));
-				
+				game.getSet("UPGRADES").addEntity("Fire", DefaultUpgrade("Start a fire", "Provide warmth and keep morale high at night",[], {happiness:0.005},{wood:10},"<yellow>You started a fire..</yellow>"));
+				game.getSet("UPGRADES").addEntity("Fire_Cook", DefaultUpgrade("Daily Cooking", "Use the fire to cook food everyday",["Fire"], {health:1,food:-1, happiness:0.002,wood:-1},{wood:3},"<yellow>You used a fire to cook food..</yellow>"));
+				game.getSet("UPGRADES").addEntity("Scavenging", DefaultUpgrade("Scavenging I", "Send people to scavenge for supplies",["Fire_Cook"], {wood:2,food:0.25},{wood:30,food:15},"<yellow>You told your people to go out more often to scavenge for stuff..</yellow>"));
+				game.getSet("UPGRADES").addEntity("Storage1", DefaultUpgrade("Big Storage", "ONE-TIME-ONLY: Create a new wooden bunker to store more wood and food",["Scavenging"], {maxWood:100,maxFood:100}, {wood:35},"<yellow>You created a big wooden bunker to store ..wood</yellow>"));
+				game.getSet("UPGRADES").addEntity("Scavenging2", DefaultUpgrade("Hardcore Scavenging", "Find new, potentially more dangerous areas to scavenge through for items",["Scavenging"], {food:2, health:-0.5},{wood:100,food:45},"<yellow>You yell at your campmates to search for more food...</yellow>"));
+				game.getSet("UPGRADES").addEntity("Storage2", DefaultUpgrade("Bigger Storage", "ONE-TIME-ONLY: Create a new wooden bunker to store even <b>more</b> wood and food",["Scavenging","Storage1"], {maxWood:200,maxFood:200,maxMetal:50}, {wood:130},"<yellow>You made another BIGGER wooden bunker...</yellow>"));
+				game.getSet("UPGRADES").addEntity("Storage3", DefaultUpgrade("Biggest Storage", "ONE-TIME-ONLY: The biggest storage you can possibly build!",["Scavenging2","Storage2"], {maxWood:500,maxFood:500,maxMetal:150}, {wood:300},"<yellow>The biggest wooden bunker you have ever made.. you must be so proud of this achievement..</yellow>"));
+				game.getSet("UPGRADES").addEntity("Scavenging3", DefaultUpgrade("Metal Scavenging", "Apparently the camp people know a place where they can find metal...", ["Storage3"], {metal:2,health:-1.5}, {food:10,wood:10},"<yellow>You order your camp minions to find stuff that can actually help..</yellow>"));
+				game.getSet("UPGRADES").addEntity("Winner", DefaultUpgrade("Airplane", "For some reason, you realize that you can build airplanes with the right resources...", ["Scavenging3"], {}, {wood:500,food:250,metal:100},""));
+				game.getSet("UPGRADES").addEntity("Fire_Cook_Better", DefaultUpgrade("Better Cooking", "Use more wood in the fire to cook better food everyday",["Fire_Cook","Storage1","Scavenging"], {health:2,food:-1, happiness:0.002,wood:-3},{wood:27},"<yellow>You used more wood in a fire to cook food..</yellow>"));
+
 				game.addSet("AVAILABLE_UPGRADES").addEntity(game.getSet("UPGRADES").getEntity("Fire")).track("required_stats","#required_Fire",displayRequiredStats);
 
 				//let's bind our 'explore_button' to a function to do stuff upon wanting to explore
@@ -395,10 +420,11 @@
 				hide("#camp_button");
 				hide("#camp_options");
 				hide("#scavenge_button");
+				hide("#metal_scavenge_button");
 				
 				//our upgrade processor
 				game.addTimer(processUpgrades,{c:true,period:5});//process every 5 seconds
-				
+				game.addTimer(function() { log("You should probably explore a bit..");},{c:false,period:3});
 				
 				//let's throw in some starting text to set the mood
 				log("You wake up in the middle of what seems like a forest... you don't know why you're here but you're here.");
@@ -437,7 +463,9 @@
 				//update upwards
 				var i=Math.floor(Math.random()*35);
 				var s=document.getElementById("log");
-				s.innerHTML=text+"<hr>"+s.innerHTML;
+				
+				var day=Math.floor(game.getAttribute("day"));
+				s.innerHTML="<dark>[Day "+day+"]</dark> "+text+"<hr>"+s.innerHTML;
 			
 				//--The following javascript code updates downwards
 					//document.getElementById("log").innerHTML+="<br>"+document.getElementById("log").scrollHeight;
@@ -510,14 +538,14 @@
 				
 					log("Brandishing your "+item.name+", you go around looking for stuff to "+item.verb+".");
 
-					log("You find a very tasty looking dungbeetle...<green>"+chance+" units of Food obtained</green>");
+					log("You find a very tasty looking dungbeetle...<yellow>"+chance+" units of Food obtained</yellow>");
 					food+=chance;
 					if (food >food_max)
 					{	
 						food=food_max;
 						log("<red>You can't carry anymore food</red>");
 					}
-					game.addClickerText("<green>+"+chance+"</green>");
+					game.addClickerText("<yellow>+"+chance+"</yellow>");
 					game.setAttribute("food",food);
 				}
 				else
@@ -596,11 +624,11 @@
 					var req_text=displayRequiredStats(req_stats);
 						
 				
-					x="<li><b class='upgrade_button' id='"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("name")+"</b> - <i>"+u[i].getAttribute("description")+"</i><br><sup><b>Count:</b> <i id='count_"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("count")+"</i> <b>Required:</b> <i id='required_"+u[i].getName()+"'>"+req_text+"</i> "+eftext+"</sup></li>";
+					x="<li><b class='upgrade_button' id='"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("name")+"</b><br><i>"+u[i].getAttribute("description")+"</i><br><sup><b>Count:</b> <i id='count_"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("count")+"</i><br><b>Required:</b> <i id='required_"+u[i].getName()+"'>"+req_text+"</i><br>"+eftext+"</sup></li><hr style='opacity:0.2;width:50%;margin:0 auto;'>";
 
 					if (!game.checkFlag("unlocked_"+u[i].getName()))
 					{	
-						$("#upgrades_list").append(x);//add the element only once into the list
+						$("#upgrades_list").prepend(x);//add the element only once into the list
 						u[i].track("count","#count_"+u[i].getName()+"_upgrade");//track the count
 						game.addFlag("unlocked_"+u[i].getName());
 						game.addClicker("#"+u[i].getName()+"_upgrade",useUpgrade,u[i].getName());
@@ -608,6 +636,8 @@
 						
 						
 					}
+					
+					
 					
 					
 			
@@ -664,6 +694,15 @@
 				
 				//now we need to keep displaying upgrades
 				displayUpgrades();
+				
+				//check if you're dead..
+				if (game.getAttribute("health")<=0 && !game.checkFlag("player_died"))
+				{
+					log("<red>You died...</red>");
+					game.addFlag("player_died");
+					hide("#content");
+					hide("#info_bar");
+				}
 			
 			
 			
@@ -718,6 +757,13 @@
 				
 					var count=g.getAttribute("count")+1;
 					g.setAttribute("count",count);
+					log(g.getAttribute("log_text"));//log its action text
+					
+					//change its style so that the user knows it's unlocked
+					
+					$("#"+g.getName()+"_upgrade").css({"background-color":"#0af"});
+					
+					
 					
 					//check for any 'special upgrades'
 						if (g.getName()=="Scavenging2" && !game.checkFlag("unlocked_hardcore_hunt"))
@@ -726,8 +772,34 @@
 							unlockHardcoreScavenge();
 							game.addFlag("unlocked_hardcore_hunt");
 							game.addClicker("#scavenge_button",unlockHardcoreScavenge);
+							log("<yellow>You realize that holding a few sticks together resembles a club and so you decide to use that to hit more dungbeetles at once!</yellow>");
+							game.getSet("EQUIPPED").getEntity("L_Hand").setAttribute("name","Club");
+							game.getSet("EQUIPPED").getEntity("R_Hand").setAttribute("name","Club");
+
 					
 						}
+						
+						if (g.getName()=="Scavenging3" && !game.checkFlag("unlocked_metal_hunt"))
+						{
+							unlockMetalHunt();
+							game.addFlag("unlocked_metal_hunt");
+							game.addClicker("#metal_scavenge_button",unlockMetalHunt);
+							log("<yellow>You follow your campmates to find an area filled with debris from what seemed like the remains of an airplane.</yellow>");
+						
+						}
+						
+						if (g.getName()=="Winner" && !game.checkFlag("Winner"))
+						{
+							
+							log("<green>After "+Math.floor(game.getAttribute("day"))+" days on this hellish island, you have persevered with only one purpose: Survive. And so you have....</green><red><br>Only to have your plane crash in the middle of nowhere</red><font color='#ff0000'>, runing out of food before resorting to cannibalism and then slowly, painfully dying. Congratulations!</font>");
+							game.addFlag("Winner");
+							hide("#info_bar");
+							hide("#content");
+							
+					
+						}
+						
+						
 					
 					keys=Object.keys(req_stats);
 					
@@ -752,6 +824,7 @@
 			function processUpgrades() 
 			{
 				var c=$("body").css("backgroundColor");
+				//increase day time
 				game.setAttribute("day",game.getAttribute("day")+0.25);
 				
 				
@@ -761,10 +834,12 @@
 				
 				for (var i in g)//var i=0;i<keys_g.length;i++)
 				{
-					
+
 
 					var e=g[i];
 					
+					if (e.getAttribute("stop"))
+						continue;
 					
 					if (e.getAttribute("count")<=0)
 					{	
@@ -779,15 +854,12 @@
 					
 					for (var j in effects)
 					{
+						
 						var count=e.getAttribute("count");
 						var name=j;
 						var value=effects[j]*count;
 						
-						if ((j=="maxWood" && game.checkFlag(e.getName())) || (j=="maxFood" && game.checkFlag(e.getName())))
-							continue;
 						
-						if ((j=="maxWood" && !game.checkFlag(e.getName())) || (j=="maxFood" && !game.checkFlag(e.getName())))
-							game.addFlag(e.getName());
 							
 							
 						if (game.hasAttribute(j))
@@ -803,8 +875,6 @@
 								for (var k in people)
 								{
 									var cur_health=people[k].getAttribute("health")+value;
-									if (cur_health<100)
-										cur_health+=value;
 									if (cur_health>100)
 										cur_health=100;
 									if (cur_health<0)
@@ -819,6 +889,7 @@
 							
 							if (j=="wood" && game.getAttribute(j) > game.getAttribute("maxWood"))game.setAttribute(j,game.getAttribute("maxWood"));
 							if (j=="food" && game.getAttribute(j) > game.getAttribute("maxFood"))game.setAttribute(j,game.getAttribute("maxFood"));
+							if (j=="metal" && game.getAttribute(j) > game.getAttribute("maxMetal"))game.setAttribute(j,game.getAttribute("maxMetal"));
 							
 						}
 						else 
@@ -842,9 +913,53 @@
 					
 					}
 					
+					if (e.getName() =="Storage1" || e.getName()=="Storage2" || e.getName()=="Storage3")
+						e.setAttribute("stop",true);
+					
 				
 				
 				}
+				
+				
+			
+				//other stuff to do at every day/night
+				
+				var people=game.getSet("PEOPLE").getEntities();
+				var all_dead=true;
+				for (var k in people)
+				{
+					/*
+					var food=game.getAttribute("food");
+					if (food<=0)
+					{
+						var health=people[k].getAttribute("health");
+						health-=1;
+						if (health<0) health=0;
+						people[k].setAttribute("health",health);
+					}*/
+					
+					if (people[k].getAttribute("health")>0)
+					{
+						all_dead=false;
+					}
+					
+					if (people[k].getAttribute("health")<=0 && !game.checkFlag("dead_"+people[k].getName()))
+					{
+						log("<red>"+people[k].getName()+" is dead..</red>");
+						game.addFlag("dead_"+people[k].getName());
+					}
+				
+				}
+				//check if everyone's dead
+				if (all_dead && !game.checkFlag("all_dead"))
+				{
+					
+					log("<red>Everyone is dead...</red>");
+					game.addFlag("all_dead");
+
+				
+				}
+				
 				
 			
 			
@@ -865,6 +980,67 @@
 			}
 			
 			
+			function unlockMetalHunt() 
+			{
+			
+				show("#metal_scavenge_button");
+				
+				//we want the user to lose some health - maybe- if he comes here due to all the metal laying around
+				
+				var chance=Math.floor(Math.random()*10);//30% chance of losing health
+				if (chance<4 && chance>0)
+				{
+					var cur_health=game.getAttribute("health");
+					cur_health-=chance;
+					if (cur_health<0)
+						cur_health=0;
+					game.setAttribute("health",cur_health);
+					var parts=["foot","hand","hands","body","chest","back"];
+					var damages=["scratch","bang", "cut", "hurt", "injure"];
+					var verbs=["searching", "scrounging", "scavenging", "looking"];
+					
+					var verb=verbs[Math.floor(Math.random()*verbs.length)];
+					var part=parts[Math.floor(Math.random()*parts.length)];
+					var damage=damages[Math.floor(Math.random()*damages.length)];
+					log("<red>While "+verb+" for metal, you "+damage+" your "+part+", losing <yellow>"+chance+"%</yellow> health in the process.</red>"); 
+				}
+				
+				chance=Math.floor(Math.random()*10);
+				var metal=game.getAttribute("metal");
+				var metal_max=game.getAttribute("maxMetal");
+				
+				var wood=game.getAttribute("wood");
+				var wood_max=game.getAttribute("maxWood");
+				
+				if (chance >4 && metal < metal_max)
+				{
+				
+					metal+=chance;
+					if (metal>metal_max) metal=metal_max;
+					game.setAttribute("metal",metal);
+					log("<blue>You find "+chance+" units of metal!</blue>");
+					game.addClickerText("<blue>+"+chance+"</blue>");
+					
+					if (chance>7 && wood < wood_max)
+					{
+						chance-=Math.floor(Math.random()*3)
+						wood+=chance;
+						if (wood>wood_max)
+							wood=wood_max;
+						game.setAttribute("wood",wood);
+						log("<green>You also find "+chance+" units of wood!</green>");
+					
+					}
+				
+				}
+				else
+					log("You don't find anything..");
+				
+			
+			
+			}
+			
+			
 			
 			
 			
@@ -878,12 +1054,15 @@
 	
 	<body>
 	
-		
+		<div id="header">
+			Descent
+		</div>
 		<div id="info_bar">
 			
 			<ul class="stats">
 				<li>Health: <b id='current_health'></b>%</li>
-				<li>Level: <b id='current_level'></b></li>
+				<!--<li>Level: <b id='current_level'></b></li>-->
+				<li></li>
 				<li><b>Day <span id="day"></span></b></li>
 			</ul>
 			
@@ -912,7 +1091,12 @@
 			<div class='button' id="hunt_button">Hunt</div>
 			<div class='button' id="camp_button">Camp</div>
 			<div class='button' id="scavenge_button">Scavenge</div>
-			<div id="camp_options">
+			<div class='button' id="metal_scavenge_button">Scavenge Metal</div>
+			
+			
+		</div>
+		
+		<div id="camp_options">
 				<b><u>Camp Inhabitants</u></b>
 				<ul id="people_list">
 				</ul>
@@ -921,9 +1105,6 @@
 				<ul id="upgrades_list">
 				</ul>
 			</div>
-			
-		</div>
-	
 		
 		<div id="log">
 		</div>
