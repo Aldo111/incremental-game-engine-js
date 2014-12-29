@@ -3,7 +3,7 @@
 <html>
 
 	<head>
-		<title>Documentation v1.4</title>
+		<title>Documentation v1.5</title>
 		
 		<style>
 			
@@ -346,7 +346,7 @@
 				pushToVariables(ent_common, "attributes : public : An AttributeSet that is inherited by other objects.");
 				
 				pushToMethods(ent_common, "AttributeSet Methods : private : It has the same methods as AttributeSet's prototype. Hence, each Object can directly access their 'attributes' variable's prototype methods.");
-				pushToMethods(ent_common, "track(attr,ele) : public : Tracks the value represented by key 'attr' in this object's 'attributes' in the HTML element 'ele'.");
+				pushToMethods(ent_common, "track(attr,ele,func) : public : Tracks the value represented by key 'attr' in this object's 'attributes' in the HTML element 'ele'.<br><br><b>Optionally, a function can be provided in through 'func' which receives only one value, the attribute itself, and returns the text that should be displayed in the tracking element. By default, if no function is provided, then 'func' is set to a function that simply returns the attributes as is.</b>");
 				pushToMethods(ent_common, "untrack(attr) : public : Stops tracking the value represented by key 'attr' in this object's 'attributes'.");
 				pushToMethods(ent_common, "isDefined(a) : public : Checks if passed variable is defined or undefined. Returns true or false respectively.");
 
@@ -374,8 +374,16 @@
 				pushToMethods(ent_game, "addToPointsPerSecond(value) : public : Adds 'value' to the pointsPerSecond variable.");
 				pushToMethods(ent_game, "addSet(n_name) : public : Adds an EntitySet if n_name is an independently pre-existing EntitySet or creates a new set with the name given by 'n_name' and adds it to Game().sets - provided that no set with the same name already exists.");
 				pushToMethods(ent_game, "removeSet(n_name) : public : Removes set of name 'n_name' if it exists, otherwise returns ERR_DOES_NOT_EXIST_CODE.");
-				pushToMethods(ent_game, "addClicker(identifier, func, params) : public : Binds a click event to the HTML Element denoted by 'identifier' which invokes the function 'func' with the parameters 'params' (an array of the parameters to pass - optional) upon the HTML element being clicked.");
+				pushToMethods(ent_game, "addClicker(identifier, func, params) : public : Binds a click event to the HTML Element denoted by 'identifier' (even dynamic HTML elements as of v1.5), which invokes the function 'func' with the parameters 'params' (an array of the parameters to pass - optional) upon the HTML element being clicked.");
 				pushToMethods(ent_game, "removeClicker(identifier) : public : Unbinds the click event from the 'identifier' HTML Element.");
+				pushToMethods(ent_game, "addFlag(text) : public : Stores the 'text' value in an internal array, Flags.");
+				pushToMethods(ent_game, "checkFlag(text) : public : Returns true/false depending on whether the 'text' exists in the array or not.");
+				pushToMethods(ent_game, "removeFlag(text) : public : Removes the previously-flagged 'text' from the array, Flags.");
+				pushToMethods(ent_game, "addClickerText(text) : public : Adds the 'text' to the mouse, which makes it move upwards like a typical clicker indicator.");
+
+
+
+				
 				pushToMethods(ent_game, "size(thing) : public : Returns the size of the associative array denoted by 'thing'.");
 				pushToMethods(ent_game, "init(options) : public : Binds a click event to an HTML element with the id of '#clicker', which invokes the function increasePointsPerClick().<br><font color='red'>'options' to be incorporated soon.</font>");
 				pushToMethods(ent_game, "play(func) : public : Executes the function referenced by 'func' in the game's main loop. Additionally, all tracked attributes and timers/timed-functions are tracked and maintained here.<br><b>As of v1.4, it works in background tabs as well.</b>");
