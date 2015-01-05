@@ -704,7 +704,7 @@
 				}
 				
 				//now we need to keep displaying upgrades
-				displayUpgrades();
+				//	displayUpgrades();
 				
 				//check if you're dead..
 				if (game.getAttribute("health")<=0 && !game.checkFlag("player_died"))
@@ -980,22 +980,26 @@
 			
 			//other special functions
 			
-			
+			var shown_hardcore;
 			function unlockHardcoreScavenge() 
 			{
-			
-				show("#scavenge_button");
+				if (!shown_hardcore)
+					show("#scavenge_button");
+				shown_hardcore=1;
+				
 				hunt(15);
 			
 			
 			}
 			
+			var shown_metal;
 			
 			function unlockMetalHunt() 
 			{
-			
-				show("#metal_scavenge_button");
-				
+
+				if (!shown_metal)
+					show("#metal_scavenge_button");
+				shown=1;
 				//we want the user to lose some health - maybe- if he comes here due to all the metal laying around
 				
 				var chance=Math.floor(Math.random()*10);//30% chance of losing health
