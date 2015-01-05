@@ -509,7 +509,7 @@
 						log("<red>You can't carry anymore wood</red>");
 	
 					}
-					game.addClickerText("<green>+"+chance+"</green>");
+					//game.addClickerText("<green>+"+chance+"</green>");
 					
 					game.setAttribute("wood",wood);
 				}
@@ -556,7 +556,7 @@
 						food=food_max;
 						log("<red>You can't carry anymore food</red>");
 					}
-					game.addClickerText("<yellow>+"+chance+"</yellow>");
+					//game.addClickerText("<yellow>+"+chance+"</yellow>");
 					game.setAttribute("food",food);
 				}
 				else
@@ -704,7 +704,7 @@
 				}
 				
 				//now we need to keep displaying upgrades
-				//	displayUpgrades();
+				displayUpgrades();
 				
 				//check if you're dead..
 				if (game.getAttribute("health")<=0 && !game.checkFlag("player_died"))
@@ -823,12 +823,11 @@
 					
 					}
 					g.setAttribute("required_stats",req_stats);
-					displayUpgrades();//update upgrades list
 
 					
 				}
 			
-			
+				displayUpgrades();//update upgrades list
 			
 			}
 			
@@ -1034,7 +1033,7 @@
 					if (metal>metal_max) metal=metal_max;
 					game.setAttribute("metal",metal);
 					log("<blue>You find "+chance+" units of metal!</blue>");
-					game.addClickerText("<blue>+"+chance+"</blue>");
+					//game.addClickerText("<blue>+"+chance+"</blue>");
 					
 					if (chance>7 && wood < wood_max)
 					{
