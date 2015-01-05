@@ -366,7 +366,7 @@
 			//our initialization function - where we add our data and bind functions..etc
 			function init() {
 				
-				game=new Game(10);
+				game=new Game(30);
 				
 				//add health/level attributes
 				game.addAttribute("current_level",1,"#current_level").addAttribute("health",10,"#current_health");//.addAttribute("max_health",10,"#max_health");
@@ -428,13 +428,11 @@
 				game.addClicker("#explore_button",explore);
 				
 				//let's hide stuff we don't need just yet
-				/*
 				hide("#hunt_button");
 				hide("#camp_button");
 				hide("#camp_options");
 				hide("#scavenge_button");
 				hide("#metal_scavenge_button");
-				*/
 				
 				//our upgrade processor
 				game.addTimer(processUpgrades,{c:true,period:5});//process every 5 seconds
