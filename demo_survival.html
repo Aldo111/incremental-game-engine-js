@@ -745,9 +745,11 @@
 				if (game.getAttribute("health")<=0 && !game.checkFlag("player_died"))
 				{
 					log("<red>You died...</red>");
-					game.addFlag("player_died");
 					hide("#content");
 					hide("#info_bar");
+					hide("#header");
+					game.addFlag("player_died");
+
 				}
 			
 			
