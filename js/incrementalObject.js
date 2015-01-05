@@ -312,6 +312,7 @@
 					if (!(flag in Flags))
 					{
 						Flags[flag]=true;
+						console.log("Flagged : "+flag);
 						return true;
 					}
 					else
