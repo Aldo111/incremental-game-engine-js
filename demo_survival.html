@@ -413,8 +413,9 @@
 				game.getSet("UPGRADES").addEntity("Fire", DefaultUpgrade("Start a fire", "Provide warmth and keep morale high at night",[], {happiness:0.005},{wood:10},"<yellow>You started a fire..</yellow>"));
 				game.getSet("UPGRADES").addEntity("Fire_Cook", DefaultUpgrade("Daily Cooking", "Use the fire to cook food everyday",["Fire"], {health:1,food:-1, happiness:0.002,wood:-1},{wood:3},"<yellow>You used a fire to cook food..</yellow>"));
 				game.getSet("UPGRADES").addEntity("Scavenging", DefaultUpgrade("Scavenging I", "Send people to scavenge for supplies",["Fire_Cook"], {wood:2,food:0.25},{wood:30,food:15},"<yellow>You told your people to go out more often to scavenge for stuff..</yellow>"));
-				game.getSet("UPGRADES").addEntity("Storage1", DefaultUpgrade("Big Storage", "ONE-TIME-ONLY: Create a new wooden bunker to store more wood and food",["Scavenging"], {maxWood:100,maxFood:100}, {wood:35},"<yellow>You created a big wooden bunker to store ..wood</yellow>"));
 				game.getSet("UPGRADES").addEntity("Scavenging2", DefaultUpgrade("Hardcore Scavenging", "Find new, potentially more dangerous areas to scavenge through for items",["Scavenging"], {food:2, health:-0.5},{wood:100,food:45},"<yellow>You yell at your campmates to search for more food...</yellow>"));
+
+				game.getSet("UPGRADES").addEntity("Storage1", DefaultUpgrade("Big Storage", "ONE-TIME-ONLY: Create a new wooden bunker to store more wood and food",["Scavenging"], {maxWood:100,maxFood:100}, {wood:35},"<yellow>You created a big wooden bunker to store ..wood</yellow>"));
 				game.getSet("UPGRADES").addEntity("Storage2", DefaultUpgrade("Bigger Storage", "ONE-TIME-ONLY: Create a new wooden bunker to store even <b>more</b> wood and food",["Scavenging","Storage1"], {maxWood:200,maxFood:200,maxMetal:50}, {wood:130},"<yellow>You made another BIGGER wooden bunker...</yellow>"));
 				game.getSet("UPGRADES").addEntity("Storage3", DefaultUpgrade("Biggest Storage", "ONE-TIME-ONLY: The biggest storage you can possibly build!",["Scavenging2","Storage2"], {maxWood:500,maxFood:500,maxMetal:150}, {wood:300},"<yellow>The biggest wooden bunker you have ever made.. you must be so proud of this achievement..</yellow>"));
 				game.getSet("UPGRADES").addEntity("Scavenging3", DefaultUpgrade("Metal Scavenging", "Apparently the camp people know a place where they can find metal...", ["Storage3"], {metal:2,health:-1.5}, {food:10,wood:10},"<yellow>You order your camp minions to find stuff that can actually help..</yellow>"));
@@ -509,7 +510,7 @@
 						log("<red>You can't carry anymore wood</red>");
 	
 					}
-					//game.addClickerText("<green>+"+chance+"</green>");
+					game.addClickerText("<green>+"+chance+"</green>");
 					
 					game.setAttribute("wood",wood);
 				}
@@ -556,7 +557,7 @@
 						food=food_max;
 						log("<red>You can't carry anymore food</red>");
 					}
-					//game.addClickerText("<yellow>+"+chance+"</yellow>");
+					game.addClickerText("<yellow>+"+chance+"</yellow>");
 					game.setAttribute("food",food);
 				}
 				else
@@ -613,6 +614,37 @@
 			
 			}
 			
+			function displayUpgrade(u)
+			{
+			
+					var x="";
+					//get all the effects in text
+					var effects=u.getAttribute("effects");
+					var keys=Object.keys(effects);
+					var eftext="<b>Effects</b>: ";
+					for (var j in keys)
+						eftext+=keys[j]+": "+effects[keys[j]]+" ";
+						
+					//get all the required stats in text
+					var req_stats=u.getAttribute("required_stats");
+					var req_text=displayRequiredStats(req_stats);
+						
+				
+					x="<li id='"+u.getName()+"_up'><b class='upgrade_button' id='"+u.getName()+"_upgrade'>"+u.getAttribute("name")+"</b><br><i>"+u.getAttribute("description")+"</i><br><sup><b>Count:</b> <i id='count_"+u.getName()+"_upgrade'>"+u.getAttribute("count")+"</i><br><b>Required:</b> <i id='required_"+u.getName()+"'>"+req_text+"</i><br>"+eftext+"</sup></li><hr style='opacity:0.2;width:50%;margin:0 auto;'>";
+
+					if (!game.checkFlag("unlocked_"+u.getName()))
+					{	
+						$("#upgrades_list").prepend(x);//add the element only once into the list
+						u.track("count","#count_"+u.getName()+"_upgrade");//track the count
+						game.addFlag("unlocked_"+u.getName());
+						game.addClicker("#"+u.getName()+"_upgrade",useUpgrade,u.getName());
+						
+						
+						
+					}
+			
+			}
+			
 			function displayUpgrades()
 			{
 			
@@ -622,6 +654,7 @@
 				var u=game.getSet("AVAILABLE_UPGRADES").getEntities();
 				for (var i in u)
 				{
+					/*
 					var x="";
 					//get all the effects in text
 					var effects=u[i].getAttribute("effects");
@@ -635,7 +668,7 @@
 					var req_text=displayRequiredStats(req_stats);
 						
 				
-					x="<li><b class='upgrade_button' id='"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("name")+"</b><br><i>"+u[i].getAttribute("description")+"</i><br><sup><b>Count:</b> <i id='count_"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("count")+"</i><br><b>Required:</b> <i id='required_"+u[i].getName()+"'>"+req_text+"</i><br>"+eftext+"</sup></li><hr style='opacity:0.2;width:50%;margin:0 auto;'>";
+					x="<li id='"+u[i].getName()+"_up'><b class='upgrade_button' id='"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("name")+"</b><br><i>"+u[i].getAttribute("description")+"</i><br><sup><b>Count:</b> <i id='count_"+u[i].getName()+"_upgrade'>"+u[i].getAttribute("count")+"</i><br><b>Required:</b> <i id='required_"+u[i].getName()+"'>"+req_text+"</i><br>"+eftext+"</sup></li><hr style='opacity:0.2;width:50%;margin:0 auto;'>";
 
 					if (!game.checkFlag("unlocked_"+u[i].getName()))
 					{	
@@ -646,7 +679,8 @@
 						
 						
 						
-					}
+					}*/
+					displayUpgrade(u[i]);
 					
 					
 					
@@ -687,7 +721,7 @@
 					var flag=true;
 					var ar=u[i].getAttribute("required_upgrades");
 					//checking the array of required upgrades and seeing if the user has them in available_upgrades
-					for (j in ar)
+					for (var j in ar)
 					{	
 						//either user doesn't have the upgrade unlocked yet or it's unlocked but it hasn't been used yet
 						if ( !game.getSet("AVAILABLE_UPGRADES").hasEntity(ar[j]) || (game.getSet("AVAILABLE_UPGRADES").hasEntity(ar[j]) && game.getSet("AVAILABLE_UPGRADES").getEntity(ar[j]).getAttribute("count")==0) )
@@ -700,11 +734,12 @@
 					if (flag) //unlock the upgrade
 					{	
 						game.getSet("AVAILABLE_UPGRADES").addEntity(u[i]).track("required_stats","#required_"+name,displayRequiredStats);
+						console.log("Added "+name);
+						displayUpgrade(game.getSet("AVAILABLE_UPGRADES").getEntity(name));
 					}
 				}
 				
-				//now we need to keep displaying upgrades
-				displayUpgrades();
+				
 				
 				//check if you're dead..
 				if (game.getAttribute("health")<=0 && !game.checkFlag("player_died"))
@@ -827,34 +862,77 @@
 					
 				}
 			
-				displayUpgrades();//update upgrades list
+				//displayUpgrades();//update upgrades list
 			
 			}
 			
 			function processUpgrades() 
 			{
-				var c=$("body").css("backgroundColor");
 				//increase day time
 				game.setAttribute("day",game.getAttribute("day")+0.25);
 				
 				
 				var g=game.getSet("AVAILABLE_UPGRADES").getEntities();
-				
-				var keys_g=Object.keys(g);
-				
-				for (var i in g)//var i=0;i<keys_g.length;i++)
+				/*
+				var all="";
+				var x=0;
+				for (var k in g)
 				{
+					
+					console.log("Checking : "+x+". "+g[k].getName()+" stop:"+g[k].getAttribute("stop"));
+					all+=g[k].getName() + "/";
+					x++;
+					
+					
+					
+					
+					if (g[k].getAttribute("stop"))
+					{
+						console.log("^----->Continued");
+						continue;
+					}
+					
+					if (g[k].getAttribute("count")<=0)
+					{	
+						console.log("^----->Breaked");
+						break;
 
+					}
+					
+					
+					//process effects	
+				//	var effects=e.getAttribute("effects");
+					
+					
+					
+					
+				}
+				console.log(all);
+				
+				console.log("Size : "+game.getSet("AVAILABLE_UPGRADES").size());
+				*/
+				
+				
+				var x=0;
+				//var keys_g=Object.keys(g);
+				
+				for (var j in g)//var i=0;i<keys_g.length;i++)
+				{
+					x++;
 
-					var e=g[i];
+					console.log("Checking : "+x+". "+g[j].getName());
+					var e=g[j];
 					
 					if (e.getAttribute("stop"))
+					{
+						console.log("^----->Continued");
 						continue;
+					}
 					
 					if (e.getAttribute("count")<=0)
 					{	
-						
-						break;
+						console.log("^----->Continued Count");
+						continue;
 
 					}
 					
@@ -900,7 +978,6 @@
 							if (j=="wood" && game.getAttribute(j) > game.getAttribute("maxWood"))game.setAttribute(j,game.getAttribute("maxWood"));
 							if (j=="food" && game.getAttribute(j) > game.getAttribute("maxFood"))game.setAttribute(j,game.getAttribute("maxFood"));
 							if (j=="metal" && game.getAttribute(j) > game.getAttribute("maxMetal"))game.setAttribute(j,game.getAttribute("maxMetal"));
-							
 						}
 						else 
 						{	
@@ -920,15 +997,21 @@
 						
 						
 						}
+						console.log("Processed::" + e.getName()+":: Effect:"+j+"->"+value);
+
 					
 					}
 					
-					if (e.getName() =="Storage1" || e.getName()=="Storage2" || e.getName()=="Storage3")
+					if (e.getAttribute("count")!=0 && (e.getName() =="Storage1" || e.getName()=="Storage2" || e.getName()=="Storage3"))
+					{	
+
 						e.setAttribute("stop",true);
-					
+						hide("#"+e.getName()+"_up");
+					}
 				
 				
 				}
+				
 				
 				
 			
@@ -1033,7 +1116,7 @@
 					if (metal>metal_max) metal=metal_max;
 					game.setAttribute("metal",metal);
 					log("<blue>You find "+chance+" units of metal!</blue>");
-					//game.addClickerText("<blue>+"+chance+"</blue>");
+					game.addClickerText("<blue>+"+chance+"</blue>");
 					
 					if (chance>7 && wood < wood_max)
 					{

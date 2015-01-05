@@ -92,7 +92,7 @@
 					if (typeof attr !== 'undefined')
 					{
 				
-						for (i in Tracks)
+						for (var i in Tracks)
 							if (Tracks[i].container===this.attributes && Tracks[i].name==attr) delete Tracks[i];
 				
 					}
@@ -263,13 +263,16 @@
 				
 				};
 				var mouse={x:-1,y:-1};
+				var clickerTexts=0;
 				this.addClickerText=function(text) {
 				
+					clickerTexts=clickerTexts>=1000?1:clickerTexts+1;
 					//pure jquery function
 					
 					//create a dynamic html elment
-					$("body").append("<div id='1945856' class='clickerText'></div>");
-					var particle=$("#1945856").clone();
+					var id="cl_"+clickerTexts;
+					$("body").append("<div id='"+id+"' class='clickerText'></div>");
+					var particle=$("#"+id);
 					particle.css({"position":"absolute","z-index":10000});
 					
 					//add it to the body
@@ -283,9 +286,11 @@
 						mouse.x=e.pageX;
 						mouse.y=e.pageY;
 					});
-					particle.offset({left: (mouse.x - 5), top: (mouse.y-20)});
+					var xOffset=Math.floor(Math.random()*30);
 					
-					particle.animate({"top": "-=100px"}, 1000, "linear", function() {
+					particle.offset({left: (mouse.x - xOffset), top: (mouse.y-20)});
+					
+					particle.animate({"top": "-=100px"}, 500, "linear", function() {
 					
 						$(this).remove();//get rid of it... too many divs == slow page
 					});
@@ -299,7 +304,7 @@
 					//use this to count sets or attributes as they're associative object arrays and therefore .length cannot be used on them
 					var size=0;
 					var keys=Object.keys(thing);
-					for (i in keys)
+					for (var i in keys)
 						size++;
 					return size;
 						
@@ -374,7 +379,7 @@
 					
 					function gameCode() {
 						//maintain our timers
-						for (i in Timers)
+						for (var i in Timers)
 						{
 						
 							var n=Timers[i].n, 
@@ -418,7 +423,7 @@
 						//done with timers
 						
 						//maintain our tracks
-						for (i in Tracks)
+						for (var i in Tracks)
 						{	
 							if (typeof Tracks[i].func === 'undefined')
 							{
@@ -657,7 +662,7 @@
 				if (typeof n_attributes !== 'undefined')
 				{
 					var keys=Object.keys(n_attributes);
-					for (i in keys)
+					for (var i in keys)
 					{	
 
 						if (keys[i] in this) //probably a prototype method
@@ -679,7 +684,7 @@
 				//returns a COPY, not the original, list of attributes
 				var list=[];
 				var keys=Object.keys(this);
-				for (i in keys) 
+				for (var i in keys) 
 				{
 					if (this.hasOwnProperty(keys[i]))
 						list[keys[i]]=this[keys[i]];
@@ -760,7 +765,7 @@
 				//get total number of attributes in this object
 				var l=0;
 				var keys=Object.keys(this);
-				for (i in keys)
+				for (var i in keys)
 				{
 					
 					if (this.hasOwnProperty(keys[i]))
