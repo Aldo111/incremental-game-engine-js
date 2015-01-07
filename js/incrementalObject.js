@@ -1,5 +1,5 @@
 /*--------------------------------
-	Incremental Game Engine v1.5
+	Incremental Game Engine v1.5.1
 		Created at https://github.com/Aldo111/incremental-game-engine-js [Started Dec 21, 2014 by Aldo111 on GitHub]
 		Purpose-built library to serve efficient design and development of Incremental/Idle/Clicker games.
 		If you do use this in your game, please provide the proper attribution or linkback to the original creator of this library, that is all!
@@ -228,6 +228,8 @@
 				//Clicker -> Makes an object clickable
 				this.addClicker=function(identifier,func,params)
 				{
+					//TODO - make this more efficient.. possibly wrap a canvas element for bigger use-cases? Or offer a canvas option?
+				
 					//identifier of html element -> .class, #id ..etc
 					//func -> function to call everytime this is clicked
 					//params -> array of parameters
