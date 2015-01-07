@@ -475,9 +475,9 @@
 			function log(text) { //logs text in the text box
 				//Have to use a fixed number of statements because otherwise, extreme lag follows.
 				var day=Math.floor(game.getAttribute("day"));
-				if (d>=5)
+				if (d>=10)
 				{
-					d=5;
+					d=10;
 					//move everything down by one to make space for this new one
 					var temp="";
 					for (var j=0;j<log_array.length-1;j++)
@@ -867,6 +867,7 @@
 							game.addFlag("Winner");
 							hide("#info_bar");
 							hide("#content");
+							hide("#header");
 							
 					
 						}
