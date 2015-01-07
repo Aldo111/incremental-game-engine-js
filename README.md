@@ -1,4 +1,4 @@
-incremental-game-engine-js (v1.5)
+incremental-game-engine-js (v1.5.1)
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
@@ -13,7 +13,7 @@ A simple Javascript/jQuery framework to allow the quick creation, deployment, an
 
 [v1.4 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.4")
 
-[Descent: A v1.5 Simple Survival Game Demo](http://aldo111.github.io/incremental-game-engine-js/demo_survival.html "v1.5") -- NEW
+[Descent: A v1.5.1 Simple Survival Game Demo](http://aldo111.github.io/incremental-game-engine-js/demo_survival.html "v1.5") -- NEW
 
 
 
@@ -41,7 +41,7 @@ FILES
 5. css/incremental_demo_style.css -> The css of the v1.2 demo.html
 6. tutorial/ -> copy of the tutorial branch, which will soon be updated to reflect v1.2+
 7. EntityExample.html -> very simply example of using an EntitySet and Entity independently and together
-8. demo_survival.html -> A simple demo with some basic survival elements demonstrating the creation of a game with v1.5 of this library.
+8. demo_survival.html -> A simple demo with some basic survival elements demonstrating the creation of a game with v1.5.1 of this library.
 
 
 NOTES
@@ -71,6 +71,12 @@ TODO (updated)
 
 VERSION CHANGES
 ====
+
+###v1.5.1 [Jan 6, 2015]
+
+1. First update of the year - nothing too great. Just a minor change to the way addClickerText works.
+2. Flags are now logged in the console for testing purposes (will be removed in 1.6).
+
 
 ###v1.5 [Dec 29, 2014]
 
