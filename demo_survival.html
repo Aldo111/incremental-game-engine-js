@@ -470,14 +470,38 @@
 				$(ele).hide(x);
 			}
 			
+			var log_array=[];
+			var d=0;
 			function log(text) { //logs text in the text box
-			
-				//update upwards
-				var i=Math.floor(Math.random()*35);
-				var s=document.getElementById("log");
-				
+				//Have to use a fixed number of statements because otherwise, extreme lag follows.
 				var day=Math.floor(game.getAttribute("day"));
-				s.innerHTML="<dark>[Day "+day+"]</dark> "+text+"<hr>"+s.innerHTML;
+				if (d>=5)
+				{
+					d=5;
+					//move everything down by one to make space for this new one
+					var temp="";
+					for (var j=0;j<log_array.length-1;j++)
+					{
+						log_array[j]=log_array[j+1];
+					
+					}
+					
+				}
+				log_array[d]="<dark>[Day "+day+"]</dark> "+text+"<hr>";
+				d++;
+				
+				var text="";
+				for (var j=log_array.length-1;j>=0;j--)
+				{
+				
+					text+=log_array[j];
+				
+				}
+				$("#log").html(text);
+				//update upwards
+//				var s=document.getElementById("log");
+				
+//				s.innerHTML="<dark>[Day "+day+"]</dark> "+text+"<hr>"+s.innerHTML;
 			
 				//--The following javascript code updates downwards
 					//document.getElementById("log").innerHTML+="<br>"+document.getElementById("log").scrollHeight;
@@ -510,7 +534,7 @@
 						log("<red>You can't carry anymore wood</red>");
 	
 					}
-					//game.addClickerText("<green>+"+chance+"</green>");
+					game.addClickerText("<green>+"+chance+"</green>");
 					
 					game.setAttribute("wood",wood);
 				}
@@ -557,7 +581,7 @@
 						food=food_max;
 						log("<red>You can't carry anymore food</red>");
 					}
-					//game.addClickerText("<yellow>+"+chance+"</yellow>");
+					game.addClickerText("<yellow>+"+chance+"</yellow>");
 					game.setAttribute("food",food);
 				}
 				else
@@ -1118,7 +1142,7 @@
 					if (metal>metal_max) metal=metal_max;
 					game.setAttribute("metal",metal);
 					log("<blue>You find "+chance+" units of metal!</blue>");
-					//game.addClickerText("<blue>+"+chance+"</blue>");
+					game.addClickerText("<blue>+"+chance+"</blue>");
 					
 					if (chance>7 && wood < wood_max)
 					{
