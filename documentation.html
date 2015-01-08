@@ -357,7 +357,12 @@
 				pushToVariables(ent_game,"pointsPerSecond : private : The amount by which the main incremental variable, score, changes per second");
 				pushToVariables(ent_game,"pointsPerClick : private : The amount by which the main incremental variable, score, changes per click on the main clicker (HTML element with id #clicker).");
 				pushToVariables(ent_game,"fps : private : The Frames Per Second of the game loop - the number of times the main game loop's code is executed per second.");
-				pushToVariables(ent_game,"Timers : private : Array of functions that have timers on them with some options. ");
+				pushToVariables(ent_game,"Timers : private : Array of objects that store functions that have timers on them with some options. ");
+				pushToVariables(ent_game,"Flags : private : Array of 'flags' that can be checked ");
+				pushToVariables(ent_game,"mouse : private : Object that stores the x and y position of the mouse for use in addClickerText(..) ");
+				pushToVariables(ent_game,"clickerTexts : private : Number of clickerText particles so far (resets after 1000 to 0) - used to give particle an id ");
+
+
 
 				pushToVariables(ent_game,"sets : public : Array of EntitySets");
 				pushToVariables(ent_game,"attributes : public : Its own AttributeSet inherited from the Common object.");
