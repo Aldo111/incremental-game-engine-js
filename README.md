@@ -1,19 +1,23 @@
-incremental-game-engine-js (v1.5.1)
+incremental-game-engine-js (v1.6) 
 ==========================
 
 A simple Javascript/jQuery framework to allow the quick creation, deployment, and expansion of incremental games.
 
+[This project uses the MIT License]
 
 
 [DOCUMENTATION](http://aldo111.github.io/incremental-game-engine-js/documentation.html "v1.5")
 
-[DEMO](http://aldo111.github.io/incremental-game-engine-js/ "v1.0")
+[v1.6 Tutorial 1](http://aldo111.github.io/incremental-game-engine-js/tutorials/1 "v1.6 Tutorial") --> NEW
 
-[TUTORIAL DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorial/demo.html "Demo made with tutorial")
+[Descent: A v1.5.1 Simple Survival Game Demo](http://aldo111.github.io/incremental-game-engine-js/demo_survival.html "v1.5")
+
+---
+
+[v1.1 (OLD TUTORIAL) DEMO](http://aldo111.github.io/incremental-game-engine-js/tutorials/v1.1%20Working%20Tutorial/demo.html "Demo made with old, ugly v1.1 tutorial")
 
 [v1.4 version of Tutorial Demo](http://aldo111.github.io/incremental-game-engine-js/demo.html "v1.4")
 
-[Descent: A v1.5.1 Simple Survival Game Demo](http://aldo111.github.io/incremental-game-engine-js/demo_survival.html "v1.5") -- NEW
 
 
 
@@ -39,7 +43,7 @@ FILES
 3. css/fonts/NewCircle/ -> The font I'm using for the demo page
 4. index.html -> The Demo Page
 5. css/incremental_demo_style.css -> The css of the v1.2 demo.html
-6. tutorial/ -> copy of the tutorial branch, which will soon be updated to reflect v1.2+
+6. tutorials/ -> contains tutorials
 7. EntityExample.html -> very simply example of using an EntitySet and Entity independently and together
 8. demo_survival.html -> A simple demo with some basic survival elements demonstrating the creation of a game with v1.5.1 of this library.
 
@@ -64,13 +68,34 @@ TODO (updated)
 2. Saving/Loading - attempted earlier but ran into unexpected trouble. Will reattempt soon.
 3. UI (User Interface) and other related helper functions to help streamline creation of dynamic page elements.
 4. Allow the definition of 'required and default attributes' for all Entities of an EntitySet -> essentially giving EntitySets 'types'.
-5. Add multiple attributes using add/setAttribute
+5. Add multiple attributes using add/setAttribute (DONE -> updateAttributes)
 6. Add a getRandomEntity() function that does exactly that.
 7. Add the ability to give max/default/minimum values for attributes (similar to 4).
 8. Add a game.stop() or game.pause() or equivalent
 
+As of v1.6
+
+1. Add clicker text over a specific element, not just the mouse
+2. Add hover events, not just clickers
+3. Options for Game()
+4. Shorthands for functions
+**DONE5. Add a "updateAttributes" function that takes in an object of n_attributes and updates/adds attributes accordingly
+6. Get Tracks to update a value as soon as it changes, not just until the next loop
+
 VERSION CHANGES
 ====
+
+###v1.6 [Jan 9, 2015]
+
+1. Common and AttributeSet now have an "updateAttributes(n_attributes)" function that allow multiple attributes to be added/updated through an object
+2. Tracks now only update if there is an actual change in value.
+3. Default FPS is now 1.
+4. AttributeSet.addAttribute and Common.addAttribute now takes an extra, optional, 4th parameter called 'func', same in functionality as track()'s func parameter.
+5. Added a Common.getAttributesOriginal() function which returns the attributes themselves, as opposed to copies like in getAttributes, but ALSO includes the AttributeSet prototype methods
+6. Added track and untrack functions to AttributeSet as well in case one only wants to use AttributeSet and nothing else
+7. Game.addFlag(..) console logging has been removed.
+8. MIT License added. Sorry it took so long!
+
 
 ###v1.5.1 [Jan 6, 2015]
 

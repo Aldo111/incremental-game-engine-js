@@ -660,6 +660,7 @@
 					{	
 						$("#upgrades_list").prepend(x);//add the element only once into the list
 						u.track("count","#count_"+u.getName()+"_upgrade");//track the count
+						u.track("required_stats","#required_"+u.getName(),displayRequiredStats);//track the required stat changes
 						game.addFlag("unlocked_"+u.getName());
 						game.addClicker("#"+u.getName()+"_upgrade",useUpgrade,u.getName());
 						
@@ -970,6 +971,7 @@
 					for (var j in effects)
 					{
 						
+						console.log("Processing "+j);
 						var count=e.getAttribute("count");
 						var name=j;
 						var value=effects[j]*count;

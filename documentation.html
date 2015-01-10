@@ -4,7 +4,7 @@
 <html>
 
 	<head>
-		<title>Documentation v1.5.1</title>
+		<title>Documentation v1.6</title>
 		
 		<style>
 			
@@ -338,7 +338,7 @@
 				
 				//add the description
 				ent_common.addAttribute("description","<b>Common()</b><br>Object that contains methods and variables common to Game, EntitySet, and Entity (and is inherited by each).");
-				ent_game.addAttribute("description","<b>Game(a_fps)</b><br>The main game object that carries out the game loop and stores other important information and methods.");
+				ent_game.addAttribute("description","<b>Game(a_fps)</b><br>The main game object that carries out the game loop and stores other important information and methods. Default FPS, if not passed as an argument, is 1.");
 				ent_es.addAttribute("description","<b>EntitySet(n_name,n_attributes)</b><br>A set that stores entities.");
 				ent_e.addAttribute("description","<b>Entity(n_name,n_attributes)</b><br>An object that stores any kind of information. While similar to an AttributeSet, it essentially acts as its own 'item' or 'entity' and serves as a building block for the system.");
 				ent_as.addAttribute("description","<b>AttributeSet(n_attributes)</b><br>A simple JS object (or associative array), which stores key-value pairs, with some extended properties.");
@@ -346,7 +346,9 @@
 				
 				pushToVariables(ent_common, "attributes : public : An AttributeSet that is inherited by other objects.");
 				
-				pushToMethods(ent_common, "AttributeSet Methods : private : It has the same methods as AttributeSet's prototype. Hence, each Object can directly access their 'attributes' variable's prototype methods.");
+				pushToMethods(ent_common, "*AttributeSet Methods* : private : It has the same methods as AttributeSet's prototype. Hence, each Object can directly access their 'attributes' variable's prototype methods.");
+				pushToMethods(ent_common, "getAttributesOriginal() : public : Returns all the original (not copy, like getAttributes) attributes, including AttributeSet Prototype methods. Not a part of AttributeSet yet.");
+
 				pushToMethods(ent_common, "track(attr,ele,func) : public : Tracks the value represented by key 'attr' in this object's 'attributes' in the HTML element 'ele'.<br><br><b>Optionally, a function can be provided in through 'func' which receives only one value, the attribute itself, and returns the text that should be displayed in the tracking element. By default, if no function is provided, then 'func' is set to a function that simply returns the attributes as is.</b>");
 				pushToMethods(ent_common, "untrack(attr) : public : Stops tracking the value represented by key 'attr' in this object's 'attributes'.");
 				pushToMethods(ent_common, "isDefined(a) : public : Checks if passed variable is defined or undefined. Returns true or false respectively.");
@@ -428,8 +430,12 @@
 				pushToMethods(ent_as, "getAttribute(attr) : public : <b><i>Prototype method</i></b><br> Returns the value represented by the key 'attr', or else returns ERR_DOES_NOT_EXIST_CODE.");
 				pushToMethods(ent_as, "hasAttribute(attr) : public : <b><i>Prototype method</i></b><br> Returns true if this AttributeSet has the key 'attr', else returns false.");
 				pushToMethods(ent_as, "setAttribute(attr,value) : public : <b><i>Prototype method</i></b><br> Sets the new value of the attribute represented by the key 'attr' with 'value'. It can also add an attribute if the attribute does not exist.");
-				pushToMethods(ent_as, "addAttribute(attr,value,ele) : public : <b><i>Prototype method</i></b><br> Same as setAttribute(attr,value) except 'ele' is optional. If 'ele' is specified as an existing HTML element, then this attribute will be tracked in real-interval-time in that element.");
+				pushToMethods(ent_as, "updateAttributes(n_attributes) : public : <b><i>Prototype method</i></b><br> Takes in an object consisting of multiple key/value pairs and adds/updates current AttributeSet (acts the same way as passing an object of key/values to a new AttributeSet(..) )");
+				pushToMethods(ent_as, "addAttribute(attr,value,ele,func) : public : <b><i>Prototype method</i></b><br> Same as setAttribute(attr,value) except 'ele' and 'func' are optional. If 'ele' is specified as an existing HTML element, then this attribute will be tracked in real-interval-time in that element. 'func' that serves the same purpose as in Common.track - it returns how the value should be displayed.");
 				pushToMethods(ent_as, "removeAttribute(attr) : public : <b><i>Prototype method</i></b><br> Removes the attribute represented by the key 'attr' from this AttributeSet.");
+				pushToMethods(ent_as, "track(attr,ele,func) : public : Tracks the value represented by key 'attr' in this object's 'attributes' in the HTML element 'ele'.<br><br><b>Optionally, a function can be provided in through 'func' which receives only one value, the attribute itself, and returns the text that should be displayed in the tracking element. By default, if no function is provided, then 'func' is set to a function that simply returns the attributes as is.</b>");
+				pushToMethods(ent_as, "untrack(attr) : public : Stops tracking the value represented by key 'attr' in this object's 'attributes'.");
+
 				pushToMethods(ent_as, "size() : public : <b><i>Prototype method</i></b><br> Returns number of items/attributes in this AttributeSet.");
 
 				//setup our currently displayed object with the attributes and TRACKS them automatically in the html elements so we don't have to do any DOM manipulation ourselves, save for the little bit below where we add in the objects
@@ -476,7 +482,7 @@
 		<a href="https://github.com/Aldo111/incremental-game-engine-js"><img style='position:absolute;top:0;right:0;z-index:10000;' src='https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png'></a>
 		<div id="header">
 		
-			Incremental JS <small>v1.5.1</small>
+			Incremental JS <small>v1.6</small>
 		
 		</div>
 		

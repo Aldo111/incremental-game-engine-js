@@ -1,0 +1,866 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+	
+		<title>Tutorials</title>
+		<script src="http://aldo111.github.io/incremental-game-engine-js/js/incrementalObject.js"></script>
+		<script src="http://aldo111.github.io/incremental-game-engine-js/js/jquery.js"></script>
+		
+		<style>
+		
+			* {
+				
+				margin:0;
+				padding:0;
+			
+			}
+		
+			body {
+			
+				font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 	
+				background-color:#eee;		
+			}
+			
+			
+			
+			h1 {
+			
+				background-color:#f0f0f0;
+				background-color:#222;
+				font-size:25pt;
+				padding:10px;
+				text-align:center;
+				color:white;
+			
+			}
+			
+			
+			section {
+				
+				
+				font-size:15pt;
+				padding:10px;
+				font-size:13pt;
+			
+			}
+			
+		
+			.subtitle {
+			
+				background-color:#122;
+				color:#0fa;
+				font-weight:bold;
+				text-transform:bold;
+				padding:5px;
+				text-align:center;
+				border-radius:5px;
+				
+			
+			}
+			
+			.subtitle_follow {
+				color:black;
+				background-color:#197;
+				padding:10px;
+				margin:5px;
+				margin-top:0;
+				color:white;
+				font-size:12pt;
+				line-height:18px;
+
+			
+			}
+			ul {
+				padding-left:22px;
+			}
+			
+			ul li {
+			
+				list-style-type:decimal;
+				padding-left:0;
+			
+			}
+			
+			hr {
+			
+				height:2px;
+				border:0;
+				margin-bottom:5px;
+				background-color:#cecece;
+			
+			}
+			
+			div + .caption {
+			
+				background-color:black;
+				color:#e0e0e0;
+				padding:3px;
+				font-size:10pt;
+				margin-left:10px;
+				margin-right:10px;
+				margin-bottom:10px;
+				
+			
+			}
+			
+			number {
+				
+				color:#cecece;
+			
+			}
+			
+			.code {
+			
+				margin:10px;
+				margin-bottom:0px;
+				font-size:10pt;
+
+			
+			}
+			
+			.subtitle + section {
+			
+			
+				background-color:#fff;
+				margin:5px;
+				font-weight:300;
+			
+			}
+			
+			big {
+			
+				background-color:black;
+				color:white;
+				padding:5px;
+				border-radius:25px;
+				margin:5px;
+				font-size:10pt;
+			
+			}
+			li + .explain {
+				position:relative;
+				margin-left:5px;
+				
+				background-color:#f0f0f0;
+			
+			}
+			
+			.content {
+				
+				margin:15px;
+				
+			
+			
+			}
+			
+
+			
+		
+		</style>
+		
+		<script>
+			
+			var game;
+		
+			window.onload=function() {
+			
+			
+			}
+			
+			function init()
+			{
+
+			
+			}
+			
+			function play()
+			{
+			
+
+			}
+			
+		
+		</script>
+		
+	
+	
+	</head>
+	
+	
+	
+	
+	
+	
+	<body>
+
+		<h1>Tutorial 1: Hello IncrementalJS</h1>
+		<section>
+			<div class="subtitle">
+				Purpose
+			</div>
+				
+			<div class="subtitle_follow">
+				To get started with IncrementalJS
+			</div>
+				
+			<div class="subtitle">What should you be able to do by the end of this tutorial?</div>
+			<div class="subtitle_follow">
+				
+						<ul>
+							<li>Initialize and run a very simple incremental game in minutes</li>
+							<li>Add variables known as 'attributes' to your game</li>
+							<li>Track attribute values in HTML elements - in real-time</li>
+							<li>Add Click events to any HTML element on your page to do cool stuff</li>
+							<li>Pat yourself on the back because you did great!</li>
+						</ul>
+			</div>
+		</section>
+		
+		<hr>
+
+		<!--part 1-->
+		
+		<section>
+		
+			<div class="subtitle" id="section_setup" style='color:white;'>
+				<number>1.</number> Setting Up
+			</div>
+			<section>
+			<big>1a</big><b>Starting Web Page</b>
+			<div class='content'>
+			The IncrementalJS Library consists of Javascript objects that help you focus on your game logic with a structure to work with and some really useful features. Over the next few parts in this tutorial, we will examine what these features are and how they help!
+			<br><br>
+			For this tutorial, let's use the following blank HTML template:
+			<div class='code' style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #557799">&lt;!DOCTYPE HTML&gt;</span>
+
+<span style="color: #007700">&lt;html&gt;</span>
+
+	<span style="color: #007700">&lt;head&gt;</span>
+	
+		<span style="color: #007700">&lt;title&gt;</span>Hello IncrementalJS<span style="color: #007700">&lt;/title&gt;</span>
+		
+	<span style="color: #007700">&lt;/head&gt;</span>
+	
+	<span style="color: #007700">&lt;body&gt;</span>
+	
+	
+	
+	<span style="color: #007700">&lt;/body&gt;</span>
+	
+<span style="color: #007700">&lt;/html&gt;</span>
+</pre></div>
+<div class='caption'>1a. The HTML skeleton we want to start with!</div>
+
+Now, the use of this library is directed towards those who, at the very least, have limited Javascript experience and assumes some HTML and CSS knowledge. 
+<br><b>Regardless, if you are a complete beginner to HTML/CSS/Javascript, then here's a brief breakdown of the 3 using the human body as an analogy:</b>
+<div class='subtitle'>
+For HTML/CSS/JS beginners
+</div>
+<div class='subtitle_follow'>
+<b>HTML</b> <i>(HyperText Markup Language) - the code above - provides the basic skeleton/structure of the page</i><br><br>
+<b>CSS</b> <i>(Cascading Style Sheets) - we'll see examples later - provides the style/looks/visuals/formatting for the Skeleton written in HTML</i><br><br>
+<b>Javascript</b> <i>(the 'JS' in IncrementalJS) - a dynamic programming language for the web, in particular client-side (the browser/user's computer side/offline side) - provides dynamic functionality for our pages.</i>
+<br><br>
+So, in keeping with the body analogy,
+<br>HTML provides the skeleton and its components such as the arms, legs, head, eyes ..etc,
+<br>CSS makes the eyes look like eyes, the head look like a head, and so on
+<br>Javascript is the code nature embedded in our brains to do things with our different components, and lets our brain process information when we touch something
+</div>
+</div>
+<hr>
+
+<big>1b</big> <b>Files Required</b><br> 
+<div class='content'>
+Alright so now, let's include the files we require. Currently, the only dependency/external file required by this library is <b>jQuery</b> to carry out certain functionality. It will not be required soon, but for now let's go ahead and include it.
+<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #557799">&lt;!DOCTYPE HTML&gt;</span>
+
+<span style="color: #007700">&lt;html&gt;</span>
+
+	<span style="color: #007700">&lt;head&gt;</span>
+	
+		<span style="color: #007700">&lt;title&gt;</span>Hello IncrementalJS<span style="color: #007700">&lt;/title&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;http://aldo111.github.io/incremental-game-engine-js/js/incrementalObject.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;http://aldo111.github.io/incremental-game-engine-js/js/jquery.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
+		
+		<span style="color: #888888">&lt;!--Our Javascript Code--&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&quot;text/javascript&quot;</span><span style="color: #007700">&gt;</span>
+		
+		
+		<span style="color: #007700">&lt;/script&gt;</span>
+		
+		
+	<span style="color: #007700">&lt;/head&gt;</span>
+	
+	<span style="color: #007700">&lt;body&gt;</span>
+	
+	
+	
+	<span style="color: #007700">&lt;/body&gt;</span>
+	
+<span style="color: #007700">&lt;/html&gt;</span>
+</pre></div>
+
+<div class='caption' >1b. The files we need and script tags for our own javascript code</div>
+
+As you can see, there is another &lt;script&gt; block, which is where all our Javascript code will go into!
+<div class='subtitle'>
+Note: Placement of Javascript in HTML
+</div>
+<div class='subtitle_follow'>
+Many like to place their main Javascript code at the end of the <b>body</b> tags. This is completely alright and normally doesn't make much of a difference in ordinary usage scenarios. It's typically done to let the relevant page elements load/render before getting to the javascript, and is helpful in animation heavy/dynamic pages. This can usually be taken care of, though, using <b>window.onload</b> or other methods such as <b>document.onreadystatechange</b> depending on your use-case and browser support. 
+
+
+</div>
+</div>
+<hr>
+
+<big>1c</big> <b>Our Demo Setup</b><br>
+<div class='content'>
+
+We need some kind of idea to test this stuff with, right? So let's come up with a VERY simple demo, a standard 'Hello World' of sorts for Incremental Games, where all we do is <b>Earn 1 point per click - and for 10 points we can buy an upgrade that gives us 2 points per second!</b>
+<br><br>
+Let's add the following HTML that consists of 
+<ul>
+<li><b>2 buttons</b> (one to earn points and one to buy the upgrade that allows us to get some points per second)</li>
+<li><b>1 element to show our points</b>, and</li>
+<li><b>1 element to show how many points per second we earn</b></li>
+</ul>
+
+<!-- HTML generated using hilite.me --><div class='code' style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;body&gt;</span>
+
+	Points: <span style="color: #007700">&lt;span</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&quot;points&quot;</span><span style="color: #007700">&gt;&lt;/span&gt;</span>
+	<span style="color: #007700">&lt;input</span> <span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&#39;button&#39;</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&#39;earn&#39;</span> <span style="color: #0000CC">value=</span><span style="background-color: #fff0f0">&#39;Earn Points&#39;</span><span style="color: #007700">&gt;</span>
+	
+	<span style="color: #007700">&lt;hr&gt;</span>
+	
+	Points Per Second: <span style="color: #007700">&lt;span</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&quot;points_per_second&quot;</span><span style="color: #007700">&gt;&lt;/span&gt;</span>
+	<span style="color: #007700">&lt;input</span> <span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&#39;button&#39;</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&#39;getSome&#39;</span> <span style="color: #0000CC">value=</span><span style="background-color: #fff0f0">&#39;Get Some!&#39;</span><span style="color: #007700">&gt;</span>
+
+
+
+<span style="color: #007700">&lt;/body&gt;</span>
+</pre></div>
+<div class="caption">1c. Our View/Interface/Display setup</div>
+
+<br><br>
+Similarly, we need to setup our Javascript code.<br><br>
+Most setups can simply be broken down into 3<sup>(maybe even 2 if you combine the first two)</sup> steps:
+<ul>
+<li><b>Declaration</b> - Declare and Include variables/scripts/functions/objects used</li>
+<div class='explain'>We've already included the 2 Javascript files we need.. in addition to that, we need <b>a variable to store IncrementalJS' Game object</b>, <b>a variable to store our points</b>, and <b>a variable to store how many points we earn per second</b></div>
+<li><b>Initialization</b> - Initialize all our variables and/or objects</li>
+<div class='explain'>We'll need <b>a function where we can do all our initializations</b> in one organized place</div>
+<li><b>Execution</b> - Execute our main code.. in this case, our game loop </li>
+<div class='explain'>We'll need <b>a function where we can write code that needs to be executed in every loop of the game</b></div>
+</ul>
+<br>
+Let's also not forget that we actually have to invoke these functions in order for cool things to happen!
+
+<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">&lt;!--Our Javascript Code--&gt;</span>
+<span style="color: #007700">&lt;script </span><span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&quot;text/javascript&quot;</span><span style="color: #007700">&gt;</span>
+
+	<span style="color: #888888">//Variable Declarations &amp; Initializations</span>
+	<span style="color: #008800; font-weight: bold">var</span> game;
+	
+	
+	<span style="color: #888888">//the init() function initializes or sets up our game</span>
+	<span style="color: #008800; font-weight: bold">function</span> init()
+	{
+		
+		game<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">new</span> Game();
+		game.play(play);<span style="color: #888888">//Tells the Game() object's play() function that we want to execute the code in our play() function for every loop iteration in the game loop</span>
+		
+	}
+	
+	<span style="color: #888888">//the play() function contains essential game code</span>
+	<span style="color: #008800; font-weight: bold">function</span> play() 
+	{
+		
+	}
+	
+	<span style="color: #888888">//this checks if the window has loaded - includes the document, and all objects/elements in it - and executes the function init() when it has</span>
+	<span style="color: #007020">window</span>.onload<span style="color: #333333">=</span>init;
+
+<span style="color: #007700">&lt;/script&gt;</span>
+</pre></div>
+<div class="caption">1c. Our Javascript Setup</div>
+That's our lovely, elegant setup! And look, we also <b>created our new Incremental Game object</b> as well as <b>executed our game loop - the game.play(play) kicks off our game loop!</b>.
+
+<div class='subtitle'>
+Game()
+</div>
+<div class='subtitle_follow'>
+The Game() object is IncrementalJS' main object through which almost everything is done! Upon creating a new Game object as above, its internal variable, <b>fps</b> (denotes Frames Per Second - number of times play() is executed per second), is by default set to 1. You can however choose to use a different FPS by doing simply doing: <br><b>
+game=new Game(30); //initializes to 30fps</b> <b style='color:#a00;font-size:9pt;'><br>Caution: If your game loop performs any numeric operations such as addition, you will want to take into account the FPS through game.getFPS() so that you don't increase/decrease values too fast within a particular period of time. We'll see an example near the end in our demo.</b><br><br>
+The Game() object's <b>play(...)</b> function takes a function as an argument and it runs the game loop every 'FPS' times per second, where FPS is the FPS specified - it even runs in the background!
+</div>
+
+But, where are the other two variables we mentioned? And what do we with play() ? When we refresh, we see nothing different than what we had before this javascript. So how do we make things work? <br>
+For that, we need to look at two things: <b>Attributes</b> and <b>Clickers</b>
+
+
+
+
+
+
+
+				</div>
+			</section>
+			
+			<br><br>
+			
+			<div class='subtitle' id="section_attributes" style='color:white;'>
+			2. Attributes and Trackers
+			</div>
+			<section>
+				
+				<big>2a</big><b>What are Attributes?</b>
+				<div class='content'>
+				
+					If you've seen the <a href='http://aldo111.github.io/incremental-game-engine-js/documentation'>Documentation</a> (which you should), you'll see an object called AttributeSet and an object called Common.
+					<br>
+					<b>Common</b> contains variables and functions that are common to and required by each Game, EntitySet, and Entity.<br>
+					But more specifically, it contains one variable called 'attributes', which is simply - an AttributeSet.<br>
+					<b>AttributeSet</b> is an empty javascript object with some helpful Prototype methods (core functions available to all AttributeSets). This stores 'attributes' or variables that we can keep track of in an organized manner in each type of object - whether in the context of Game, an EntitySet, or an Entity.
+					
+				
+				</div>
+				<hr>
+				<big>2b</big><b>K, so AttributeSet is just a glorified object that stores my variables. Now what? How do I use it to make my game?</b>
+				<div class='content'>
+				
+				:( .. Pretty simple:
+				<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+
+<span style="color: #888888">//the init() function initializes or sets up our game</span>
+<span style="color: #008800; font-weight: bold">function</span> init()
+{
+	<span style="color: #888888">//create Game() instance	</span>
+	game<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">new</span> Game();
+	
+	<span style="color: #888888">//add attributes</span>
+	game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>);
+	game.addAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>);
+	
+	<span style="color: #888888">/* </span>
+<span style="color: #888888">		I can also do the following:</span>
+<span style="color: #888888">	</span>
+<span style="color: #888888">			game.addAttribute(&quot;Points&quot;,0).addAttribute(&quot;PointsPerSecond&quot;,0); </span>
+<span style="color: #888888">			</span>
+<span style="color: #888888">	</span>
+<span style="color: #888888">		Hurray for chaining! This works because addAttribute returns the AttributeSet itself</span>
+<span style="color: #888888">		So you can reuse its functions. There's a lot of chaining in IncrementalJS!</span>
+<span style="color: #888888">	*/</span>
+
+	game.play(play);
+	
+}
+
+</pre></div>
+<div class="caption">2b. Adding attributes</div>
+
+<div class='subtitle'>
+AttributeSet/Common
+</div>
+<div class='subtitle_follow'>
+Other than addAttribute, there is also a setAttribute function which is used in the same exact way as addAttribute. Both can be used to update values or add new ones, but setAttribute is semantically used only to update an attribute, while addAttribute can be used to 'track' attributes in shorthand.
+<br><br>
+In order to access an attribute, you can do any of the following:<br>
+<ul>
+<li>Object.getAttribute("name_of_attribute") - <font color='#222'>eg. game.getAttribute("Points")</font></li>
+<li>Object.attributes.name_of_attribute - <font color='#222'>eg. game.attributes.Points </font> <font color='#c00'>(only works when you have non-spaced attribute names)</font></li>
+<li>Object.attributes["name_of_attribute"] - <font color='#222'>eg. game.attributes["Points"] </font> - for when you have spaces
+</ul>
+</div>
+
+If you refresh now, do you see anything cool? <b>Nope</b>, because nothing's changed in our view! We don't even see a damn number!<br>
+So how do we modify the view? <b>It's simple</b>, <strike>We kill the Batm-</strike> we use <b>Trackers</b>
+
+
+				
+				</div>
+				<hr>
+				<big>2c</big><b>Trackers</b>
+				<div class='content'>
+				<b>Trackers</b> are simply little ..cameras that watch your variables <strike>in the locker room</strike> as they change and display them in the HTML element of your choice!<br>
+				
+				There are many different ways to 'track' attributes.. and you can further customize how you want each value to be displayed!
+				
+				<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+<span style="color: #888888">//1. Primary way to track</span>
+game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>);
+game.track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>);
+
+<span style="color: #888888">//2. Chaining - AttributeSets also have track/untrack methods</span>
+game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>).track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>);
+
+<span style="color: #888888">//3. Short-Hand</span>
+game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>); <span style="color: #888888">//note: this will only work with addAttribute, not setAttribute</span>
+
+<span style="color: #888888">//------CUSTOM DISPLAY------\\</span>
+<span style="color: #888888">//Very cool extra feature - each of these tracking methods take an additional argument as a function</span>
+<span style="color: #888888">//this function, should you supply one, should return the string you want to be displayed</span>
+<span style="color: #888888">//in place of the tracked value - also note: the function receives the value as an argument, so have a parameter called &#39;value&#39;</span>
+<span style="color: #888888">//By default, in IncrementalJS, this function simply returns the tracked attribute value</span>
+
+game.track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>, <span style="color: #008800; font-weight: bold">function</span> (value) {
+	
+	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">Math</span>.round(value); <span style="color: #888888">//will only display a rounded value</span>
+});
+
+game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>,<span style="color: #008800; font-weight: bold">function</span> (value) {
+	
+	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">Math</span>.round(value); <span style="color: #888888">//will only display a rounded value</span>
+});
+
+</pre></div>
+<div class="caption">2c. The many ways by which you can track, and custom-display, attribute values</div>
+
+<b>Okay, that's kinda cool. So you're telling me I don't have to do another document.getElementById(".....").innerHTML?</b><br>
+Yep! The only catch here, as you can see in the code, is that you need to supply the 'tag' that is associated with how you identify an element. So, if you're identifying an element by its id, like we are with our &lt;span id="points"&gt;, then we provide a <b>#</b> (hash). If we want to identify by a class, we use a <b>.</b> prefix (.points). Otherwise, we just type the name of the element in (div, span, p, ..etc).
+
+
+<b>Cool, so now let's use this in our little game?</b>
+<br>Absolutely!
+
+<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">&lt;!--Our Javascript Code--&gt;</span>
+<span style="color: #007700">&lt;script </span><span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&quot;text/javascript&quot;</span><span style="color: #007700">&gt;</span>
+
+	<span style="color: #888888">//Variable Declarations &amp; Initializations</span>
+	<span style="color: #008800; font-weight: bold">var</span> game;
+	
+	
+	<span style="color: #888888">//the init() function initializes or sets up our game</span>
+	<span style="color: #008800; font-weight: bold">function</span> init()
+	{
+		<span style="color: #888888">//create Game() instance	</span>
+		game<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">new</span> Game();
+		
+		<span style="color: #888888">//add attributes</span>
+		game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>).track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>);
+		game.addAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="background-color: #fff0f0">&quot;#points_per_second&quot;</span>);
+		
+		
+		
+		game.play(play);
+		
+			
+	}
+	
+	<span style="color: #888888">//the play() function contains essential game code</span>
+	<span style="color: #008800; font-weight: bold">function</span> play() 
+	{
+		
+		
+	}
+	
+	<span style="color: #888888">//this checks if the window has loaded - includes the document, and all objects/elements in it - and executes the function init() when it has</span>
+	<span style="color: #007020">window</span>.onload<span style="color: #333333">=</span>init;
+
+<span style="color: #007700">&lt;/script&gt;</span>
+</pre></div>
+<div class="caption">2c. Our Javascript so far</div>
+Go ahead, refresh your page!
+<br>
+<b>Great, I can now see 0s. But the buttons don't do anything?</b>
+<br>Ah yes, for that, let's check out..
+
+
+				</div>
+				
+				
+				
+				
+			
+			</section>
+			
+			<br><br>
+			
+			<div class='subtitle' id="section_clickers" style='color:white;'>
+			3. Clickers
+			</div>
+			<section>
+				
+				<big>3a</big><b>What are Clickers?</b>
+				<div class='content'>
+				Clickers are HTML elements that have been associated with a click event through the Game object! <b>Only</b> the Game() object comes with an <b>addClicker(...)</b> method.<br>
+				
+				</div>
+				<hr>
+				<big>3b</big><b>How do I use one </b>
+				<div class='content'>
+				Let's see, if we wanted to make our 'Earn Points' button clickable and actually earn us points, we can just do: 
+				<!-- HTML generated using hilite.me --><div class='code' style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+<span style="color: #888888">//add clickers</span>
+game.addClicker(<span style="background-color: #fff0f0">&quot;#earn&quot;</span>,<span style="color: #008800; font-weight: bold">function</span>() { 
+	game.attributes.Points<span style="color: #333333">+=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+});
+
+
+</pre></div>
+<div class="caption">3b. How to use a clicker [Refer to the documentation for additional parameter]</div>
+
+Essentially, you provide the identifier/class/name of the element you want to make clickable, and give it a function to execute on click. We provided an <i>anonymous function</i> function with our code that will henceforth always be executed whenever #earn is clicked.
+
+<b>Great, click-event handling taken care of. What about the other button?</b>
+<br>The syntax for <b>addClicker</b> stays the same, but the code inside our anonymous function will, obviously, be a bit more complex. 
+				
+				<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+game.addClicker(<span style="background-color: #fff0f0">&quot;#getSome&quot;</span>, <span style="color: #008800; font-weight: bold">function</span>() {
+	<span style="color: #888888">//this function also shows another way to access attributes</span>
+	<span style="color: #008800; font-weight: bold">var</span> p<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>);
+	<span style="color: #008800; font-weight: bold">var</span> cost<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">10</span>;
+	<span style="color: #008800; font-weight: bold">var</span> increase<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+	
+	<span style="color: #008800; font-weight: bold">if</span> (p<span style="color: #333333">&gt;=</span>cost)
+	{
+		<span style="color: #888888">//we can buy</span>
+		p<span style="color: #333333">-=</span>cost;
+		game.setAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,p);
+		<span style="color: #008800; font-weight: bold">var</span> pps<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>);
+		pps<span style="color: #333333">+=</span>increase;
+		game.setAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,pps);
+	}
+		
+	
+	
+	
+});
+</pre></div>
+<div class="caption">3b. Code to actually buy stuff - this also shows a different way to access attributes</div>
+
+<br>
+Great, so we have our clickers in place! Let's put it all together!
+</div>
+<hr>
+				<big>3c</big><b>Putting things together </b>
+				<div class='content'>
+				
+				<!-- HTML generated using hilite.me --><div class='code' style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;script&gt;</span>
+<span style="color: #888888">//the init() function initializes or sets up our game</span>
+<span style="color: #008800; font-weight: bold">function</span> init()
+{
+	<span style="color: #888888">//create Game() instance	</span>
+	game<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">new</span> Game();
+	
+	<span style="color: #888888">//add attributes</span>
+	game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>).track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>, <span style="color: #008800; font-weight: bold">function</span>(value) { <span style="color: #008800; font-weight: bold">return</span> value.toFixed(<span style="color: #0000DD; font-weight: bold">0</span>); });
+	game.addAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="background-color: #fff0f0">&quot;#points_per_second&quot;</span>);
+	
+	<span style="color: #888888">//add clickers</span>
+	game.addClicker(<span style="background-color: #fff0f0">&quot;#earn&quot;</span>,<span style="color: #008800; font-weight: bold">function</span>() { 
+		game.attributes.Points<span style="color: #333333">+=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+	});
+	
+	game.addClicker(<span style="background-color: #fff0f0">&quot;#getSome&quot;</span>, <span style="color: #008800; font-weight: bold">function</span>() {
+		<span style="color: #888888">//this function also shows another way to access attributes</span>
+		<span style="color: #008800; font-weight: bold">var</span> p<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>);
+		<span style="color: #008800; font-weight: bold">var</span> cost<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">10</span>;
+		<span style="color: #008800; font-weight: bold">var</span> increase<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+		
+		<span style="color: #008800; font-weight: bold">if</span> (p<span style="color: #333333">&gt;=</span>cost)
+		{
+			<span style="color: #888888">//we can buy</span>
+			p<span style="color: #333333">-=</span>cost;
+			game.setAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,p);
+			<span style="color: #008800; font-weight: bold">var</span> pps<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>);
+			pps<span style="color: #333333">+=</span>increase;
+			game.setAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,pps);
+		}
+			
+		
+		
+		
+	});
+	
+	<span style="color: #888888">//play</span>
+	game.play(play);
+	
+		
+}
+<span style="color: #007700">&lt;/script&gt;</span>
+</pre></div>
+<div class='caption'>3c. Our Init function</div>
+
+You'll notice I added an anonymous function to the track() method for the first attribute, Points. If you recall from the sub-section on trackers (<b>2c</b>), this is an optional function that takes in one parameter, the value of the attribute being tracked, and returns the way it should be displayed. I have simply set it to return no decimals, only the integer itself, in case I decide to change cost from 2 to some other decimal value.
+<br>
+If you refresh your game and try playing it, you'll notice you can <b>earn points</b> and <b>buy more 'Points Per Second'</b>. However, nothing actually happens 'per second'. This is where our <b>play()</b> function comes in handy.
+
+<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">
+<span style="color: #888888">//the play() function contains essential game code</span>
+<span style="color: #008800; font-weight: bold">function</span> play() 
+{
+	
+	<span style="color: #888888">//here we see another way to get/update attributes more quickly</span>
+	<span style="color: #008800; font-weight: bold">var</span> g<span style="color: #333333">=</span>game.attributes;
+	g[<span style="background-color: #fff0f0">&quot;Points&quot;</span>]<span style="color: #333333">+=</span>g[<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>]<span style="color: #333333"><b>/</span>game.getFPS()</b>; 
+	<span style="color: #888888">//divide by FPS because we have to take into account the Frames Per Second when adding anything per Second,</span>
+	
+	
+}
+
+</pre></div>
+<div class="caption">3c. the play() function - also demonstrating yet another way to access attributes</div>
+<br>
+Fairly straightforward, right?<br>
+We're accessing the <i>Points</i> attribute <b>directly</b> and adding to it the <i>PointsPerSecond</i> attribute, since it does make sense. 
+
+<b>But wait, why are we dividing the points added per second by the game's FPS - the game's FPS is 1 by default, so it doesn't matter right?</b>
+<br>
+Yes, in its current state - the FPS of the game is 1 and so the division is unnecessary. But what if you decide to set the FPS to 10, or 15, or 30?<br>
+<br><b>Let's do the math to see what happens if we exclude the divided-by-game.getFPS() and the FPS is 10</b>
+<br>
+Suppose the <b>PPS</b> (points per second) is <b>2</b>. The <b>play()</b> loops runs <b>10</b> times (frames) per second.<br>
+<b>Expected Behaviour</b>: In <b>1</b> second, the <b>Points</b> attribute should increase by 2.<br>
+<b>Actual Behaviour</b>: In <b>1</b> second, the <b>Points</b> attribute increases by 20 per second, because 2 was added 10 times per second.<br>
+<br>
+Hence, in such operations, make sure you factor in the FPS, whether it is 30 or 1 (to be safe). By dividing the FPS here, we are basically adding up 10 parts of 2 in the span of 1 second. 1/10th of 2 is 1/5. So by adding 1/5 <b>ten times</b> to the Points attribute, we get 2 in one second!<br>
+
+10-15 FPS is a good choice because it also updates the tracked variables quicker. Currently, clicking on either button doesn't update the <b>displayed corresponding attribute</b> immediately - the trackers waits until the next loop iteration to update, so we would have to manually throw in a Javascript/HTML text manipulation in our click functions.<br>
+Increasing the FPS would alleviate this problem at this scale.
+
+
+				
+				</div>
+				
+			</section>
+			
+			<br><br>
+			
+			<div class='subtitle' id="section_clickers" style='color:white;'>
+			Final Code - Play with it and make it more interesting
+			</div>
+			<section>
+				
+				<!-- HTML generated using hilite.me --><div class="code" style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #557799">&lt;!DOCTYPE HTML&gt;</span>
+
+<span style="color: #007700">&lt;html&gt;</span>
+
+	<span style="color: #007700">&lt;head&gt;</span>
+	
+		<span style="color: #007700">&lt;title&gt;</span>Hello IncrementalJS<span style="color: #007700">&lt;/title&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;incremental-game-engine-js/js/incrementalObject.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;http://aldo111.github.io/incremental-game-engine-js/js/jquery.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
+		
+		<span style="color: #888888">&lt;!--Our Javascript Code--&gt;</span>
+		<span style="color: #007700">&lt;script </span><span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&quot;text/javascript&quot;</span><span style="color: #007700">&gt;</span>
+		
+			<span style="color: #888888">//Variable Declarations &amp; Initializations</span>
+			<span style="color: #008800; font-weight: bold">var</span> game;
+			
+			
+			<span style="color: #888888">//the init() function initializes or sets up our game</span>
+			<span style="color: #008800; font-weight: bold">function</span> init()
+			{
+				<span style="color: #888888">//create Game() instance	</span>
+				game<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">new</span> Game(<span style="color: #0000DD; font-weight: bold">30</span>);
+				
+				<span style="color: #888888">//add attributes</span>
+				game.addAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>).track(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,<span style="background-color: #fff0f0">&quot;#points&quot;</span>, <span style="color: #008800; font-weight: bold">function</span>(value) { <span style="color: #008800; font-weight: bold">return</span> value.toFixed(<span style="color: #0000DD; font-weight: bold">0</span>); });
+				game.addAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="background-color: #fff0f0">&quot;#points_per_second&quot;</span>);
+				
+				<span style="color: #888888">//play</span>
+				game.play(play);
+				
+				<span style="color: #888888">//add clickers</span>
+				game.addClicker(<span style="background-color: #fff0f0">&quot;#earn&quot;</span>,<span style="color: #008800; font-weight: bold">function</span>() { 
+					game.attributes.Points<span style="color: #333333">+=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+					game.addClickerText(<span style="background-color: #fff0f0">&quot;+2&quot;</span>);<span style="color: #888888">//adds clicker/particle text - still under works!</span>
+				});
+				
+				game.addClicker(<span style="background-color: #fff0f0">&quot;#getSome&quot;</span>, <span style="color: #008800; font-weight: bold">function</span>() {
+					<span style="color: #888888">//this function also shows another way to access attributes</span>
+					<span style="color: #008800; font-weight: bold">var</span> p<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>);
+					<span style="color: #008800; font-weight: bold">var</span> cost<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">10</span>;
+					<span style="color: #008800; font-weight: bold">var</span> increase<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">2</span>;
+					
+					<span style="color: #008800; font-weight: bold">if</span> (p<span style="color: #333333">&gt;=</span>cost)
+					{
+						<span style="color: #888888">//we can buy</span>
+						p<span style="color: #333333">-=</span>cost;
+						game.setAttribute(<span style="background-color: #fff0f0">&quot;Points&quot;</span>,p);
+						<span style="color: #008800; font-weight: bold">var</span> pps<span style="color: #333333">=</span>game.getAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>);
+						pps<span style="color: #333333">+=</span>increase;
+						game.setAttribute(<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>,pps);
+					}
+						
+					
+					
+					
+				});
+				
+				
+				
+					
+			}
+			
+			<span style="color: #888888">//the play() function contains essential game code</span>
+			<span style="color: #008800; font-weight: bold">function</span> play() 
+			{
+				
+				<span style="color: #888888">//here we see another way to get/update attributes more quickly</span>
+				<span style="color: #008800; font-weight: bold">var</span> g<span style="color: #333333">=</span>game.attributes;
+				g[<span style="background-color: #fff0f0">&quot;Points&quot;</span>]<span style="color: #333333">+=</span>g[<span style="background-color: #fff0f0">&quot;PointsPerSecond&quot;</span>]<span style="color: #333333">/</span>game.getFPS(); 
+				<span style="color: #888888">//divide by FPS because we have to take into account the Frames Per Second when adding anything per Second, because this play() loop is execute game.getFPS() times per second!</span>
+				
+				
+			}
+			
+			<span style="color: #888888">//this checks if the window has loaded - includes the document, and all objects/elements in it - and executes the function init() when it has</span>
+			<span style="color: #007020">window</span>.onload<span style="color: #333333">=</span>init;
+		
+		<span style="color: #007700">&lt;/script&gt;</span>
+		
+		
+	<span style="color: #007700">&lt;/head&gt;</span>
+	
+	<span style="color: #007700">&lt;body&gt;</span>
+	
+		Points: <span style="color: #007700">&lt;span</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&quot;points&quot;</span><span style="color: #007700">&gt;&lt;/span&gt;</span>
+		<span style="color: #007700">&lt;input</span> <span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&#39;button&#39;</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&#39;earn&#39;</span> <span style="color: #0000CC">value=</span><span style="background-color: #fff0f0">&#39;Earn Points&#39;</span><span style="color: #007700">&gt;</span>
+		
+		<span style="color: #007700">&lt;hr&gt;</span>
+		
+		Points Per Second: <span style="color: #007700">&lt;span</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&quot;points_per_second&quot;</span><span style="color: #007700">&gt;&lt;/span&gt;</span>
+		<span style="color: #007700">&lt;input</span> <span style="color: #0000CC">type=</span><span style="background-color: #fff0f0">&#39;button&#39;</span> <span style="color: #0000CC">id=</span><span style="background-color: #fff0f0">&#39;getSome&#39;</span> <span style="color: #0000CC">value=</span><span style="background-color: #fff0f0">&#39;Get Some!&#39;</span><span style="color: #007700">&gt;</span>
+	
+	
+	
+	<span style="color: #007700">&lt;/body&gt;</span>
+	
+<span style="color: #007700">&lt;/html&gt;</span>
+</pre></div>
+
+				
+			</section>
+			
+			
+			<div class='subtitle'>
+			Wrap-Up
+			</div>
+			
+			<div class='subtitle_follow'>
+			So that's pretty much it! There are a lot more small-medium-big features, such as flags, timers for functions, particle/clickerTexts (I threw in a clickerText in the code above, it should popup when you click Earn Points) the other objects EntitySet and Entity - I will post a tutorial on these soon as well!<br><br>
+			I really hope, despite the length of this tutorial to convey the creation of a very simply test - you find this library useful and I welcome any and all suggestions! I encourage you to read the <a href='http://aldo111.github.io/incremental-game-engine-js/documentation'>Documentation</a> if you are interested in knowing about the other things and are willing to try experimenting with them!<br><br>
+			I previously made a game after v1.5, <a href='http://aldo111.github.io/incremental-game-engine-js/demo_survival.html'>Descent</a> so you are welcome to examine the Javascript portion of the source code, in particular the init() function, to see how EntitySets and/or Entities are used!
+			
+			
+			</div>
+		
+		
+		
+		<!--end tutorial-->
+		</section>
+		
+		
+		
+		
+		
+	</body>
+	
+		
+		
+	
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<head>
+	
+		<title>Hello IncrementalJS w/v1.6</title>
+		<script src="http://aldo111.github.io/incremental-game-engine-js/js/incrementalObject.js"></script>
+
+		<script src="http://aldo111.github.io/incremental-game-engine-js/js/jquery.js"></script>
+		
+		<!--Our Javascript Code-->
+		<script type="text/javascript">
+		
+			//Variable Declarations & Initializations
+			var game;
+			
+			
+			//the init() function initializes or sets up our game
+			function init()
+			{
+				//create Game() instance	
+				game=new Game(30);
+				
+				//add attributes
+				game.addAttribute("Points",0).track("Points","#points", function(value) { return value.toFixed(0); });
+				game.addAttribute("PointsPerSecond",0,"#points_per_second");
+				
+				//play
+				game.play(play);
+				
+				//add clickers
+				game.addClicker("#earn",function() { 
+					game.attributes.Points+=2;
+					game.addClickerText("+2");//adds clicker/particle text - still under works!
+				});
+				
+				game.addClicker("#getSome", function() {
+					//this function also shows another way to access attributes
+					var p=game.getAttribute("Points");
+					var cost=10;
+					var increase=2;
+					
+					if (p>=cost)
+					{
+						//we can buy
+						p-=cost;
+						game.setAttribute("Points",p);
+						var pps=game.getAttribute("PointsPerSecond");
+						pps+=increase;
+						game.setAttribute("PointsPerSecond",pps);
+					}
+						
+					
+					
+					
+				});
+				
+				
+				
+					
+			}
+			
+			//the play() function contains essential game code
+			function play() 
+			{
+				
+				//here we see another way to get/update attributes more quickly
+				var g=game.attributes;
+				g["Points"]+=g["PointsPerSecond"]/game.getFPS(); 
+				//divide by FPS because we have to take into account the Frames Per Second when adding anything per Second, because this play() loop is execute game.getFPS() times per second!
+				
+				
+			}
+			
+			//this checks if the window has loaded - includes the document, and all objects/elements in it - and executes the function init() when it has
+			window.onload=init;
+		
+		</script>
+		
+		
+	</head>
+	
+	<body>
+	
+		Points: <span id="points"></span>
+		<input type='button' id='earn' value='Earn Points'>
+		
+		<hr>
+		
+		Points Per Second: <span id="points_per_second"></span>
+		<input type='button' id='getSome' value='Get Some!'>
+	
+	
+	
+	</body>
+	
+</html>

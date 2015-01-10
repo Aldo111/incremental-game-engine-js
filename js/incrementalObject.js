@@ -6,6 +6,7 @@
 ----------------------------------*/
 
 //===
+	
 			
 	//some constants -> if some function is not working as expected, check its return value, if any, against these errors
 			const ERR_DOES_NOT_EXIST_CODE="errdne-999";
@@ -13,6 +14,15 @@
 			const SUCC_CODE="success10101010";
 	//other global variables
 			var Tracks=[];
+			
+	//window changes
+			// shim layer with setTimeout fallback
+			window.requestAnimFrame = (function(){
+ 				 return  window.requestAnimationFrame       ||
+         				 window.webkitRequestAnimationFrame ||
+          				window.mozRequestAnimationFrame    ||
+         				 false;
+			})();
 			
 	//Function that stores common elements
 			function Common(n_attributes) {
@@ -29,9 +39,12 @@
 				this.setAttribute=function(attr,value) {
 					return this.attributes.setAttribute(attr,value);
 				};
-				this.addAttribute=function(attr,value,ele) {
+				this.updateAttributes=function(n_attributes) {				
+					return this.attributes.updateAttributes(n_attributes);
+				};
+				this.addAttribute=function(attr,value,ele,func) {
 					
-					return this.attributes.addAttribute(attr,value,ele);
+					return this.attributes.addAttribute(attr,value,ele,func);
 				};
 				
 				this.hasAttribute=function(attr) {
@@ -69,6 +82,12 @@
 					return this.attributes.getAttributes();
 					
 				};
+				
+				this.getAttributesOriginal=function() {
+				
+					return this.attributes; //WARNING - comes with the AttributeSet prototype methods... use a for-in loop and check the counter variable against the attributes you want or check against the size as above
+				
+				}
 				
 				//prototype- tracks a particular element in an html element
 				this.track=function(attr,ele,func) {
@@ -114,7 +133,7 @@
 				Common.call(this);
 				
 				if (typeof a_fps === 'undefined')
-					 a_fps=30;//default fps
+					 a_fps=1;//default fps
 				
 				//PRIVATE variables
 				var score=0;
@@ -319,7 +338,6 @@
 					if (!(flag in Flags))
 					{
 						Flags[flag]=true;
-						console.log("Flagged : "+flag);
 						return true;
 					}
 					else
@@ -437,7 +455,12 @@
 							
 							}
 							
-							$(Tracks[i].element).html(Tracks[i].func.apply(null,[Tracks[i].container[Tracks[i].name]]));
+							
+							var text=Tracks[i].func.apply(null,[Tracks[i].container[Tracks[i].name]]);
+							if (text === $(Tracks[i].element).html())
+								continue;
+							$(Tracks[i].element).html(text);
+							
 						}
 						//done with tracks
 						
@@ -457,9 +480,10 @@
 						}
 					
 						last=+new Date();
-						setTimeout(iterate, interval);
-				
-				
+						//setTimeout(iterate, interval);
+						
+						//if (!window.requestAnimFrame(iterate)) //fallback
+						setTimeout(iterate,interval); //iterate at our own interval
 					})();
 					
 					
@@ -728,9 +752,35 @@
 			
 			};
 			
-			AttributeSet.prototype.addAttribute=function(attr,value,ele) { 
+			AttributeSet.prototype.updateAttributes=function(n_attributes) { 
+			//adds/updates multiple attributes
+				
+				if (typeof n_attributes !== 'undefined')
+				{
+					var keys=Object.keys(n_attributes);
+					for (var i in keys)
+					{	
+
+						if (keys[i] in this) //probably a prototype method
+						{	
+							
+							return "SPECIAL KEY";
+						}
+						else
+						{
+							this[keys[i]]=n_attributes[keys[i]];
+						}
+					}
+				}
+				return this;
+
+			}
+			
+			AttributeSet.prototype.addAttribute=function(attr,value,ele,func) { 
 				
 				//incase someone accidentally does addAttribute instead of setAttribute because we have addEntity, addSet..etc
+				
+				//meant to track a value
 				if (typeof attr !== 'undefined' && typeof value !== 'undefined') //a valid attr and value have been provided
 				{	
 
@@ -739,7 +789,7 @@
 					//checking if the user wants to track this variable
 					if (typeof ele !== 'undefined')//track it in this element
 					{	
-						Tracks.push({container:this,name:attr,element:ele});
+						Tracks.push({container:this,name:attr,element:ele,func:func});
 						
 					}
 					
@@ -748,6 +798,9 @@
 				else
 					return ERR_DOES_NOT_EXIST_CODE;
 			}
+			
+			
+
 			
 			AttributeSet.prototype.removeAttribute=function(attr) {
 			
@@ -780,6 +833,33 @@
 				return l;
 			
 			};
+			
+			//prototype- tracks a particular element in an html element
+				AttributeSet.prototype.track=function(attr,ele,func) {
+					
+					if (typeof attr !== 'undefined' && this.hasAttribute(attr) && typeof ele !=='undefined')
+					{
+						
+						Tracks.push({container:this,name:attr,element:ele,func:func});
+					}
+					else
+						return ERR_DOES_NOT_EXIST_CODE;
+					
+				};
+				
+				//untrack an attribute that belongs to this object
+				AttributeSet.prototype.untrack=function(attr) {
+					
+					
+					//stops tracking this.attribute's particular attribute of this particule object
+					if (typeof attr !== 'undefined')
+					{
+				
+						for (var i in Tracks)
+							if (Tracks[i].container===this && Tracks[i].name==attr) delete Tracks[i];
+				
+					}
+				};
 
 		
 
